@@ -424,6 +424,8 @@
   }
 }
 
+/* Replace the existing responsive design section at the bottom */
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .services {
@@ -442,16 +444,39 @@
 
   .service-card {
     padding: 1.5rem;
-    height: 280px;
+    height: 350px; /* Increased from 280px to show button */
+    min-height: 350px; /* Ensure minimum height */
   }
 
   .service-icon-wrapper {
     width: 50px;
     height: 50px;
+    margin: 0 auto 1rem; /* Reduced margin */
   }
 
   .service-icon {
     font-size: 1.5rem;
+  }
+
+  .service-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.6rem; /* Reduced margin */
+  }
+
+  .service-card p {
+    font-size: 0.85rem;
+    padding: 0 ;
+    margin-bottom: 1rem; /* Add margin to push button down */
+  }
+
+  .card-footer {
+    margin-top: auto; /* Push footer to bottom */
+    padding-top: 1rem; /* Reduced padding */
+  }
+
+  .learn-more-btn {
+    padding: 0.5rem 1rem; /* Slightly smaller padding */
+    font-size: 0.8rem; /* Slightly smaller font */
   }
 }
 
@@ -461,15 +486,63 @@
   }
 
   .service-card {
-    padding: 1.2rem;
-    height: 260px;
+    height: 250px; /* Increased from 260px */
+    min-height: 250px;
   }
 
   .service-card h3 {
-    font-size: 1.1rem;
+    font-size: 1rem; /* Slightly smaller */
+    margin-bottom: 0.5rem;
   }
 
   .service-card p {
-    font-size: 0.85rem;
+    font-size: 0.8rem; /* Slightly smaller */
+    line-height: 1.4;
+    padding: 0 0.2rem;
+  }
+
+  .service-icon-wrapper {
+    width: 45px;
+    height: 45px;
+    margin: 0 auto 0.8rem;
+  }
+
+  .service-icon {
+    font-size: 1.3rem;
+  }
+
+  .card-footer {
+    padding-top: 0.8rem;
+  }
+
+  .learn-more-btn {
+    padding: 0.45rem 0.9rem;
+    font-size: 0.75rem;
+  }
+
+  .arrow-icon {
+    font-size: 0.7rem;
+  }
+}
+
+/* For very small screens */
+@media (max-width: 360px) {
+  .service-card {
+    height: 320px;
+
+  }
+
+  .service-card h3 {
+    font-size: 0.95rem;
+  }
+
+  .service-card p {
+    font-size: 0.75rem;
+  }
+
+  .learn-more-btn {
+    width: 100%; /* Full width on very small screens */
+    padding: 0.5rem;
+    justify-content: center;
   }
 }
