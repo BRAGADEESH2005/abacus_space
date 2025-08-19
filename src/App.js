@@ -1,11 +1,11 @@
-import React from 'react';
-import './App.css';
-import Navbar from './components/Navbar/Navbar';
-import Hero from './components/Hero/Hero';
-import Services from './components/Services/Services';
-import WhyAbacus from './components/WhyAbacus/WhyAbacus';
-// import RegionsMap from './components/RegionsMap/RegionsMap';
-// import TrustedBy from './components/TrustedBy/TrustedBy';
+import React from "react";
+import "./App.css";
+import Navbar from "./components/Navbar/Navbar";
+import Hero from "./components/Hero/Hero";
+import Services from "./components/Services/Services";
+import WhyAbacus from "./components/WhyAbacus/WhyAbacus";
+import RegionsMap from "./components/RegionsMap/RegionsMap";
+import TrustedBy from "./components/TrustedBy/TrustedBy";
 // import Insights from './components/Insights/Insights';
 // import Testimonials from './components/Testimonials/Testimonials';
 // import CTA from './components/CTA/CTA';
@@ -18,9 +18,9 @@ function App() {
       <Hero />
       <Services />
       <WhyAbacus />
-      {/* <RegionsMap />
+      <RegionsMap />
       <TrustedBy />
-      <Insights />
+      {/*<Insights />
       <Testimonials />
       <CTA />
       <Footer /> */}

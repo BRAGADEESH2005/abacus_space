@@ -88,43 +88,40 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Menu Overlay */}
-      <div className={`mobile-menu-overlay ${isMobileMenuOpen ? 'active' : ''}`}>
-        <div className="mobile-menu-content">
-          <div className="mobile-menu-header">
-            <div className="mobile-brand">
-              <img
-                src="/logo_abacus.png"
-                alt="Abacus Logo"
-                className="mobile-brand-logo"
-              />
-            </div>
-            <button 
-              className="mobile-close"
-              onClick={() => setIsMobileMenuOpen(false)}
+      {/* Mobile Menu Slide-in Panel */}
+      <div className={`mobile-menu-panel${isMobileMenuOpen ? ' open' : ''}`}>
+        <div className="mobile-menu-header">
+          <img
+            src="/logo_abacus.png"
+            alt="Abacus Logo"
+            className="mobile-brand-logo"
+          />
+          <button 
+            className="mobile-close"
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            <FaTimes />
+          </button>
+        </div>
+        <div className="mobile-menu-items">
+          {navItems.map((item, index) => (
+            <button
+              key={item.id}
+              onClick={() => handleNavClick(item.id)}
+              className={`mobile-nav-link ${activeSection === item.id ? 'active' : ''}`}
+              style={{ animationDelay: `${index * 0.07}s` }}
             >
-              <FaTimes />
+              <span className="mobile-link-icon">{item.icon}</span>
+              <span className="mobile-link-text">{item.label}</span>
+              <div className="mobile-link-arrow">
+                <FaMapMarkerAlt />
+              </div>
             </button>
-          </div>
-          
-          <div className="mobile-menu-items">
-            {navItems.map((item, index) => (
-              <button
-                key={item.id}
-                onClick={() => handleNavClick(item.id)}
-                className={`mobile-nav-link ${activeSection === item.id ? 'active' : ''}`}
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <span className="mobile-link-icon">{item.icon}</span>
-                <span className="mobile-link-text">{item.label}</span>
-                <div className="mobile-link-arrow">
-                  <FaMapMarkerAlt />
-                </div>
-              </button>
-            ))}
-          </div>
+          ))}
         </div>
       </div>
+      {/* Overlay for background blur when menu is open */}
+      {isMobileMenuOpen && <div className="mobile-menu-blur" onClick={() => setIsMobileMenuOpen(false)} />}
     </nav>
   );
 };

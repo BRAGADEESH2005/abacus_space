@@ -1,75 +1,131 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
+import { BsLightningChargeFill } from 'react-icons/bs';
+import { FaMapMarkerAlt, FaHandshake, FaHeart, FaClock, FaShieldAlt } from 'react-icons/fa';
+import { MdLocationOn, MdVerified } from 'react-icons/md';
+import { HiCurrencyDollar } from 'react-icons/hi';
 import './WhyAbacus.css';
 
 const WhyAbacus = () => {
-  const [visibleItems, setVisibleItems] = useState([]);
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef(null);
+  const [particles, setParticles] = useState([]);
 
   const features = [
     {
       title: "Fast Closures",
-      description: "Quick and efficient property deals",
-      icon: "⚡",
+      description: "Quick and efficient property deals within 24-48 hours",
+      icon: <BsLightningChargeFill />,
+      color: "#ddea66ff",
       delay: 0
     },
     {
       title: "Local Insights",
-      description: "Deep knowledge of South Indian markets",
-      icon: "🎯",
-      delay: 200
+      description: "Deep knowledge of South Indian markets and trends",
+      icon: <FaMapMarkerAlt />,
+      color: "#f093fb",
+      delay: 0.2
     },
     {
       title: "Trusted Partnerships",
-      description: "Strong relationships with property owners",
-      icon: "🤝",
-      delay: 400
+      description: "Strong relationships with verified property owners",
+      icon: <FaHandshake />,
+      color: "#4facfe",
+      delay: 0.4
     },
     {
       title: "Client-Centric Approach",
-      description: "Your success is our priority",
-      icon: "❤️",
-      delay: 600
+      description: "Your success is our priority, always",
+      icon: <FaHeart />,
+      color: "#43e97b",
+      delay: 0.6
     }
   ];
 
   useEffect(() => {
+    // Create floating particles
+    const newParticles = Array.from({ length: 10 }, (_, i) => ({
+      id: i,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      size: Math.random() * 3 + 2,
+      speed: Math.random() * 2 + 1,
+      delay: Math.random() * 2,
+    }));
+    setParticles(newParticles);
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            const index = parseInt(entry.target.getAttribute('data-index'));
-            setTimeout(() => {
-              setVisibleItems(prev => [...prev, index]);
-            }, features[index].delay);
+            setIsVisible(true);
           }
         });
       },
-      { threshold: 0.1 }
+      { threshold: 0.2 }
     );
 
-    const items = document.querySelectorAll('.why-item');
-    items.forEach(item => observer.observe(item));
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
 
     return () => observer.disconnect();
   }, []);
 
   return (
-    <section className="why-abacus">
+    <section className="why-abacus" ref={sectionRef}>
+      {/* Hero-style background */}
+      <div className="why-background">
+        <div className="gradient-orb orb-1"></div>
+        <div className="gradient-orb orb-2"></div>
+        <div className="gradient-orb orb-3"></div>
+        
+        {/* Floating Particles */}
+        {particles.map((particle) => (
+          <div
+            key={particle.id}
+            className="floating-particle"
+            style={{
+              left: `${particle.x}%`,
+              top: `${particle.y}%`,
+              width: `${particle.size}px`,
+              height: `${particle.size}px`,
+              animationDelay: `${particle.delay}s`,
+              animationDuration: `${particle.speed + 3}s`,
+            }}
+          />
+        ))}
+      </div>
+
       <div className="why-container">
-        <div className="why-header">
-          <h2 className="animate-fadeInUp">Why Abacus?</h2>
-          <p className="animate-fadeInUp">Trust + Results = Success</p>
+        <div className={`why-header ${isVisible ? 'visible' : ''}`}>
+          <div className="why-header-badge">
+            <FaShieldAlt className="badge-icon" />
+            <span>Why Choose Us</span>
+          </div>
+          <h2>Why Abacus Spaces?</h2>
+          <p>Excellence in every transaction, success in every partnership</p>
         </div>
-        <div className="why-grid">
+        
+        <div className={`why-grid ${isVisible ? 'visible' : ''}`}>
           {features.map((feature, index) => (
             <div
               key={index}
-              data-index={index}
-              className={`why-item ${visibleItems.includes(index) ? 'visible' : ''}`}
+              className="why-item"
+              style={{ 
+                '--feature-color': feature.color,
+                '--delay': `${feature.delay}s`
+              }}
             >
-              <div className="why-icon">{feature.icon}</div>
-              <h3>{feature.title}</h3>
-              <p>{feature.description}</p>
-              <div className="pulse-effect"></div>
+              <div className="why-icon-wrapper">
+                <div className="icon-background"></div>
+                <div className="why-icon">{feature.icon}</div>
+                <div className="icon-ripple"></div>
+              </div>
+              <div className="why-content">
+                <h3>{feature.title}</h3>
+                <p>{feature.description}</p>
+              </div>
+              <div className="why-glow"></div>
             </div>
           ))}
         </div>

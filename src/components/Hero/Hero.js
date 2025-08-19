@@ -128,19 +128,10 @@ const Hero = () => {
       <div className="hero-container">
         {/* Left Content */}
         <div className="hero-content">
-          <div className={`hero-badge ${isLoaded ? "animate-in" : ""}`}>
-            <FaHandshake className="badge-icon" />
-            <span>Your Success Partner • Zero Hidden Fees</span>
-          </div>
           <h1 className={`hero-title ${isLoaded ? "animate-in" : ""}`}>
             <span className="title-line-1">Abacus –</span>
             <span className="title-line-2 highlight-text">
-              Spaces That
-              <span className="rotating-words">
-                <span className="word active">Mean Business</span>
-                <span className="word">Drive Success</span>
-                <span className="word">Build Dreams</span>
-              </span>
+              Spaces That Mean Business
             </span>
           </h1>
           <p className={`hero-subtitle ${isLoaded ? "animate-in" : ""}`}>
