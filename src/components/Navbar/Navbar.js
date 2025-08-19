@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaMapMarkerAlt, FaBuilding, FaHome, FaUsers, FaEnvelope, FaBars, FaTimes } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaHome, FaUsers, FaEnvelope, FaBuilding, FaTimes } from 'react-icons/fa';
 import { MdBusinessCenter } from 'react-icons/md';
 import './Navbar.css';
 
@@ -53,16 +53,13 @@ const Navbar = () => {
   return (
     <nav className={`navbar ${isScrolled ? 'navbar-scrolled' : ''}`}>
       <div className="navbar-container">
-        {/* Brand Logo */}
+        {/* Brand Logo Only */}
         <div className="navbar-brand" onClick={() => handleNavClick('home')}>
-          <div className="brand-icon">
-            <FaBuilding className="icon-main" />
-            <div className="icon-glow"></div>
-          </div>
-          <div className="brand-text">
-            <h2>Abacus</h2>
-            <span>Spaces</span>
-          </div>
+          <img
+            src="/logo_abacus.png"
+            alt="Abacus Logo"
+            className="brand-logo"
+          />
         </div>
 
         {/* Desktop Menu */}
@@ -96,8 +93,11 @@ const Navbar = () => {
         <div className="mobile-menu-content">
           <div className="mobile-menu-header">
             <div className="mobile-brand">
-              <FaBuilding />
-              <span>Abacus Spaces</span>
+              <img
+                src="/logo_abacus.png"
+                alt="Abacus Logo"
+                className="mobile-brand-logo"
+              />
             </div>
             <button 
               className="mobile-close"

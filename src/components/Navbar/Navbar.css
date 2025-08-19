@@ -108,25 +108,6 @@
   }
 }
 
-.brand-text h2 {
-  font-size: 1.5rem;
-  font-weight: 800;
-  background: linear-gradient(135deg, #2d3748, #667eea);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin: 0;
-  line-height: 1;
-}
-
-.brand-text span {
-  font-size: 0.75rem;
-  color: #718096;
-  font-weight: 500;
-  display: block;
-  margin-top: -2px;
-}
-
 /* Desktop Menu */
 .navbar-menu {
   display: flex;
@@ -386,10 +367,6 @@
   .navbar-container {
     padding: 0 1rem;
   }
-
-  .brand-text h2 {
-    font-size: 1.3rem;
-  }
 }
 
 @media (max-width: 480px) {
@@ -399,11 +376,70 @@
     font-size: 1.2rem;
   }
 
-  .brand-text h2 {
-    font-size: 1.1rem;
-  }
-
   .mobile-menu-content {
     padding: 1.5rem;
+  }
+}
+/* ...existing code... */
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  /* Remove gap since no text */
+}
+
+.navbar-brand:hover {
+  transform: scale(1.05);
+}
+
+.brand-logo {
+  width: 180px; /* Increased size */
+  height: 50px;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.08);
+  background: white;
+  transition: box-shadow 0.3s;
+}
+
+.brand-logo:hover {
+  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.18);
+}
+
+/* Remove .brand-text styles since not used */
+
+/* Mobile Brand Logo */
+.mobile-brand-logo {
+  width: 56px; /* Increased size for mobile */
+  height: 56px;
+  object-fit: contain;
+  border-radius: 10px;
+  background: white;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.08);
+  margin-right: 0;
+}
+
+/* ...existing code... */
+
+@media (max-width: 768px) {
+  .navbar-container {
+    padding: 0 1rem;
+  }
+  .brand-logo {
+    width: 150px;
+    height: 50px;
+  }
+}
+
+@media (max-width: 480px) {
+  .brand-logo {
+    width: 150px;
+    height: 40px;
+  }
+  .mobile-brand-logo {
+    width: 100px;
+    height: 44px;
   }
 }
