@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom'; // Add this import
 import { HiOfficeBuilding } from 'react-icons/hi';
 import { FaStore, FaUsers, FaArrowRight } from 'react-icons/fa';
 import { MdBusinessCenter } from 'react-icons/md';
@@ -8,6 +9,7 @@ const Services = () => {
   const [visibleCards, setVisibleCards] = useState([]);
   const [headerVisible, setHeaderVisible] = useState(false);
   const sectionRef = useRef(null);
+  const navigate = useNavigate(); // Add this hook
 
   const services = useMemo(() => [
     {
@@ -73,7 +75,10 @@ const Services = () => {
     return () => observer.disconnect();
   }, [services]);
 
-  // Rest of the component remains the same...
+  // Add navigation function
+  const handleExploreMore = () => {
+    navigate('/listings');
+  };
 
   return (
     <section className="services" ref={sectionRef}>
@@ -130,8 +135,8 @@ const Services = () => {
                 </div>
 
                 <div className="card-footer">
-                  <button className="learn-more-btn">
-                    <span>Learn More</span>
+                  <button className="learn-more-btn" onClick={handleExploreMore}>
+                    <span>Explore More</span>
                     <FaArrowRight className="arrow-icon" />
                   </button>
                 </div>

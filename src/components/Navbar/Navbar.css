@@ -315,6 +315,7 @@
   border-radius: 12px;
   cursor: pointer;
   transition: all 0.3s ease;
+  text-decoration: none;
   text-align: left;
   opacity: 0;
   transform: translateX(-30px);

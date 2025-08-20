@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import {
   FaLinkedin,
   FaTwitter,
@@ -6,7 +7,6 @@ import {
   FaInstagram,
   FaPhone,
   FaEnvelope,
-  FaBuilding,
 } from "react-icons/fa";
 import { MdCopyright } from "react-icons/md";
 import "./Footer.css";
@@ -21,10 +21,14 @@ const Footer = () => {
         <div className="footer-main">
           {/* Company Info */}
           <div className="footer-company">
-            <div className="footer-logo">
-              <FaBuilding className="footer-logo-icon" />
-              <span className="footer-logo-text">Abacus</span>
-            </div>
+            {/* Brand Logo */}
+            <Link to="/" className="footer-brand">
+              <img
+                src="/logo_abacus.png"
+                alt="Abacus Logo"
+                className="footer-brand-logo"
+              />
+            </Link>
             <p className="footer-tagline">
               "Abacus – Spaces That Mean Business."
             </p>

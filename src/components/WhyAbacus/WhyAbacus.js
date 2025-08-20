@@ -1,8 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { BsLightningChargeFill } from 'react-icons/bs';
-import { FaMapMarkerAlt, FaHandshake, FaHeart, FaClock, FaShieldAlt } from 'react-icons/fa';
-import { MdLocationOn, MdVerified } from 'react-icons/md';
-import { HiCurrencyDollar } from 'react-icons/hi';
+import { FaMapMarkerAlt, FaHandshake, FaHeart,  FaShieldAlt } from 'react-icons/fa';
 import './WhyAbacus.css';
 
 const WhyAbacus = () => {

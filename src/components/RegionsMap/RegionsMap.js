@@ -4,14 +4,13 @@ import L from "leaflet";
 import {
   FaBuilding,
   FaMapMarkerAlt,
-  FaUsers,
   FaCity,
   FaArrowRight,
   FaPhone,
   FaEnvelope,
 } from "react-icons/fa";
 import { MdLocationOn, MdBusiness } from "react-icons/md";
-import { BsShop, BsGraphUp } from "react-icons/bs";
+import { BsShop } from "react-icons/bs";
 import "leaflet/dist/leaflet.css";
 import "./RegionsMap.css";
 
@@ -204,13 +203,19 @@ const RegionsMap = () => {
         </div>
 
         {/* Compact Stats */}
-        <div className={`regions-stats-compact ${isVisible ? "regions-visible" : ""}`}>
+        <div
+          className={`regions-stats-compact ${
+            isVisible ? "regions-visible" : ""
+          }`}
+        >
           <div className="regions-stat-item">
             <div className="regions-stat-icon">
               <FaBuilding />
             </div>
             <div className="regions-stat-content">
-              <span className="regions-stat-number">{animatedStats.properties || 0}+</span>
+              <span className="regions-stat-number">
+                {animatedStats.properties || 0}+
+              </span>
               <span className="regions-stat-label">Properties</span>
             </div>
           </div>
@@ -220,7 +225,9 @@ const RegionsMap = () => {
               <MdBusiness />
             </div>
             <div className="regions-stat-content">
-              <span className="regions-stat-number">{animatedStats.offices || 0}+</span>
+              <span className="regions-stat-number">
+                {animatedStats.offices || 0}+
+              </span>
               <span className="regions-stat-label">Offices</span>
             </div>
           </div>
@@ -230,7 +237,9 @@ const RegionsMap = () => {
               <BsShop />
             </div>
             <div className="regions-stat-content">
-              <span className="regions-stat-number">{animatedStats.retail || 0}+</span>
+              <span className="regions-stat-number">
+                {animatedStats.retail || 0}+
+              </span>
               <span className="regions-stat-label">Retail</span>
             </div>
           </div>
@@ -240,15 +249,20 @@ const RegionsMap = () => {
               <FaCity />
             </div>
             <div className="regions-stat-content">
-              <span className="regions-stat-number">{animatedStats.cities || 0}</span>
+              <span className="regions-stat-number">
+                {animatedStats.cities || 0}
+              </span>
               <span className="regions-stat-label">States</span>
             </div>
           </div>
         </div>
 
         {/* Main Content */}
-        <div className={`regions-main-content ${isVisible ? "regions-visible" : ""}`}>
-          
+        <div
+          className={`regions-main-content ${
+            isVisible ? "regions-visible" : ""
+          }`}
+        >
           {/* Interactive Map */}
           <div className="regions-map-container">
             <div className="regions-map-header">
@@ -294,8 +308,12 @@ const RegionsMap = () => {
                         <h4 style={{ color: region.color }}>{region.name}</h4>
                         <p>{region.capital}</p>
                         <div className="regions-popup-stats">
-                          <span><FaBuilding /> {region.offices} Offices</span>
-                          <span><BsShop /> {region.retail} Retail</span>
+                          <span>
+                            <FaBuilding /> {region.offices} Offices
+                          </span>
+                          <span>
+                            <BsShop /> {region.retail} Retail
+                          </span>
                         </div>
                         <div className="regions-popup-price">
                           <strong>{region.avgPrice}</strong>
@@ -315,12 +333,18 @@ const RegionsMap = () => {
               {regions.map((region, index) => (
                 <div
                   key={region.id}
-                  className={`regions-card ${activeRegion === region.id ? "regions-active" : ""}`}
+                  className={`regions-card ${
+                    activeRegion === region.id ? "regions-active" : ""
+                  }`}
                   style={{
                     "--region-color": region.color,
                     animationDelay: `${index * 0.1}s`,
                   }}
-                  onClick={() => setActiveRegion(activeRegion === region.id ? null : region.id)}
+                  onClick={() =>
+                    setActiveRegion(
+                      activeRegion === region.id ? null : region.id
+                    )
+                  }
                 >
                   <div className="regions-card-header">
                     <div className="regions-card-icon">
@@ -347,19 +371,27 @@ const RegionsMap = () => {
                   </div>
 
                   <div className="regions-card-price">
-                    <span>Avg: <strong>{region.avgPrice}</strong></span>
-                    <span>Area: <strong>{region.totalArea}</strong></span>
+                    <span>
+                      Avg: <strong>{region.avgPrice}</strong>
+                    </span>
+                    <span>
+                      Area: <strong>{region.totalArea}</strong>
+                    </span>
                   </div>
 
                   {activeRegion === region.id && (
                     <div className="regions-card-expanded">
                       <p>{region.description}</p>
-                      
+
                       <div className="regions-cities">
-                        <span className="regions-cities-label">Major Cities:</span>
+                        <span className="regions-cities-label">
+                          Major Cities:
+                        </span>
                         <div className="regions-cities-tags">
                           {region.cities.map((city, idx) => (
-                            <span key={idx} className="regions-city-tag">{city}</span>
+                            <span key={idx} className="regions-city-tag">
+                              {city}
+                            </span>
                           ))}
                         </div>
                       </div>

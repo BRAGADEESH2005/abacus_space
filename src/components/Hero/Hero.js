@@ -1,10 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
+import { useNavigate } from "react-router-dom"; // Add this import
 import {
   FaBuilding,
-  FaStore,
-  FaUsers,
   FaRocket,
-  FaStar,
   FaArrowRight,
   FaSearch,
   FaKey,
@@ -22,6 +20,7 @@ const Hero = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const heroRef = useRef(null);
   const [particles, setParticles] = useState([]);
+  const navigate = useNavigate(); // Add this hook
 
   useEffect(() => {
     // Create floating particles
@@ -64,6 +63,15 @@ const Hero = () => {
       window.removeEventListener("mousemove", handleMouseMove);
     };
   }, []);
+
+  // Add navigation functions
+  const handleFindSpace = () => {
+    navigate('/listings');
+  };
+
+  const handleContactUs = () => {
+    navigate('/contact');
+  };
 
   const processSteps = [
     {
@@ -142,12 +150,12 @@ const Hero = () => {
             </span>
           </p>
           <div className={`hero-buttons ${isLoaded ? "animate-in" : ""}`}>
-            <button className="cta-primary">
+            <button className="cta-primary" onClick={handleFindSpace}>
               <span>Find Your Space</span>
               <FaRocket className="button-icon" />
               <div className="button-ripple"></div>
             </button>
-            <button className="cta-secondary">
+            <button className="cta-secondary" onClick={handleContactUs}>
               <span>Contact Us</span>
               <FaArrowRight className="button-icon" />
             </button>

@@ -1,27 +1,28 @@
 import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Navbar from "./components/Navbar/Navbar";
-import Hero from "./components/Hero/Hero";
-import Services from "./components/Services/Services";
-import WhyAbacus from "./components/WhyAbacus/WhyAbacus";
-import RegionsMap from "./components/RegionsMap/RegionsMap";
-import TrustedBy from "./components/TrustedBy/TrustedBy";
-import InsightsNews from "./components/InsightsNews/InsightsNews";
-import CallToAction from "./components/CallToAction/CallToAction";
 import Footer from "./components/Footer/Footer";
+
+// Import Pages
+import Home from "./pages/Home/Home";
+import Listings from "./pages/Listings/Listings";
+import AboutUs from "./pages/AboutUs/AboutUs";
+import Contact from "./pages/Contact/Contact";
 
 function App() {
   return (
     <div className="App">
-      <Navbar />
-      <Hero />
-      <Services />
-      <WhyAbacus />
-      <RegionsMap />
-      <TrustedBy />
-      <InsightsNews />
-      <CallToAction />
-      <Footer />
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/listings" element={<Listings />} />
+          <Route path="/aboutus" element={<AboutUs />} />
+          <Route path="/contact" element={<Contact />} />
+        </Routes>
+        <Footer />
+      </Router>
     </div>
   );
 }
