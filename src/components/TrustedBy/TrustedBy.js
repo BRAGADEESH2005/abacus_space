@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { FaStar, FaQuoteLeft, FaHandshake } from "react-icons/fa";
+import { FaQuoteLeft, FaStar } from "react-icons/fa";
 import { MdVerified } from "react-icons/md";
 import "./TrustedBy.css";
 
@@ -9,68 +9,73 @@ const TrustedBy = () => {
   const [particles, setParticles] = useState([]);
   const sectionRef = useRef(null);
 
-  // Simplified client data
-  const clients = [
-    {
-      id: 1,
-      name: "Lenskart",
-      logo: "https://tse3.mm.bing.net/th/id/OIP.PMnVKPwXasPphI_UTa2MQwHaHa?w=171&h=180&c=7&r=0&o=7&pid=1.7&rm=3",
-      industry: "Retail",
-    },
-    {
-      id: 2,
-      name: "Flipkart",
-      logo: "https://logos-world.net/wp-content/uploads/2020/11/Flipkart-Logo.png",
-      industry: "E-commerce",
-    },
-    {
-      id: 3,
-      name: "Microsoft",
-      logo: "https://tse1.mm.bing.net/th/id/OIP.g-qzb46-Ic0JYI6nPZVSOgHaCu?w=350&h=128&c=7&r=0&o=7&pid=1.7&rm=3",
-      industry: "Technology",
-    },
-    {
-      id: 4,
-      name: "Swiggy",
-      logo: "https://logos-world.net/wp-content/uploads/2020/11/Swiggy-Logo.png",
-      industry: "Food Tech",
-    },
-  ];
-
+  // Complete testimonials data including Ramneek Khurana
   const testimonials = [
     {
-      id: 1,
       quote:
-        "Strategic locations helped us achieve 300% growth with perfect market positioning.",
+        "Abacus helped us find the perfect office space in Gurgaon. Their team understood our requirements and delivered exceptional results within our timeline and budget.",
       author: "Ramneek Khurana",
       position: "Co-founder & CEO",
       company: "Lenskart",
       rating: 5,
       image:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face&auto=format",
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&auto=format",
     },
     {
-      id: 2,
       quote:
-        "Perfect warehouse solutions that scaled with our rapid logistics expansion needs.",
-      author: "Kalyan K.",
-      position: "CEO",
-      company: "Flipkart",
+        "Professional service and deep market knowledge. They secured us an excellent retail location in Mumbai with favorable lease terms.",
+      author: "Priya Sharma",
+      position: "Head of Operations",
+      company: "FreshMart Retail",
       rating: 5,
       image:
-        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face&auto=format",
+        "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&auto=format",
+    },
+    {
+      quote:
+        "Outstanding support in finding our co-working space solution. Abacus made the entire process seamless and stress-free.",
+      author: "Arjun Mehta",
+      position: "Founder",
+      company: "TechStart Solutions",
+      rating: 5,
+      image:
+        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&auto=format",
+    },
+  ];
+
+  // Client logos data
+  const clients = [
+    {
+      name: "Lenskart",
+      sector: "E-commerce",
+      logo: "https://tse1.mm.bing.net/th/id/OIP.IXIzDvLoAGCriB-eu8Dp5gHaGL?w=210&h=180&c=7&r=0&o=7&pid=1.7&rm=3",
+    },
+    {
+      name: "FreshMart",
+      sector: "Retail",
+      logo: "https://tse3.mm.bing.net/th/id/OIP.It--2QHaTWr8Zwm7ywFLtwAAAA?w=165&h=176&c=7&r=0&o=7&pid=1.7&rm=3",
+    },
+    {
+      name: "TechStart",
+      sector: "Technology",
+      logo: "https://tse3.mm.bing.net/th/id/OIP.B8yIjlnsFx1QAyb9lrNsfQAAAA?w=149&h=150&c=7&r=0&o=7&pid=1.7&rm=3",
+    },
+    {
+      name: "GrowthCorp",
+      sector: "Consulting",
+      logo: "https://tse1.mm.bing.net/th/id/OIP.mKKjuY2xp6qzAeskCxSlngHaEc?w=258&h=180&c=7&r=0&o=7&pid=1.7&rm=3",
     },
   ];
 
   useEffect(() => {
-    // Create floating particles - same as Hero
-    const newParticles = Array.from({ length: 12 }, (_, i) => ({
+    // Create floating particles
+    const newParticles = Array.from({ length: 15 }, (_, i) => ({
       id: i,
       x: Math.random() * 100,
       y: Math.random() * 100,
-      size: Math.random() * 3 + 1.5,
-      speed: Math.random() * 2 + 1,
-      delay: Math.random() * 2,
+      size: Math.random() * 4 + 2,
+      speed: Math.random() * 3 + 2,
+      delay: Math.random() * 3,
     }));
     setParticles(newParticles);
 
@@ -92,6 +97,7 @@ const TrustedBy = () => {
     return () => observer.disconnect();
   }, []);
 
+  // Auto-rotate testimonials
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % testimonials.length);
@@ -100,9 +106,13 @@ const TrustedBy = () => {
     return () => clearInterval(interval);
   }, [testimonials.length]);
 
+  const handleDotClick = (index) => {
+    setCurrentSlide(index);
+  };
+
   return (
     <section className="trusted-by-section" ref={sectionRef}>
-      {/* Hero Background with Animated Orbs */}
+      {/* Animated Background */}
       <div className="hero-background">
         <div className="gradient-orb orb-1"></div>
         <div className="gradient-orb orb-2"></div>
@@ -119,7 +129,7 @@ const TrustedBy = () => {
               width: `${particle.size}px`,
               height: `${particle.size}px`,
               animationDelay: `${particle.delay}s`,
-              animationDuration: `${particle.speed + 3}s`,
+              animationDuration: `${particle.speed + 2}s`,
             }}
           />
         ))}
@@ -134,43 +144,46 @@ const TrustedBy = () => {
         >
           <div className="trusted-by-badge">
             <MdVerified />
-            <span>Trusted Partnership</span>
+            <span>Trusted Partners</span>
           </div>
-          <h2>Trusted by Industry Leaders</h2>
-          <p>
-            Join 150+ successful companies who chose us for their real estate
-            needs
-          </p>
+          <h2>What Our Clients Say</h2>
+          <p>Real experiences from satisfied customers</p>
         </div>
 
-        {/* Main Content Grid */}
+        {/* Main Content */}
         <div
           className={`trusted-by-main ${isVisible ? "trusted-by-visible" : ""}`}
         >
-          {/* Left: Testimonial */}
+          {/* Left Side - Testimonials */}
           <div className="trusted-by-left">
             <div className="trusted-by-testimonial">
               <div className="trusted-by-testimonial-content">
                 {testimonials.map((testimonial, index) => (
                   <div
-                    key={testimonial.id}
+                    key={index}
                     className={`trusted-by-testimonial-card ${
                       index === currentSlide ? "trusted-by-active" : ""
                     }`}
                   >
                     <div className="trusted-by-testimonial-inner">
+                      {/* Header with Quote Icon and Author Image */}
                       <div className="trusted-by-testimonial-header">
                         <FaQuoteLeft className="trusted-by-quote-icon" />
                         <div className="trusted-by-author-image">
                           <img
                             src={testimonial.image}
                             alt={testimonial.author}
+                            loading="lazy"
                           />
                         </div>
                       </div>
 
-                      <p className="trusted-by-quote">"{testimonial.quote}"</p>
+                      {/* Quote */}
+                      <div className="trusted-by-quote">
+                        "{testimonial.quote}"
+                      </div>
 
+                      {/* Footer with Author Info and Rating */}
                       <div className="trusted-by-testimonial-footer">
                         <div className="trusted-by-author">
                           <h4>{testimonial.author}</h4>
@@ -182,9 +195,12 @@ const TrustedBy = () => {
                           </span>
                         </div>
                         <div className="trusted-by-rating">
-                          {[...Array(testimonial.rating)].map((_, i) => (
-                            <FaStar key={i} />
-                          ))}
+                          {Array.from(
+                            { length: testimonial.rating },
+                            (_, i) => (
+                              <FaStar key={i} />
+                            )
+                          )}
                         </div>
                       </div>
                     </div>
@@ -192,6 +208,7 @@ const TrustedBy = () => {
                 ))}
               </div>
 
+              {/* Dots Navigation */}
               <div className="trusted-by-dots">
                 {testimonials.map((_, index) => (
                   <button
@@ -199,38 +216,38 @@ const TrustedBy = () => {
                     className={`trusted-by-dot ${
                       index === currentSlide ? "trusted-by-active" : ""
                     }`}
-                    onClick={() => setCurrentSlide(index)}
+                    onClick={() => handleDotClick(index)}
+                    aria-label={`Go to testimonial ${index + 1}`}
                   />
                 ))}
               </div>
             </div>
           </div>
 
-          {/* Right: Client Logos */}
+          {/* Right Side - Client Logos */}
           <div className="trusted-by-right">
-            <h3>Our Esteemed Clients</h3>
+            <h3>Trusted by Leading Companies</h3>
             <div className="trusted-by-logos">
               {clients.map((client, index) => (
                 <div
-                  key={client.id}
+                  key={index}
                   className="trusted-by-logo-card"
-                  style={{ animationDelay: `${index * 0.15}s` }}
+                  style={{ animationDelay: `${index * 0.1}s` }}
                 >
                   <div className="trusted-by-logo-container">
-                    <img src={client.logo} alt={client.name} />
+                    <img
+                      src={client.logo}
+                      alt={`${client.name} logo`}
+                      loading="lazy"
+                    />
                   </div>
                   <div className="trusted-by-logo-info">
                     <h4>{client.name}</h4>
-                    <p>{client.industry}</p>
+                    <p>{client.sector}</p>
                   </div>
                 </div>
               ))}
             </div>
-
-            <button className="trusted-by-cta-btn">
-              <span>Partner With Us</span>
-              <FaHandshake className="button-icon" />
-            </button>
           </div>
         </div>
       </div>

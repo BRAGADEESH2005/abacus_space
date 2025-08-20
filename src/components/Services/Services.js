@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { HiOfficeBuilding } from 'react-icons/hi';
 import { FaStore, FaUsers, FaArrowRight } from 'react-icons/fa';
 import { MdBusinessCenter } from 'react-icons/md';
@@ -9,29 +9,35 @@ const Services = () => {
   const [headerVisible, setHeaderVisible] = useState(false);
   const sectionRef = useRef(null);
 
-  const services = [
+  const services = useMemo(() => [
     {
       title: "Office Space",
       description: "Find and secure the ideal office space based on team size, location preference, and growth plans.",
       icon: <HiOfficeBuilding />,
       color: "#667eea",
-      delay: 0
+      delay: 0,
+      image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&h=400&fit=crop&auto=format",
+      features: ["Prime Locations", "Flexible Terms", "End-to-End Support"]
     },
     {
       title: "Retail Space",
       description: "Prime retail locations that maximize visibility, footfall, and sales, with end-to-end landlord negotiations.",
       icon: <FaStore />,
       color: "#f093fb",
-      delay: 200
+      delay: 200,
+      image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&h=400&fit=crop&auto=format",
+      features: ["High Footfall Areas", "Competitive Rates", "Marketing Support"]
     },
     {
       title: "Co-Working Spaces",
       description: "Fully managed, ready-to-use flexible spaces that enable hassle-free plug-and-play operations.",
       icon: <FaUsers />,
       color: "#4facfe",
-      delay: 400
+      delay: 400,
+      image: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=600&h=400&fit=crop&auto=format",
+      features: ["Plug & Play", "Community Access", "Flexible Memberships"]
     }
-  ];
+  ], []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -46,9 +52,11 @@ const Services = () => {
             
             if (target.classList.contains('service-card')) {
               const index = parseInt(target.getAttribute('data-index'));
-              setTimeout(() => {
-                setVisibleCards(prev => [...prev, index]);
-              }, services[index].delay);
+              if (index < services.length) {
+                setTimeout(() => {
+                  setVisibleCards(prev => [...prev, index]);
+                }, services[index].delay);
+              }
             }
           }
         });
@@ -63,7 +71,9 @@ const Services = () => {
     elements?.forEach(el => observer.observe(el));
 
     return () => observer.disconnect();
-  }, []);
+  }, [services]);
+
+  // Rest of the component remains the same...
 
   return (
     <section className="services" ref={sectionRef}>
@@ -88,19 +98,45 @@ const Services = () => {
               style={{ '--service-color': service.color }}
             >
               <div className="card-glow"></div>
-              <div className="service-icon-wrapper">
-                <div className="icon-background"></div>
-                <div className="service-icon">{service.icon}</div>
-                <div className="icon-ripple"></div>
+              
+              {/* Service Image */}
+              <div className="service-image-wrapper">
+                <img 
+                  src={service.image} 
+                  alt={service.title}
+                  className="service-image"
+                  loading="lazy"
+                />
+                <div className="image-overlay"></div>
+                <div className="service-icon-wrapper">
+                  <div className="icon-background"></div>
+                  <div className="service-icon">{service.icon}</div>
+                  <div className="icon-ripple"></div>
+                </div>
               </div>
-              <h3>{service.title}</h3>
-              <p>{service.description}</p>
-              <div className="card-footer">
-                <button className="learn-more-btn">
-                  <span>Learn More</span>
-                  <FaArrowRight className="arrow-icon" />
-                </button>
+
+              {/* Service Content */}
+              <div className="service-content">
+                <h3>{service.title}</h3>
+                <p>{service.description}</p>
+                
+                {/* Service Features */}
+                <div className="service-features">
+                  {service.features.map((feature, idx) => (
+                    <span key={idx} className="feature-tag">
+                      {feature}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="card-footer">
+                  <button className="learn-more-btn">
+                    <span>Learn More</span>
+                    <FaArrowRight className="arrow-icon" />
+                  </button>
+                </div>
               </div>
+              
               <div className="service-hover-effect"></div>
               <div className="floating-particles">
                 <div className="particle particle-1"></div>
