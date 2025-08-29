@@ -84,10 +84,7 @@ const Services = () => {
     <section className="services" ref={sectionRef}>
       <div className="services-container">
         <div className={`services-header observe-animation ${headerVisible ? 'header-visible' : ''}`}>
-          <div className="header-badge">
-            <MdBusinessCenter className="badge-icon" />
-            <span>Our Services</span>
-          </div>
+         
           <h2>What We Do</h2>
           <p>Services that drive your business forward</p>
           <div className="header-underline">

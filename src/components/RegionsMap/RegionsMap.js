@@ -216,7 +216,7 @@ const RegionsMap = () => {
               <span className="regions-stat-number">
                 {animatedStats.properties || 0}+
               </span>
-              <span className="regions-stat-label">Properties</span>
+              <span className="regions-stat-label">Retail Spaces</span>
             </div>
           </div>
 
@@ -228,7 +228,7 @@ const RegionsMap = () => {
               <span className="regions-stat-number">
                 {animatedStats.offices || 0}+
               </span>
-              <span className="regions-stat-label">Offices</span>
+              <span className="regions-stat-label">Office Spaces</span>
             </div>
           </div>
 
@@ -240,7 +240,7 @@ const RegionsMap = () => {
               <span className="regions-stat-number">
                 {animatedStats.retail || 0}+
               </span>
-              <span className="regions-stat-label">Retail</span>
+              <span className="regions-stat-label">Co-Working Spaces</span>
             </div>
           </div>
 

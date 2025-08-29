@@ -1,6 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
-import {  FaMapMarkerAlt, FaRupeeSign, FaSearch, FaFilter, FaEye, FaHeart } from "react-icons/fa";
-import { MdSpaceDashboard, MdLocationCity, MdKeyboardArrowDown } from "react-icons/md";
+import {
+  FaMapMarkerAlt,
+  FaRupeeSign,
+  FaSearch,
+  FaFilter,
+  FaEye,
+  FaHeart,
+} from "react-icons/fa";
+import {
+  MdSpaceDashboard,
+  MdLocationCity,
+  MdKeyboardArrowDown,
+} from "react-icons/md";
 import { BiFilterAlt } from "react-icons/bi";
 import "./Listings.css";
 
@@ -26,10 +37,11 @@ const Listings = () => {
         location: "Gurgaon",
         area: "2500 sq ft",
         price: "₹1,50,000/month",
-        image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&h=300&fit=crop",
+        image:
+          "https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&h=300&fit=crop",
         features: ["Furnished", "Parking", "Security", "AC"],
         rating: 4.8,
-        views: 245
+        views: 245,
       },
       {
         id: 2,
@@ -38,10 +50,11 @@ const Listings = () => {
         location: "Delhi",
         area: "800 sq ft",
         price: "₹80,000/month",
-        image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400&h=300&fit=crop",
+        image:
+          "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400&h=300&fit=crop",
         features: ["High Footfall", "Corner Unit", "Display Windows"],
         rating: 4.6,
-        views: 189
+        views: 189,
       },
       {
         id: 3,
@@ -50,10 +63,11 @@ const Listings = () => {
         location: "Bangalore",
         area: "50 seats",
         price: "₹8,000/seat",
-        image: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=400&h=300&fit=crop",
+        image:
+          "https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=400&h=300&fit=crop",
         features: ["24/7 Access", "Meeting Rooms", "Cafeteria", "WiFi"],
         rating: 4.9,
-        views: 324
+        views: 324,
       },
       {
         id: 4,
@@ -62,10 +76,11 @@ const Listings = () => {
         location: "Mumbai",
         area: "5000 sq ft",
         price: "₹3,50,000/month",
-        image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=400&h=300&fit=crop",
+        image:
+          "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=400&h=300&fit=crop",
         features: ["Sea View", "Conference Room", "Reception", "Parking"],
         rating: 4.7,
-        views: 412
+        views: 412,
       },
       {
         id: 5,
@@ -74,10 +89,16 @@ const Listings = () => {
         location: "Delhi",
         area: "1200 sq ft",
         price: "₹1,20,000/month",
-        image: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&h=300&fit=crop",
-        features: ["Kitchen Setup", "Terrace", "Prime Location", "License Ready"],
+        image:
+          "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&h=300&fit=crop",
+        features: [
+          "Kitchen Setup",
+          "Terrace",
+          "Prime Location",
+          "License Ready",
+        ],
         rating: 4.5,
-        views: 156
+        views: 156,
       },
       {
         id: 6,
@@ -86,11 +107,12 @@ const Listings = () => {
         location: "Bangalore",
         area: "100 seats",
         price: "₹7,500/seat",
-        image: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=400&h=300&fit=crop",
+        image:
+          "https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=400&h=300&fit=crop",
         features: ["Tech Setup", "Event Space", "Gaming Zone", "Gym"],
         rating: 4.8,
-        views: 298
-      }
+        views: 298,
+      },
     ];
 
     // Simulate loading
@@ -107,32 +129,32 @@ const Listings = () => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             const target = entry.target;
-            
-            if (target.classList.contains('listings-header')) {
+
+            if (target.classList.contains("listings-header")) {
               setTimeout(() => setHeaderVisible(true), 100);
             }
-            
-            if (target.classList.contains('listings-filters')) {
+
+            if (target.classList.contains("listings-filters")) {
               setTimeout(() => setFiltersVisible(true), 200);
             }
-            
-            if (target.classList.contains('listing-card')) {
-              const index = parseInt(target.getAttribute('data-index'));
+
+            if (target.classList.contains("listing-card")) {
+              const index = parseInt(target.getAttribute("data-index"));
               setTimeout(() => {
-                setVisibleCards(prev => [...prev, index]);
+                setVisibleCards((prev) => [...prev, index]);
               }, index * 100);
             }
           }
         });
       },
-      { 
+      {
         threshold: 0.2,
-        rootMargin: '0px 0px -50px 0px'
+        rootMargin: "0px 0px -50px 0px",
       }
     );
 
-    const elements = sectionRef.current?.querySelectorAll('.observe-animation');
-    elements?.forEach(el => observer.observe(el));
+    const elements = sectionRef.current?.querySelectorAll(".observe-animation");
+    elements?.forEach((el) => observer.observe(el));
 
     return () => observer.disconnect();
   }, [filteredListings]);
@@ -141,18 +163,21 @@ const Listings = () => {
     let filtered = listings;
 
     if (searchTerm) {
-      filtered = filtered.filter(listing =>
-        listing.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        listing.location.toLowerCase().includes(searchTerm.toLowerCase())
+      filtered = filtered.filter(
+        (listing) =>
+          listing.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          listing.location.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
 
     if (selectedType !== "all") {
-      filtered = filtered.filter(listing => listing.type === selectedType);
+      filtered = filtered.filter((listing) => listing.type === selectedType);
     }
 
     if (selectedLocation !== "all") {
-      filtered = filtered.filter(listing => listing.location === selectedLocation);
+      filtered = filtered.filter(
+        (listing) => listing.location === selectedLocation
+      );
     }
 
     setFilteredListings(filtered);
@@ -170,18 +195,28 @@ const Listings = () => {
       )}
 
       {/* Header */}
-      <div className={`listings-header observe-animation ${headerVisible ? 'visible' : ''}`}>
+      <div
+        className={`listings-header observe-animation ${
+          headerVisible ? "visible" : ""
+        }`}
+      >
         <div className="listings-container">
           <div className="header-content">
             <h1>Find Your Perfect Workspace</h1>
-            <p>Discover premium commercial spaces tailored to your business needs</p>
+            <p>
+              Discover premium commercial spaces tailored to your business needs
+            </p>
           </div>
         </div>
       </div>
 
       <div className="listings-container">
         {/* Enhanced Filters */}
-        <div className={`listings-filters observe-animation ${filtersVisible ? 'visible' : ''}`}>
+        <div
+          className={`listings-filters observe-animation ${
+            filtersVisible ? "visible" : ""
+          }`}
+        >
           <div className="filters-header">
             <div className="filters-title">
               <BiFilterAlt className="filters-icon" />
@@ -199,7 +234,7 @@ const Listings = () => {
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
               {searchTerm && (
-                <button 
+                <button
                   className="clear-search"
                   onClick={() => setSearchTerm("")}
                 >
@@ -210,26 +245,6 @@ const Listings = () => {
           </div>
 
           <div className="filter-controls">
-            <div className="filter-group">
-              <label htmlFor="type-filter">
-                <FaFilter className="filter-icon" />
-                Property Type
-              </label>
-              <div className="select-wrapper">
-                <select
-                  id="type-filter"
-                  value={selectedType}
-                  onChange={(e) => setSelectedType(e.target.value)}
-                >
-                  <option value="all">All Types</option>
-                  <option value="Office">Office Space</option>
-                  <option value="Retail">Retail Space</option>
-                  <option value="Co-Working">Co-Working</option>
-                </select>
-                <MdKeyboardArrowDown className="select-arrow" />
-              </div>
-            </div>
-
             <div className="filter-group">
               <label htmlFor="location-filter">
                 <FaMapMarkerAlt className="filter-icon" />
@@ -250,12 +265,34 @@ const Listings = () => {
                 <MdKeyboardArrowDown className="select-arrow" />
               </div>
             </div>
+            <div className="filter-group">
+              <label htmlFor="type-filter">
+                <FaFilter className="filter-icon" />
+                Property Type
+              </label>
+              <div className="select-wrapper">
+                <select
+                  id="type-filter"
+                  value={selectedType}
+                  onChange={(e) => setSelectedType(e.target.value)}
+                >
+                  <option value="all">All Types</option>
+                  <option value="Office">Office Space</option>
+                  <option value="Retail">Retail Space</option>
+                  <option value="Co-Working">Co-Working</option>
+                </select>
+                <MdKeyboardArrowDown className="select-arrow" />
+              </div>
+            </div>
 
-            <button className="reset-filters" onClick={() => {
-              setSearchTerm("");
-              setSelectedType("all");
-              setSelectedLocation("all");
-            }}>
+            <button
+              className="reset-filters"
+              onClick={() => {
+                setSearchTerm("");
+                setSelectedType("all");
+                setSelectedLocation("all");
+              }}
+            >
               Reset Filters
             </button>
           </div>
@@ -266,7 +303,7 @@ const Listings = () => {
           <div className="results-count">
             <span className="count-number">{filteredListings.length}</span>
             <span className="count-text">
-              {filteredListings.length === 1 ? 'property' : 'properties'} found
+              {filteredListings.length === 1 ? "property" : "properties"} found
             </span>
           </div>
           <div className="sort-options">
@@ -283,10 +320,12 @@ const Listings = () => {
         {/* Listings Grid */}
         <div className="listings-grid">
           {filteredListings.map((listing, index) => (
-            <div 
-              key={listing.id} 
+            <div
+              key={listing.id}
               data-index={index}
-              className={`listing-card observe-animation ${visibleCards.includes(index) ? 'visible' : ''}`}
+              className={`listing-card observe-animation ${
+                visibleCards.includes(index) ? "visible" : ""
+              }`}
             >
               <div className="listing-image">
                 <img src={listing.image} alt={listing.title} loading="lazy" />
@@ -305,10 +344,10 @@ const Listings = () => {
                   <span>★ {listing.rating}</span>
                 </div>
               </div>
-              
+
               <div className="listing-content">
                 <h3>{listing.title}</h3>
-                
+
                 <div className="listing-details">
                   <div className="detail-item">
                     <FaMapMarkerAlt className="detail-icon" />
@@ -326,7 +365,9 @@ const Listings = () => {
 
                 <div className="listing-features">
                   {listing.features.map((feature, idx) => (
-                    <span key={idx} className="feature-tag">{feature}</span>
+                    <span key={idx} className="feature-tag">
+                      {feature}
+                    </span>
                   ))}
                 </div>
 
@@ -354,7 +395,7 @@ const Listings = () => {
             </div>
             <h3>No properties found</h3>
             <p>Try adjusting your search criteria or browse all properties</p>
-            <button 
+            <button
               className="btn-primary"
               onClick={() => {
                 setSearchTerm("");

@@ -11,28 +11,24 @@ const WhyAbacus = () => {
   const features = [
     {
       title: "Fast Closures",
-      description: "Quick and efficient property deals within 24-48 hours",
       icon: <BsLightningChargeFill />,
       color: "#ddea66ff",
       delay: 0
     },
     {
       title: "Local Insights",
-      description: "Deep knowledge of South Indian markets and trends",
       icon: <FaMapMarkerAlt />,
       color: "#f093fb",
       delay: 0.2
     },
     {
       title: "Trusted Partnerships",
-      description: "Strong relationships with verified property owners",
       icon: <FaHandshake />,
       color: "#4facfe",
       delay: 0.4
     },
     {
       title: "Client-Centric Approach",
-      description: "Your success is our priority, always",
       icon: <FaHeart />,
       color: "#43e97b",
       delay: 0.6
@@ -121,7 +117,6 @@ const WhyAbacus = () => {
               </div>
               <div className="why-content">
                 <h3>{feature.title}</h3>
-                <p>{feature.description}</p>
               </div>
               <div className="why-glow"></div>
             </div>

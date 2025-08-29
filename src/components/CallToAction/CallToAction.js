@@ -1,14 +1,14 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { 
-  FaArrowRight, 
-  FaPhone, 
-  FaBuilding, 
+import React, { useState, useEffect, useRef } from "react";
+import {
+  FaArrowRight,
+  FaPhone,
+  FaBuilding,
   FaHandshake,
   FaMapMarkerAlt,
-  FaUsers
-} from 'react-icons/fa';
-import { MdCall, MdLocationOn } from 'react-icons/md';
-import './CallToAction.css';
+  FaUsers,
+} from "react-icons/fa";
+import { MdCall, MdLocationOn } from "react-icons/md";
+import "./CallToAction.css";
 
 const CallToAction = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -72,7 +72,7 @@ const CallToAction = () => {
 
       <div className="cta-container">
         {/* Main Content */}
-        <div className={`cta-content ${isVisible ? 'cta-visible' : ''}`}>
+        <div className={`cta-content ${isVisible ? "cta-visible" : ""}`}>
           {/* Badge */}
           <div className="cta-badge">
             <FaHandshake />
@@ -80,14 +80,12 @@ const CallToAction = () => {
           </div>
 
           {/* Main Headline */}
-          <h1 className="cta-headline">
-            Looking for your next office or retail space?
-          </h1>
+          <h1 className="cta-headline">Looking to Expand Your Business?</h1>
 
           {/* Supporting Text */}
           <p className="cta-description">
-            Connect with our expert team to find the perfect commercial space 
-            that matches your business needs and budget. We're here to help!
+            Connect with our expert team to find the perfect commercial space
+            that matches your Needs, we’ll cater to it !
           </p>
 
           {/* Action Buttons */}
@@ -97,7 +95,7 @@ const CallToAction = () => {
               <span>Talk to Us</span>
               <FaArrowRight className="btn-arrow" />
             </button>
-            
+
             <button className="cta-btn cta-secondary">
               <FaBuilding className="btn-icon" />
               <span>View Properties</span>
@@ -116,7 +114,7 @@ const CallToAction = () => {
                 <span className="cta-stat-label">Properties</span>
               </div>
             </div>
-            
+
             <div className="cta-stat">
               <div className="cta-stat-icon">
                 <FaUsers />
@@ -126,7 +124,7 @@ const CallToAction = () => {
                 <span className="cta-stat-label">Happy Clients</span>
               </div>
             </div>
-            
+
             <div className="cta-stat">
               <div className="cta-stat-icon">
                 <MdLocationOn />
@@ -138,17 +136,7 @@ const CallToAction = () => {
             </div>
           </div>
 
-          {/* Contact Info */}
-          <div className="cta-contact">
-            <div className="cta-contact-item">
-              <FaPhone />
-              <span>+91 9876543210</span>
-            </div>
-            <div className="cta-contact-item">
-              <FaMapMarkerAlt />
-              <span>Available in 12+ cities across India</span>
-            </div>
-          </div>
+          
         </div>
       </div>
     </section>

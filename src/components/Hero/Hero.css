@@ -1,3 +1,289 @@
+/* Simple and Clean Intro Animation - Updated */
+.intro-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Match the hero background gradient */
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.intro-overlay.entering {
+  opacity: 1;
+  visibility: visible;
+  animation: overlayFadeIn 0.6s ease-out forwards;
+}
+
+.intro-overlay.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.intro-overlay.exiting {
+  opacity: 0;
+  visibility: hidden;
+  animation: overlayFadeOut 0.8s ease-in forwards;
+}
+
+@keyframes overlayFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(1.1);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes overlayFadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+/* Animated Background - Match hero style */
+.intro-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.animated-gradient {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 70%
+  );
+  animation: gradientMove 8s ease-in-out infinite;
+}
+
+@keyframes gradientMove {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  25% {
+    transform: translate(-10%, -10%) rotate(5deg);
+  }
+  50% {
+    transform: translate(10%, -5%) rotate(-3deg);
+  }
+  75% {
+    transform: translate(-5%, 10%) rotate(2deg);
+  }
+}
+
+/* Simple Text Content - Much Smaller */
+.intro-content {
+  position: relative;
+  text-align: center;
+  color: white;
+  z-index: 2;
+  max-width: 800px;
+  padding: 0 2rem;
+}
+
+.intro-title {
+  /* Much smaller font sizes */
+  font-size: clamp(1.8rem, 5vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.2;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui,
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+
+  /* Animation */
+  opacity: 0;
+  transform: translateY(30px) scale(0.9);
+  animation: titleAppear 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.3s forwards;
+
+  /* Clean white text */
+  color: #ffffff;
+
+  /* Glow Effect */
+  position: relative;
+}
+
+.intro-title::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  border-radius: 10px;
+  opacity: 0;
+  animation: titleGlow 3s ease-in-out infinite;
+  z-index: -1;
+}
+
+@keyframes titleAppear {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes titleGlow {
+  0%,
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.2;
+    transform: scale(1.05);
+  }
+}
+
+/* Hero Section Transition */
+.hero {
+  opacity: 0;
+  transform: scale(0.95);
+  transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: blur(5px);
+}
+
+.hero.hero-visible {
+  opacity: 1;
+  transform: scale(1);
+  filter: blur(0px);
+}
+
+/* Mobile Responsive for Simple Intro - Smaller Sizes */
+@media (max-width: 768px) {
+  .intro-title {
+    font-size: clamp(1.5rem, 6vw, 2.5rem);
+    padding: 0 1rem;
+  }
+
+  .intro-content {
+    padding: 0 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .intro-title {
+    font-size: clamp(1.3rem, 7vw, 2rem);
+    padding: 0 0.5rem;
+    line-height: 1.3;
+  }
+}
+
+@media (max-width: 360px) {
+  .intro-title {
+    font-size: clamp(1.2rem, 8vw, 1.8rem);
+  }
+}
+
+/* Landscape mobile orientation */
+@media (max-width: 768px) and (max-height: 500px) {
+  .intro-content {
+    padding: 0 1rem;
+  }
+
+  .intro-title {
+    font-size: clamp(1.4rem, 6vw, 2.2rem);
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .intro-overlay {
+    background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+  }
+
+  .intro-title {
+    color: #ffffff;
+    text-shadow: 0 2px 10px rgba(255, 255, 255, 0.5);
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  .intro-overlay,
+  .intro-title,
+  .animated-gradient,
+  .hero {
+    animation: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .intro-overlay.entering,
+  .intro-overlay.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  .intro-overlay.exiting {
+    opacity: 0;
+  }
+
+  .intro-title {
+    opacity: 1;
+    transform: none;
+  }
+
+  .intro-title::before {
+    display: none;
+  }
+
+  .hero.hero-visible {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+
+  .animated-gradient {
+    animation: none;
+  }
+}
+
+/* Keep all your existing Hero styles below this point */
+
+.hero {
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+/* ... Continue with all your existing styles ... */
+
+/* ... Keep all your existing Hero.css styles below this ... */
+
 .hero {
   min-height: 100vh;
   position: relative;
@@ -297,7 +583,7 @@
       width: 0;
     }
     to {
-      width: 63%;
+      width: 70%;
     }
   }
 }
