@@ -18,12 +18,12 @@
   bottom: 0;
   background: radial-gradient(
       circle at 25% 25%,
-      rgba(102, 126, 234, 0.03) 0%,
+      rgba(35, 198, 164, 0.03) 0%,
       transparent 50%
     ),
     radial-gradient(
       circle at 75% 75%,
-      rgba(240, 147, 251, 0.03) 0%,
+      rgba(26, 47, 92, 0.03) 0%,
       transparent 50%
     );
   pointer-events: none;
@@ -60,14 +60,14 @@
   align-items: center;
   gap: 0.5rem;
   background: white;
-  border: 2px solid rgba(102, 126, 234, 0.15);
+  border: 2px solid rgba(35, 198, 164, 0.15);
   border-radius: 25px;
   padding: 0.5rem 1rem;
   margin-bottom: 1rem;
-  color: #667eea;
+  color: #23c6a4;
   font-weight: 600;
   font-size: 0.85rem;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.08);
+  box-shadow: 0 4px 15px rgba(35, 198, 164, 0.08);
 }
 
 .regions-badge-icon {
@@ -78,7 +78,7 @@
   font-size: 2.5rem;
   font-weight: 800;
   margin-bottom: 0.5rem;
-  background: linear-gradient(135deg, #2d3748 0%, #667eea 50%, #f093fb 100%);
+  background: linear-gradient(135deg, #2d3748 0%, #23c6a4 50%, #1a2f5c 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -120,12 +120,13 @@
 .regions-stat-item:hover {
   transform: translateY(-3px);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border-color: rgba(35, 198, 164, 0.2);
 }
 
 .regions-stat-icon {
   width: 40px;
   height: 40px;
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #23c6a4, #1a2f5c);
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -257,8 +258,8 @@
 }
 
 .regions-custom-popup .leaflet-popup-close-button:hover {
-  background: rgba(239, 68, 68, 0.1);
-  color: #ef4444;
+  background: rgba(35, 198, 164, 0.1);
+  color: #23c6a4;
   transform: scale(1.1);
 }
 
@@ -286,6 +287,7 @@
   font-weight: 700;
   margin: 0 0 0.25rem 0;
   padding-right: 30px; /* Space for close button */
+  color: #1a2f5c;
 }
 
 .regions-popup-content p {
@@ -310,7 +312,7 @@
 
 .regions-popup-price {
   font-size: 0.85rem;
-  color: #2d3748;
+  color: #23c6a4;
   font-weight: 600;
 }
 
@@ -362,7 +364,7 @@
 }
 
 .regions-cards-list::-webkit-scrollbar-thumb {
-  background: #cbd5e0;
+  background: #23c6a4;
   border-radius: 3px;
 }
 
@@ -429,7 +431,7 @@
 }
 
 .regions-card-growth {
-  background: linear-gradient(135deg, #48bb78, #38a169);
+  background: linear-gradient(135deg, #23c6a4, #1a2f5c);
   color: white;
   padding: 0.25rem 0.5rem;
   border-radius: 15px;
@@ -510,12 +512,13 @@
 }
 
 .regions-city-tag {
-  background: rgba(102, 126, 234, 0.1);
-  color: #667eea;
+  background: rgba(35, 198, 164, 0.1);
+  color: #23c6a4;
   padding: 0.2rem 0.5rem;
   border-radius: 10px;
   font-size: 0.7rem;
   font-weight: 500;
+  border: 1px solid rgba(35, 198, 164, 0.2);
 }
 
 .regions-contact {
@@ -534,7 +537,7 @@
 }
 
 .regions-view-btn {
-  background: linear-gradient(135deg, var(--region-color), rgba(0, 0, 0, 0.1));
+  background: linear-gradient(135deg, var(--region-color), rgba(var(--region-color-rgb, 35, 198, 164), 0.8));
   color: white;
   border: none;
   border-radius: 8px;
@@ -548,11 +551,53 @@
   gap: 0.4rem;
   transition: all 0.3s ease;
   width: 100%;
+  box-shadow: 0 4px 15px rgba(var(--region-color-rgb, 35, 198, 164), 0.3);
 }
 
 .regions-view-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 6px 20px rgba(var(--region-color-rgb, 35, 198, 164), 0.4);
+}
+
+/* Region Color Variables */
+.regions-card:nth-child(1) {
+  --region-color: #23c6a4;
+  --region-color-rgb: 35, 198, 164;
+}
+
+.regions-card:nth-child(2) {
+  --region-color: #1a2f5c;
+  --region-color-rgb: 26, 47, 92;
+}
+
+.regions-card:nth-child(3) {
+  --region-color: #4fd1c7;
+  --region-color-rgb: 79, 209, 199;
+}
+
+.regions-card:nth-child(4) {
+  --region-color: #0d9488;
+  --region-color-rgb: 13, 148, 136;
+}
+
+.regions-card:nth-child(5) {
+  --region-color: #2dd4bf;
+  --region-color-rgb: 45, 212, 191;
+}
+
+.regions-card:nth-child(6) {
+  --region-color: #134e4a;
+  --region-color-rgb: 19, 78, 74;
+}
+
+.regions-card:nth-child(7) {
+  --region-color: #5eead4;
+  --region-color-rgb: 94, 234, 212;
+}
+
+.regions-card:nth-child(8) {
+  --region-color: #0f766e;
+  --region-color-rgb: 15, 118, 110;
 }
 
 /* Animations */

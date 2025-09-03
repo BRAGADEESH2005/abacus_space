@@ -14,12 +14,12 @@
   bottom: 0;
   background: radial-gradient(
       circle at 25% 25%,
-      rgba(102, 126, 234, 0.03) 0%,
+      rgba(35, 198, 164, 0.03) 0%,
       transparent 50%
     ),
     radial-gradient(
       circle at 75% 75%,
-      rgba(240, 147, 251, 0.03) 0%,
+      rgba(26, 47, 92, 0.03) 0%,
       transparent 50%
     );
   pointer-events: none;
@@ -52,14 +52,14 @@
   align-items: center;
   gap: 0.5rem;
   background: white;
-  border: 2px solid rgba(102, 126, 234, 0.15);
+  border: 2px solid rgba(35, 198, 164, 0.15);
   border-radius: 25px;
   padding: 0.6rem 1.2rem;
   margin-bottom: 1.5rem;
-  color: #667eea;
+  color: #23c6a4;
   font-weight: 600;
   font-size: 0.9rem;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.08);
+  box-shadow: 0 4px 15px rgba(35, 198, 164, 0.08);
 }
 
 .insights-badge-icon {
@@ -70,7 +70,7 @@
   font-size: 3rem;
   font-weight: 800;
   margin-bottom: 1rem;
-  background: linear-gradient(135deg, #2d3748 0%, #667eea 50%, #f093fb 100%);
+  background: linear-gradient(135deg, #2d3748 0%, #23c6a4 50%, #1a2f5c 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -139,7 +139,7 @@
 }
 
 .insights-category {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #23c6a4, #1a2f5c);
   color: white;
   padding: 0.5rem 1rem;
   border-radius: 20px;
@@ -209,7 +209,7 @@
 }
 
 .insights-read-btn {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #23c6a4, #1a2f5c);
   color: white;
   border: none;
   border-radius: 25px;
@@ -221,18 +221,19 @@
   align-items: center;
   gap: 0.5rem;
   transition: all 0.3s ease;
-  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 8px 25px rgba(35, 198, 164, 0.3);
 }
 
 .insights-read-btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 12px 35px rgba(35, 198, 164, 0.4);
+  background: linear-gradient(135deg, #2dd4bf, #23c6a4);
 }
 
 /* Navigation Buttons */
 .insights-nav-btn {
   background: white;
-  border: 2px solid rgba(102, 126, 234, 0.15);
+  border: 2px solid rgba(35, 198, 164, 0.15);
   border-radius: 50%;
   width: 60px;
   height: 60px;
@@ -240,18 +241,18 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  color: #667eea;
+  color: #23c6a4;
   font-size: 1.2rem;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.1);
+  box-shadow: 0 4px 15px rgba(35, 198, 164, 0.1);
   flex-shrink: 0;
 }
 
 .insights-nav-btn:hover {
-  background: #667eea;
+  background: #23c6a4;
   color: white;
   transform: scale(1.1);
-  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 8px 25px rgba(35, 198, 164, 0.3);
 }
 
 /* Dots Indicator */
@@ -266,19 +267,19 @@
   height: 12px;
   border-radius: 50%;
   border: none;
-  background: rgba(102, 126, 234, 0.3);
+  background: rgba(35, 198, 164, 0.3);
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .insights-dot.active {
-  background: #667eea;
+  background: #23c6a4;
   transform: scale(1.3);
-  box-shadow: 0 0 15px rgba(102, 126, 234, 0.5);
+  box-shadow: 0 0 15px rgba(35, 198, 164, 0.5);
 }
 
 .insights-dot:hover {
-  background: #667eea;
+  background: #23c6a4;
   transform: scale(1.2);
 }
 
@@ -592,13 +593,13 @@
 @media (hover: none) and (pointer: coarse) {
   .insights-read-btn:hover {
     transform: none;
-    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    box-shadow: 0 8px 25px rgba(35, 198, 164, 0.3);
   }
   
   .insights-nav-btn:hover {
     transform: none;
     background: white;
-    color: #667eea;
+    color: #23c6a4;
   }
   
   .insights-dot:hover {
