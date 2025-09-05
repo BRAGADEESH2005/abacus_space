@@ -13,8 +13,8 @@
   right: 0;
   bottom: 0;
   background: 
-    radial-gradient(circle at 25% 25%, rgba(102, 126, 234, 0.03) 0%, transparent 50%),
-    radial-gradient(circle at 75% 75%, rgba(240, 147, 251, 0.03) 0%, transparent 50%);
+    radial-gradient(circle at 25% 25%, rgba(35, 198, 164, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 75% 75%, rgba(26, 47, 92, 0.03) 0%, transparent 50%);
   pointer-events: none;
 }
 
@@ -33,7 +33,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #23c6a4 0%, #1a2f5c 100%);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -65,7 +65,7 @@
 
 /* Simplified Header */
 .listings-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #23c6a4 0%, #1a2f5c 100%);
   color: white;
   padding: 3rem 0 2rem;
   text-align: center;
@@ -156,7 +156,7 @@
 }
 
 .filters-icon {
-  color: #667eea;
+  color: #23c6a4;
   font-size: 1.2rem;
 }
 
@@ -182,9 +182,9 @@
 
 .search-bar input:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: #23c6a4;
   background: white;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  box-shadow: 0 0 0 3px rgba(35, 198, 164, 0.1);
   transform: translateY(-2px);
 }
 
@@ -241,7 +241,7 @@
 }
 
 .filter-icon {
-  color: #667eea;
+  color: #23c6a4;
 }
 
 .select-wrapper {
@@ -262,8 +262,8 @@
 
 .select-wrapper select:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  border-color: #23c6a4;
+  box-shadow: 0 0 0 3px rgba(35, 198, 164, 0.1);
 }
 
 .select-arrow {
@@ -312,7 +312,7 @@
 .count-number {
   font-size: 1.4rem;
   font-weight: 800;
-  color: #667eea;
+  color: #23c6a4;
 }
 
 .count-text {
@@ -411,7 +411,7 @@
   border-radius: 50%;
   border: none;
   background: rgba(255, 255, 255, 0.9);
-  color: #667eea;
+  color: #23c6a4;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -427,7 +427,7 @@
 }
 
 .action-btn:hover {
-  background: #667eea;
+  background: #23c6a4;
   color: white;
   transform: scale(1.1);
 }
@@ -436,7 +436,7 @@
   position: absolute;
   bottom: 1rem;
   left: 1rem;
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #23c6a4, #1a2f5c);
   color: white;
   padding: 0.3rem 0.8rem;
   border-radius: 15px;
@@ -488,12 +488,12 @@
 }
 
 .detail-icon {
-  color: #667eea;
+  color: #23c6a4;
   font-size: 0.9rem;
 }
 
 .detail-item.price {
-  color: #667eea;
+  color: #23c6a4;
   font-weight: 700;
   font-size: 1rem;
 }
@@ -517,7 +517,7 @@
 }
 
 .feature-tag:hover {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #23c6a4, #1a2f5c);
   color: white;
   transform: translateY(-2px);
 }
@@ -561,24 +561,24 @@
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #23c6a4, #1a2f5c);
   color: white;
-  box-shadow: 0 3px 12px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 3px 12px rgba(35, 198, 164, 0.3);
 }
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 6px 20px rgba(35, 198, 164, 0.4);
 }
 
 .btn-secondary {
   background: transparent;
-  color: #667eea;
-  border: 2px solid #667eea;
+  color: #23c6a4;
+  border: 2px solid #23c6a4;
 }
 
 .btn-secondary:hover {
-  background: #667eea;
+  background: #23c6a4;
   color: white;
   transform: translateY(-2px);
 }
@@ -595,7 +595,7 @@
   font-size: 4rem;
   margin-bottom: 1.5rem;
   opacity: 0.3;
-  color: #667eea;
+  color: #23c6a4;
 }
 
 .no-results h3 {

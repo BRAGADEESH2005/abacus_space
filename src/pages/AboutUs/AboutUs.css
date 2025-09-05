@@ -12,7 +12,7 @@
 
 /* Header Section */
 .about-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #23c6a4 0%, #1a2f5c 100%);
   color: white;
   padding: 4rem 0;
   text-align: center;
@@ -20,6 +20,30 @@
   opacity: 0;
   transform: translateY(-30px);
   transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.about-header::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+  animation: headerGlow 8s ease-in-out infinite;
+}
+
+@keyframes headerGlow {
+  0%, 100% { 
+    transform: rotate(0deg) scale(1); 
+    opacity: 0.5;
+  }
+  50% { 
+    transform: rotate(180deg) scale(1.1); 
+    opacity: 0.8;
+  }
 }
 
 .about-header.visible {
@@ -33,6 +57,12 @@
   margin-bottom: 1.5rem;
   line-height: 1.2;
   animation: titleSlide 0.8s ease-out 0.3s both;
+  position: relative;
+  z-index: 2;
+  background: linear-gradient(45deg, #ffffff, #f0f9ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .about-header p {
@@ -42,6 +72,8 @@
   margin: 0 auto;
   line-height: 1.6;
   animation: textFade 0.8s ease-out 0.5s both;
+  position: relative;
+  z-index: 2;
 }
 
 @keyframes titleSlide {
@@ -95,6 +127,18 @@
   color: #2d3748;
   margin-bottom: 1.5rem;
   line-height: 1.3;
+  position: relative;
+}
+
+.story-text h2::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(135deg, #23c6a4, #1a2f5c);
+  border-radius: 2px;
 }
 
 .story-text p {
@@ -107,15 +151,15 @@
   animation: slideInLeft 0.6s ease-out forwards;
 }
 
-.story-text p:nth-child(2) {
+.story-text p:nth-child(3) {
   animation-delay: 0.2s;
 }
 
-.story-text p:nth-child(3) {
+.story-text p:nth-child(4) {
   animation-delay: 0.4s;
 }
 
-.story-text p:nth-child(4) {
+.story-text p:nth-child(5) {
   animation-delay: 0.6s;
 }
 
@@ -130,10 +174,27 @@
   position: relative;
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 20px 60px rgba(35, 198, 164, 0.2);
   opacity: 0;
   transform: translateX(50px);
   animation: slideInRight 0.8s ease-out 0.3s forwards;
+}
+
+.story-image::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(35, 198, 164, 0.1), rgba(26, 47, 92, 0.1));
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.story-image:hover::before {
+  opacity: 1;
 }
 
 @keyframes slideInRight {
@@ -173,6 +234,19 @@
   font-weight: 600;
   color: #2d3748;
   margin-bottom: 1rem;
+  position: relative;
+}
+
+.values-section h2::after {
+  content: "";
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(135deg, #23c6a4, #1a2f5c);
+  border-radius: 2px;
 }
 
 .values-section > p {
@@ -201,6 +275,23 @@
   border: 1px solid rgba(255, 255, 255, 0.8);
   opacity: 0;
   transform: translateY(30px) scale(0.9);
+  position: relative;
+  overflow: hidden;
+}
+
+.value-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(35, 198, 164, 0.1), transparent);
+  transition: left 0.6s ease;
+}
+
+.value-card:hover::before {
+  left: 100%;
 }
 
 .value-card.animate {
@@ -216,14 +307,15 @@
 
 .value-card:hover {
   transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 20px 50px rgba(35, 198, 164, 0.15);
+  border-color: rgba(35, 198, 164, 0.2);
 }
 
 .value-icon {
   width: 70px;
   height: 70px;
   margin: 0 auto 1.5rem;
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #23c6a4, #1a2f5c);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -231,11 +323,14 @@
   font-size: 1.8rem;
   color: white;
   transition: all 0.3s ease;
+  position: relative;
+  z-index: 2;
 }
 
 .value-card:hover .value-icon {
   transform: scale(1.1) rotate(10deg);
-  background: linear-gradient(135deg, #764ba2, #667eea);
+  background: linear-gradient(135deg, #1a2f5c, #23c6a4);
+  box-shadow: 0 10px 25px rgba(35, 198, 164, 0.3);
 }
 
 .value-card h3 {
@@ -243,12 +338,16 @@
   font-weight: 600;
   color: #2d3748;
   margin-bottom: 1rem;
+  position: relative;
+  z-index: 2;
 }
 
 .value-card p {
   color: #4a5568;
   line-height: 1.6;
   font-size: 1rem;
+  position: relative;
+  z-index: 2;
 }
 
 /* Team Section */
@@ -270,6 +369,19 @@
   font-weight: 600;
   color: #2d3748;
   margin-bottom: 1rem;
+  position: relative;
+}
+
+.team-section h2::after {
+  content: "";
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(135deg, #23c6a4, #1a2f5c);
+  border-radius: 2px;
 }
 
 .team-section > p {
@@ -298,6 +410,23 @@
   border: 1px solid rgba(255, 255, 255, 0.8);
   opacity: 0;
   transform: translateY(30px);
+  position: relative;
+  overflow: hidden;
+}
+
+.team-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(35, 198, 164, 0.05), transparent);
+  transition: left 0.6s ease;
+}
+
+.team-card:hover::before {
+  left: 100%;
 }
 
 .team-card.animate {
@@ -313,14 +442,15 @@
 
 .team-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 15px 40px rgba(35, 198, 164, 0.12);
+  border-color: rgba(35, 198, 164, 0.2);
 }
 
 .team-avatar {
   width: 80px;
   height: 80px;
   margin: 0 auto 1.5rem;
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  background: linear-gradient(135deg, #23c6a4, #1a2f5c);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -329,11 +459,14 @@
   color: white;
   font-weight: 600;
   transition: all 0.3s ease;
+  position: relative;
+  z-index: 2;
 }
 
 .team-card:hover .team-avatar {
   transform: scale(1.1);
-  background: linear-gradient(135deg, #764ba2, #667eea);
+  background: linear-gradient(135deg, #1a2f5c, #23c6a4);
+  box-shadow: 0 8px 20px rgba(35, 198, 164, 0.3);
 }
 
 .team-card h4 {
@@ -341,19 +474,25 @@
   font-weight: 600;
   color: #2d3748;
   margin-bottom: 0.5rem;
+  position: relative;
+  z-index: 2;
 }
 
 .team-card .role {
-  color: #667eea;
+  color: #23c6a4;
   font-weight: 500;
   margin-bottom: 1rem;
   font-size: 0.95rem;
+  position: relative;
+  z-index: 2;
 }
 
 .team-card p {
   color: #4a5568;
   line-height: 1.5;
   font-size: 0.9rem;
+  position: relative;
+  z-index: 2;
 }
 
 /* Mission Section */
@@ -366,6 +505,28 @@
   opacity: 0;
   transform: translateY(50px);
   transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.mission-section::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(35, 198, 164, 0.02) 0%, transparent 70%);
+  animation: missionGlow 10s ease-in-out infinite;
+}
+
+@keyframes missionGlow {
+  0%, 100% { 
+    transform: rotate(0deg) scale(1); 
+  }
+  50% { 
+    transform: rotate(180deg) scale(1.1); 
+  }
 }
 
 .mission-section.visible {
@@ -378,6 +539,8 @@
   grid-template-columns: 1fr 1fr;
   gap: 3rem;
   align-items: start;
+  position: relative;
+  z-index: 2;
 }
 
 .mission-text h2 {
@@ -385,6 +548,18 @@
   font-weight: 600;
   color: #2d3748;
   margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.mission-text h2::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(135deg, #23c6a4, #1a2f5c);
+  border-radius: 2px;
 }
 
 .mission-text p {
@@ -407,11 +582,28 @@
   padding: 1.5rem;
   background: #f8fafc;
   border-radius: 12px;
-  border-left: 4px solid #667eea;
+  border-left: 4px solid #23c6a4;
   transition: all 0.3s ease;
   opacity: 0;
   transform: translateX(30px);
   animation: slideInMission 0.6s ease-out forwards;
+  position: relative;
+  overflow: hidden;
+}
+
+.mission-stat::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(35, 198, 164, 0.08), transparent);
+  transition: left 0.6s ease;
+}
+
+.mission-stat:hover::before {
+  left: 100%;
 }
 
 .mission-stat:nth-child(1) {
@@ -436,19 +628,23 @@
 .mission-stat:hover {
   transform: translateX(5px);
   background: #edf2f7;
+  border-left-color: #1a2f5c;
+  box-shadow: 0 5px 15px rgba(35, 198, 164, 0.1);
 }
 
 .mission-icon {
   font-size: 1.5rem;
-  color: #667eea;
+  color: #23c6a4;
   margin-top: 0.2rem;
   flex-shrink: 0;
   transition: all 0.3s ease;
+  position: relative;
+  z-index: 2;
 }
 
 .mission-stat:hover .mission-icon {
   transform: scale(1.1);
-  color: #764ba2;
+  color: #1a2f5c;
 }
 
 .mission-stat h3 {
@@ -456,6 +652,8 @@
   font-weight: 600;
   color: #2d3748;
   margin-bottom: 0.5rem;
+  position: relative;
+  z-index: 2;
 }
 
 .mission-stat p {
@@ -463,6 +661,8 @@
   font-size: 0.95rem;
   line-height: 1.4;
   margin: 0;
+  position: relative;
+  z-index: 2;
 }
 
 /* Mobile Responsive */
@@ -536,6 +736,14 @@
     padding: 2rem 1.5rem;
     margin: 2rem 0;
   }
+
+  .story-text h2::after,
+  .values-section h2::after,
+  .team-section h2::after,
+  .mission-text h2::after {
+    width: 40px;
+    height: 3px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -571,6 +779,14 @@
     text-align: center;
     gap: 0.5rem;
   }
+
+  .story-text h2::after,
+  .values-section h2::after,
+  .team-section h2::after,
+  .mission-text h2::after {
+    width: 30px;
+    height: 2px;
+  }
 }
 
 /* Smooth animations for reduced motion preference */
@@ -592,5 +808,16 @@
     animation: none;
     opacity: 1;
     transform: none;
+  }
+
+  .about-header::before,
+  .mission-section::before {
+    animation: none;
+  }
+
+  .value-card::before,
+  .team-card::before,
+  .mission-stat::before {
+    display: none;
   }
 }
