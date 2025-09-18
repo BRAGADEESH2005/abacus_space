@@ -8,6 +8,7 @@ import {
   FaEye,
   FaChevronLeft,
   FaChevronRight,
+  FaSpinner,
 } from "react-icons/fa";
 import {
   MdSpaceDashboard,
@@ -33,7 +34,8 @@ const Listings = () => {
   const [availableTypes, setAvailableTypes] = useState([]);
   const [pagination, setPagination] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
-  const [listingViews, setListingViews] = useState({}); // Store random views for each listing
+  const [listingViews, setListingViews] = useState({});
+  const [isFiltering, setIsFiltering] = useState(false); // New state for filter loading
   const sectionRef = useRef(null);
   const imageIntervals = useRef({});
 
@@ -60,14 +62,18 @@ const Listings = () => {
   };
 
   // Fetch listings from backend
-  const fetchListings = async (page = 1, filters = {}) => {
+  const fetchListings = async (page = 1, filters = {}, showFilterLoader = false) => {
     try {
-      setIsLoading(true);
+      if (showFilterLoader) {
+        setIsFiltering(true);
+      } else {
+        setIsLoading(true);
+      }
       setError(null);
 
       const params = {
         page,
-        limit: 50, // Get more listings to avoid pagination in UI for now
+        limit: 50,
         ...filters,
       };
 
@@ -115,6 +121,7 @@ const Listings = () => {
       setFilteredListings([]);
     } finally {
       setIsLoading(false);
+      setIsFiltering(false);
     }
   };
 
@@ -164,7 +171,7 @@ const Listings = () => {
             ...prev,
             [listing._id]: (prev[listing._id] + 1) % listing.images.length,
           }));
-        }, 3000); // Change image every 3 seconds
+        }, 3000);
 
         imageIntervals.current[listing._id] = interval;
       }
@@ -179,13 +186,12 @@ const Listings = () => {
   }, [filteredListings]);
 
   const nextImage = (listingId, imageCount) => {
-    clearInterval(imageIntervals.current[listingId]); // Stop auto-scroll temporarily
+    clearInterval(imageIntervals.current[listingId]);
     setCurrentImageIndexes((prev) => ({
       ...prev,
       [listingId]: (prev[listingId] + 1) % imageCount,
     }));
 
-    // Resume auto-scroll after manual navigation
     setTimeout(() => {
       if (imageCount > 1) {
         const interval = setInterval(() => {
@@ -200,13 +206,12 @@ const Listings = () => {
   };
 
   const prevImage = (listingId, imageCount) => {
-    clearInterval(imageIntervals.current[listingId]); // Stop auto-scroll temporarily
+    clearInterval(imageIntervals.current[listingId]);
     setCurrentImageIndexes((prev) => ({
       ...prev,
       [listingId]: prev[listingId] === 0 ? imageCount - 1 : prev[listingId] - 1,
     }));
 
-    // Resume auto-scroll after manual navigation
     setTimeout(() => {
       if (imageCount > 1) {
         const interval = setInterval(() => {
@@ -273,9 +278,9 @@ const Listings = () => {
         filters.location = selectedLocation;
       }
 
-      fetchListings(1, filters);
-      setVisibleCards([]); // Reset visible cards when filters change
-    }, 500); // Debounce search to avoid too many API calls
+      fetchListings(1, filters, true); // true = show filter loader
+      setVisibleCards([]);
+    }, 500);
 
     return () => clearTimeout(debounceTimer);
   }, [searchTerm, selectedType, selectedLocation]);
@@ -283,13 +288,11 @@ const Listings = () => {
   // Handle view listing (increment views)
   const handleViewListing = async (listingId) => {
     try {
-      // Increment the random view count locally
       setListingViews((prev) => ({
         ...prev,
         [listingId]: (prev[listingId] || 0) + 1,
       }));
 
-      // Optionally make API call to track real views in backend
       await api.get(`/listings/${listingId}`);
     } catch (error) {
       console.error("Error viewing listing:", error);
@@ -298,18 +301,31 @@ const Listings = () => {
 
   return (
     <div className="listings-page" ref={sectionRef}>
-      {/* Loading Screen */}
-      {isLoading && (
-        <div className="listings-loading">
-          <div className="loading-spinner"></div>
-          <p>Loading amazing properties for you...</p>
+      {/* Initial Page Loading */}
+      {isLoading && listings.length === 0 && (
+        <div className="page-loading">
+          <div className="loading-content">
+            <div className="loading-spinner">
+              <div className="spinner-ring"></div>
+              <div className="spinner-ring"></div>
+              <div className="spinner-ring"></div>
+            </div>
+            <h3>Finding Amazing Properties</h3>
+            <p>Discovering the perfect workspace for your business...</p>
+            <div className="loading-dots">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
         </div>
       )}
 
       {/* Error Screen */}
-      {error && !isLoading && (
+      {error && !isLoading && listings.length === 0 && (
         <div className="listings-error">
           <div className="error-content">
+            <div className="error-icon">⚠️</div>
             <h3>Something went wrong</h3>
             <p>{error}</p>
             <button className="btn-primary" onClick={() => fetchListings()}>
@@ -346,6 +362,12 @@ const Listings = () => {
             <div className="filters-title">
               <BiFilterAlt className="filters-icon" />
               <span>Filter Properties</span>
+              {isFiltering && (
+                <div className="filter-loading">
+                  <FaSpinner className="filter-spinner" />
+                  <span>Filtering...</span>
+                </div>
+              )}
             </div>
           </div>
 
@@ -445,8 +467,22 @@ const Listings = () => {
           </div>
         </div>
 
+        {/* Filter Loading Overlay for Grid */}
+        {isFiltering && (
+          <div className="grid-loading-overlay">
+            <div className="grid-loading-content">
+              <div className="pulse-loader">
+                <div className="pulse-dot"></div>
+                <div className="pulse-dot"></div>
+                <div className="pulse-dot"></div>
+              </div>
+              <p>Updating results...</p>
+            </div>
+          </div>
+        )}
+
         {/* Listings Grid */}
-        <div className="listings-grid">
+        <div className={`listings-grid ${isFiltering ? 'filtering' : ''}`}>
           {filteredListings.map((listing, index) => (
             <div
               key={listing._id}
@@ -509,7 +545,6 @@ const Listings = () => {
                     </>
                   )}
                 </div>
-                {/* Removed image overlay with heart/eye buttons */}
                 <div className="listing-type">{listing.type}</div>
                 <div className="property-code">{listing.propertyCode}</div>
               </div>
@@ -563,7 +598,7 @@ const Listings = () => {
         </div>
 
         {/* No Results */}
-        {filteredListings.length === 0 && !isLoading && !error && (
+        {filteredListings.length === 0 && !isLoading && !error && !isFiltering && (
           <div className="no-results">
             <div className="no-results-icon">
               <MdLocationCity />
