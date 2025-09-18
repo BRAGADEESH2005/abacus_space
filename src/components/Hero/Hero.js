@@ -7,6 +7,8 @@ import {
   FaSearch,
   FaKey,
   FaHandshake,
+  FaCalculator,
+  FaGift,
 } from "react-icons/fa";
 import { MdLocationOn, MdVerified } from "react-icons/md";
 import { HiCurrencyDollar } from "react-icons/hi";
@@ -90,8 +92,8 @@ const Hero = () => {
     navigate("/listings");
   };
 
-  const handleContactUs = () => {
-    navigate("/contact");
+  const handleSpaceCalculator = () => {
+    navigate("/space-calculator");
   };
 
   const processSteps = [
@@ -199,11 +201,24 @@ const Hero = () => {
                 <FaRocket className="button-icon" />
                 <div className="button-ripple"></div>
               </button>
-              <button className="cta-secondary" onClick={handleContactUs}>
-                <span>Contact Us</span>
-                <FaArrowRight className="button-icon" />
+              <button className="cta-secondary calculator-btn" onClick={handleSpaceCalculator}>
+                <div className="btn-content">
+                  <div className="btn-main">
+                    <FaCalculator className="button-icon" />
+                    <span>Space Calculator</span>
+                  </div>
+                  <div className="btn-badge">
+                    <FaGift className="gift-icon" />
+                    <span>FREE</span>
+                  </div>
+                </div>
+                <div className="btn-subtitle">Calculate your ideal office space</div>
+                <FaArrowRight className="arrow-icon" />
               </button>
             </div>
+
+            
+
             <div className={`hero-stats ${isLoaded ? "animate-in" : ""}`}>
               <div className="stat-item">
                 <span className="stat-number">500+</span>
@@ -354,7 +369,7 @@ const Hero = () => {
                 </svg>
               </div>
 
-              {/* Floating Benefits */}
+              {/* Enhanced Floating Benefits */}
               <div className="floating-benefits">
                 <div className="benefit benefit-1">
                   <BsLightningChargeFill />
@@ -371,6 +386,10 @@ const Hero = () => {
                 <div className="benefit benefit-4">
                   <AiFillCheckCircle />
                   <span>Guaranteed</span>
+                </div>
+                <div className="benefit benefit-5">
+                  <FaCalculator />
+                  <span>Free Calculator</span>
                 </div>
               </div>
 

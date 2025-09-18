@@ -9,7 +9,9 @@ import Home from "./pages/Home/Home";
 import Listings from "./pages/Listings/Listings";
 import AboutUs from "./pages/AboutUs/AboutUs";
 import Contact from "./pages/Contact/Contact";
-
+import SpaceCalculator from "./pages/SpaceCalculator/SpaceCalculator";
+import Admin from "./pages/Admin/Admin";
+import RERARegistration from "./pages/RERA/RERARegistration";
 function App() {
   return (
     <div className="App">
@@ -17,9 +19,12 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/space-calculator" element={<SpaceCalculator />} />
           <Route path="/listings" element={<Listings />} />
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/rera-registration" element={<RERARegistration />} />
         </Routes>
         <Footer />
       </Router>

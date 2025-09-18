@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
+import axios from "axios";
 import {
   FaMapMarkerAlt,
   FaRupeeSign,
   FaSearch,
   FaFilter,
   FaEye,
-  FaHeart,
+  FaChevronLeft,
+  FaChevronRight,
 } from "react-icons/fa";
 import {
   MdSpaceDashboard,
@@ -22,106 +24,201 @@ const Listings = () => {
   const [selectedType, setSelectedType] = useState("all");
   const [selectedLocation, setSelectedLocation] = useState("all");
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [visibleCards, setVisibleCards] = useState([]);
   const [headerVisible, setHeaderVisible] = useState(false);
   const [filtersVisible, setFiltersVisible] = useState(false);
+  const [currentImageIndexes, setCurrentImageIndexes] = useState({});
+  const [availableLocations, setAvailableLocations] = useState([]);
+  const [availableTypes, setAvailableTypes] = useState([]);
+  const [pagination, setPagination] = useState({});
+  const [currentPage, setCurrentPage] = useState(1);
+  const [listingViews, setListingViews] = useState({}); // Store random views for each listing
   const sectionRef = useRef(null);
+  const imageIntervals = useRef({});
 
-  useEffect(() => {
-    // Mock listings data - moved inside useEffect to avoid dependency
-    const mockListings = [
-      {
-        id: 1,
-        title: "Premium Office Space in Cyber City",
-        type: "Office",
-        location: "Gurgaon",
-        area: "2500 sq ft",
-        price: "₹1,50,000/month",
-        image:
-          "https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&h=300&fit=crop",
-        features: ["Furnished", "Parking", "Security", "AC"],
-        rating: 4.8,
-        views: 245,
-      },
-      {
-        id: 2,
-        title: "Retail Shop in Select City Walk",
-        type: "Retail",
-        location: "Delhi",
-        area: "800 sq ft",
-        price: "₹80,000/month",
-        image:
-          "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400&h=300&fit=crop",
-        features: ["High Footfall", "Corner Unit", "Display Windows"],
-        rating: 4.6,
-        views: 189,
-      },
-      {
-        id: 3,
-        title: "Co-Working Space in Koramangala",
-        type: "Co-Working",
-        location: "Bangalore",
-        area: "50 seats",
-        price: "₹8,000/seat",
-        image:
-          "https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=400&h=300&fit=crop",
-        features: ["24/7 Access", "Meeting Rooms", "Cafeteria", "WiFi"],
-        rating: 4.9,
-        views: 324,
-      },
-      {
-        id: 4,
-        title: "Corporate Office in BKC",
-        type: "Office",
-        location: "Mumbai",
-        area: "5000 sq ft",
-        price: "₹3,50,000/month",
-        image:
-          "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=400&h=300&fit=crop",
-        features: ["Sea View", "Conference Room", "Reception", "Parking"],
-        rating: 4.7,
-        views: 412,
-      },
-      {
-        id: 5,
-        title: "Restaurant Space in Khan Market",
-        type: "Retail",
-        location: "Delhi",
-        area: "1200 sq ft",
-        price: "₹1,20,000/month",
-        image:
-          "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&h=300&fit=crop",
-        features: [
-          "Kitchen Setup",
-          "Terrace",
-          "Prime Location",
-          "License Ready",
-        ],
-        rating: 4.5,
-        views: 156,
-      },
-      {
-        id: 6,
-        title: "Tech Hub Co-Working in Whitefield",
-        type: "Co-Working",
-        location: "Bangalore",
-        area: "100 seats",
-        price: "₹7,500/seat",
-        image:
-          "https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=400&h=300&fit=crop",
-        features: ["Tech Setup", "Event Space", "Gaming Zone", "Gym"],
-        rating: 4.8,
-        views: 298,
-      },
-    ];
+  // Get base URL from environment variables
+  const API_BASE_URL =
+    process.env.REACT_APP_API_BASE_URL || "http://localhost:5000/api";
 
-    // Simulate loading
-    setTimeout(() => {
-      setListings(mockListings);
-      setFilteredListings(mockListings);
+  // Configure axios instance
+  const api = axios.create({
+    baseURL: `${API_BASE_URL}`,
+    timeout: 10000,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  // Generate random views from viewsRange
+  const generateRandomViews = (viewsRange) => {
+    if (!viewsRange || viewsRange.length !== 2) {
+      return Math.floor(Math.random() * 200) + 100; // Default fallback
+    }
+    const [min, max] = viewsRange;
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  };
+
+  // Fetch listings from backend
+  const fetchListings = async (page = 1, filters = {}) => {
+    try {
+      setIsLoading(true);
+      setError(null);
+
+      const params = {
+        page,
+        limit: 50, // Get more listings to avoid pagination in UI for now
+        ...filters,
+      };
+
+      // Remove empty filters
+      Object.keys(params).forEach((key) => {
+        if (params[key] === "" || params[key] === "all") {
+          delete params[key];
+        }
+      });
+
+      const response = await api.get("/listings", { params });
+
+      if (response.data.success) {
+        console.log("Fetched listings----:", response.data.data);
+        const listingsData = response.data.data;
+
+        // Initialize image indexes and random views for new listings
+        const initialIndexes = {};
+        const initialViews = {};
+        
+        listingsData.forEach((listing) => {
+          initialIndexes[listing._id] = 0;
+          // Generate random views from the listing's viewsRange
+          initialViews[listing._id] = generateRandomViews(listing.viewsRange);
+        });
+        
+        setCurrentImageIndexes((prev) => ({ ...prev, ...initialIndexes }));
+        setListingViews((prev) => ({ ...prev, ...initialViews }));
+
+        setListings(listingsData);
+        setFilteredListings(listingsData);
+        setPagination(response.data.pagination);
+        setCurrentPage(page);
+      } else {
+        throw new Error(response.data.message || "Failed to fetch listings");
+      }
+    } catch (error) {
+      console.error("Error fetching listings:", error);
+      setError(
+        error.response?.data?.message ||
+          error.message ||
+          "Failed to load properties"
+      );
+      setListings([]);
+      setFilteredListings([]);
+    } finally {
       setIsLoading(false);
-    }, 1000);
-  }, []); // Empty dependency array is now correct
+    }
+  };
+
+  // Fetch available locations
+  const fetchLocations = async () => {
+    try {
+      const response = await api.get("/listings/locations");
+      if (response.data.success) {
+        setAvailableLocations(response.data.data);
+      }
+    } catch (error) {
+      console.error("Error fetching locations:", error);
+    }
+  };
+
+  // Fetch available property types
+  const fetchPropertyTypes = async () => {
+    try {
+      const response = await api.get("/listings/types");
+      if (response.data.success) {
+        setAvailableTypes(response.data.data);
+      }
+    } catch (error) {
+      console.error("Error fetching property types:", error);
+    }
+  };
+
+  // Initial data fetch
+  useEffect(() => {
+    const initializeData = async () => {
+      await Promise.all([
+        fetchListings(),
+        fetchLocations(),
+        fetchPropertyTypes(),
+      ]);
+    };
+
+    initializeData();
+  }, []);
+
+  // Auto-scroll images
+  useEffect(() => {
+    filteredListings.forEach((listing) => {
+      if (listing.images && listing.images.length > 1) {
+        const interval = setInterval(() => {
+          setCurrentImageIndexes((prev) => ({
+            ...prev,
+            [listing._id]: (prev[listing._id] + 1) % listing.images.length,
+          }));
+        }, 3000); // Change image every 3 seconds
+
+        imageIntervals.current[listing._id] = interval;
+      }
+    });
+
+    return () => {
+      Object.values(imageIntervals.current).forEach((interval) => {
+        clearInterval(interval);
+      });
+      imageIntervals.current = {};
+    };
+  }, [filteredListings]);
+
+  const nextImage = (listingId, imageCount) => {
+    clearInterval(imageIntervals.current[listingId]); // Stop auto-scroll temporarily
+    setCurrentImageIndexes((prev) => ({
+      ...prev,
+      [listingId]: (prev[listingId] + 1) % imageCount,
+    }));
+
+    // Resume auto-scroll after manual navigation
+    setTimeout(() => {
+      if (imageCount > 1) {
+        const interval = setInterval(() => {
+          setCurrentImageIndexes((prev) => ({
+            ...prev,
+            [listingId]: (prev[listingId] + 1) % imageCount,
+          }));
+        }, 3000);
+        imageIntervals.current[listingId] = interval;
+      }
+    }, 5000);
+  };
+
+  const prevImage = (listingId, imageCount) => {
+    clearInterval(imageIntervals.current[listingId]); // Stop auto-scroll temporarily
+    setCurrentImageIndexes((prev) => ({
+      ...prev,
+      [listingId]: prev[listingId] === 0 ? imageCount - 1 : prev[listingId] - 1,
+    }));
+
+    // Resume auto-scroll after manual navigation
+    setTimeout(() => {
+      if (imageCount > 1) {
+        const interval = setInterval(() => {
+          setCurrentImageIndexes((prev) => ({
+            ...prev,
+            [listingId]: (prev[listingId] + 1) % imageCount,
+          }));
+        }, 3000);
+        imageIntervals.current[listingId] = interval;
+      }
+    }, 5000);
+  };
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -159,30 +256,45 @@ const Listings = () => {
     return () => observer.disconnect();
   }, [filteredListings]);
 
+  // Handle filters - now refetch from backend
   useEffect(() => {
-    let filtered = listings;
+    const debounceTimer = setTimeout(() => {
+      const filters = {};
 
-    if (searchTerm) {
-      filtered = filtered.filter(
-        (listing) =>
-          listing.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          listing.location.toLowerCase().includes(searchTerm.toLowerCase())
-      );
+      if (searchTerm) {
+        filters.search = searchTerm;
+      }
+
+      if (selectedType !== "all") {
+        filters.type = selectedType;
+      }
+
+      if (selectedLocation !== "all") {
+        filters.location = selectedLocation;
+      }
+
+      fetchListings(1, filters);
+      setVisibleCards([]); // Reset visible cards when filters change
+    }, 500); // Debounce search to avoid too many API calls
+
+    return () => clearTimeout(debounceTimer);
+  }, [searchTerm, selectedType, selectedLocation]);
+
+  // Handle view listing (increment views)
+  const handleViewListing = async (listingId) => {
+    try {
+      // Increment the random view count locally
+      setListingViews((prev) => ({
+        ...prev,
+        [listingId]: (prev[listingId] || 0) + 1,
+      }));
+
+      // Optionally make API call to track real views in backend
+      await api.get(`/listings/${listingId}`);
+    } catch (error) {
+      console.error("Error viewing listing:", error);
     }
-
-    if (selectedType !== "all") {
-      filtered = filtered.filter((listing) => listing.type === selectedType);
-    }
-
-    if (selectedLocation !== "all") {
-      filtered = filtered.filter(
-        (listing) => listing.location === selectedLocation
-      );
-    }
-
-    setFilteredListings(filtered);
-    setVisibleCards([]); // Reset visible cards when filters change
-  }, [searchTerm, selectedType, selectedLocation, listings]);
+  };
 
   return (
     <div className="listings-page" ref={sectionRef}>
@@ -191,6 +303,19 @@ const Listings = () => {
         <div className="listings-loading">
           <div className="loading-spinner"></div>
           <p>Loading amazing properties for you...</p>
+        </div>
+      )}
+
+      {/* Error Screen */}
+      {error && !isLoading && (
+        <div className="listings-error">
+          <div className="error-content">
+            <h3>Something went wrong</h3>
+            <p>{error}</p>
+            <button className="btn-primary" onClick={() => fetchListings()}>
+              Try Again
+            </button>
+          </div>
         </div>
       )}
 
@@ -229,7 +354,7 @@ const Listings = () => {
               <FaSearch className="search-icon" />
               <input
                 type="text"
-                placeholder="Search by location, property name..."
+                placeholder="Search by location, property name, or code..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -257,10 +382,11 @@ const Listings = () => {
                   onChange={(e) => setSelectedLocation(e.target.value)}
                 >
                   <option value="all">All Locations</option>
-                  <option value="Delhi">Delhi</option>
-                  <option value="Mumbai">Mumbai</option>
-                  <option value="Bangalore">Bangalore</option>
-                  <option value="Gurgaon">Gurgaon</option>
+                  {availableLocations.map((location) => (
+                    <option key={location} value={location}>
+                      {location}
+                    </option>
+                  ))}
                 </select>
                 <MdKeyboardArrowDown className="select-arrow" />
               </div>
@@ -277,9 +403,11 @@ const Listings = () => {
                   onChange={(e) => setSelectedType(e.target.value)}
                 >
                   <option value="all">All Types</option>
-                  <option value="Office">Office Space</option>
-                  <option value="Retail">Retail Space</option>
-                  <option value="Co-Working">Co-Working</option>
+                  {availableTypes.map((type) => (
+                    <option key={type} value={type}>
+                      {type === "Co-Working" ? "Co-Working" : `${type} Space`}
+                    </option>
+                  ))}
                 </select>
                 <MdKeyboardArrowDown className="select-arrow" />
               </div>
@@ -321,28 +449,69 @@ const Listings = () => {
         <div className="listings-grid">
           {filteredListings.map((listing, index) => (
             <div
-              key={listing.id}
+              key={listing._id}
               data-index={index}
               className={`listing-card observe-animation ${
                 visibleCards.includes(index) ? "visible" : ""
               }`}
             >
               <div className="listing-image">
-                <img src={listing.image} alt={listing.title} loading="lazy" />
-                <div className="image-overlay">
-                  <div className="overlay-actions">
-                    <button className="action-btn favorite">
-                      <FaHeart />
-                    </button>
-                    <button className="action-btn view">
-                      <FaEye />
-                    </button>
-                  </div>
+                <div className="image-carousel">
+                  <img
+                    src={
+                      listing.images && listing.images.length > 0
+                        ? listing.images[currentImageIndexes[listing._id] || 0]
+                        : "https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&h=300&fit=crop"
+                    }
+                    alt={listing.title}
+                    loading="lazy"
+                  />
+                  {listing.images && listing.images.length > 1 && (
+                    <>
+                      <button
+                        className="carousel-btn prev-btn"
+                        onClick={() =>
+                          prevImage(listing._id, listing.images.length)
+                        }
+                      >
+                        <FaChevronLeft />
+                      </button>
+                      <button
+                        className="carousel-btn next-btn"
+                        onClick={() =>
+                          nextImage(listing._id, listing.images.length)
+                        }
+                      >
+                        <FaChevronRight />
+                      </button>
+                      <div className="image-indicators">
+                        {listing.images.map((_, imgIndex) => (
+                          <span
+                            key={imgIndex}
+                            className={`indicator ${
+                              imgIndex ===
+                              (currentImageIndexes[listing._id] || 0)
+                                ? "active"
+                                : ""
+                            }`}
+                            onClick={() => {
+                              clearInterval(
+                                imageIntervals.current[listing._id]
+                              );
+                              setCurrentImageIndexes((prev) => ({
+                                ...prev,
+                                [listing._id]: imgIndex,
+                              }));
+                            }}
+                          />
+                        ))}
+                      </div>
+                    </>
+                  )}
                 </div>
+                {/* Removed image overlay with heart/eye buttons */}
                 <div className="listing-type">{listing.type}</div>
-                <div className="listing-rating">
-                  <span>★ {listing.rating}</span>
-                </div>
+                <div className="property-code">{listing.propertyCode}</div>
               </div>
 
               <div className="listing-content">
@@ -364,22 +533,28 @@ const Listings = () => {
                 </div>
 
                 <div className="listing-features">
-                  {listing.features.map((feature, idx) => (
-                    <span key={idx} className="feature-tag">
-                      {feature}
-                    </span>
-                  ))}
+                  {listing.features &&
+                    listing.features.map((feature, idx) => (
+                      <span key={idx} className="feature-tag">
+                        {feature}
+                      </span>
+                    ))}
                 </div>
 
                 <div className="listing-footer">
                   <div className="listing-meta">
                     <span className="views-count">
-                      <FaEye /> {listing.views} views
+                      <FaEye /> {listingViews[listing._id] || generateRandomViews(listing.viewsRange)} views
                     </span>
                   </div>
                   <div className="listing-actions">
                     <button className="btn-secondary">Contact</button>
-                    <button className="btn-primary">View Details</button>
+                    <button
+                      className="btn-primary"
+                      onClick={() => handleViewListing(listing._id)}
+                    >
+                      View Details
+                    </button>
                   </div>
                 </div>
               </div>
@@ -388,7 +563,7 @@ const Listings = () => {
         </div>
 
         {/* No Results */}
-        {filteredListings.length === 0 && !isLoading && (
+        {filteredListings.length === 0 && !isLoading && !error && (
           <div className="no-results">
             <div className="no-results-icon">
               <MdLocationCity />

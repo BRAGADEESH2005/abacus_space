@@ -41,7 +41,7 @@ const Footer = () => {
               </div>
               <div className="footer-contact-item">
                 <FaEnvelope />
-                <span>info@abacusspaces.com</span>
+                <span>info@abacuspaces.com</span>
               </div>
             </div>
 
@@ -95,11 +95,11 @@ const Footer = () => {
           </div>
 
           <div className="footer-legal">
-            <a href="/privacy-policy">Privacy Policy</a>
+            <Link to="/privacy-policy">Privacy Policy</Link>
             <span>•</span>
-            <a href="/terms-of-service">Terms</a>
+            <Link to="/terms-of-service">Terms</Link>
             <span>•</span>
-            <a href="/rera-registration">RERA: A52100000355</a>
+            <Link to="/rera-registration">RERA</Link>
           </div>
         </div>
       </div>
