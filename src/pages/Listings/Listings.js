@@ -9,13 +9,21 @@ import {
   FaChevronLeft,
   FaChevronRight,
   FaSpinner,
+  FaTimes,
+  FaFileAlt,
+  FaCheckCircle,
 } from "react-icons/fa";
 import {
   MdSpaceDashboard,
   MdLocationCity,
   MdKeyboardArrowDown,
+  MdEmail,
+  MdPhone,
+  MdPerson,
+  MdBusiness,
 } from "react-icons/md";
 import { BiFilterAlt } from "react-icons/bi";
+import { FaBuilding } from "react-icons/fa";
 import "./Listings.css";
 
 const Listings = () => {
@@ -35,9 +43,25 @@ const Listings = () => {
   const [pagination, setPagination] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
   const [listingViews, setListingViews] = useState({});
-  const [isFiltering, setIsFiltering] = useState(false); // New state for filter loading
+  const [isFiltering, setIsFiltering] = useState(false);
+
+  // New states for report popup
+  const [showReportPopup, setShowReportPopup] = useState(false);
+  const [selectedListing, setSelectedListing] = useState(null);
+  const [isSubmittingReport, setIsSubmittingReport] = useState(false);
+  const [reportSubmissionSuccess, setReportSubmissionSuccess] = useState(false);
+  const [userInfo, setUserInfo] = useState({
+    name: "",
+    company: "",
+    designation: "",
+    phone: "",
+    email: "",
+  });
+  const [reportErrors, setReportErrors] = useState({});
+
   const sectionRef = useRef(null);
   const imageIntervals = useRef({});
+  const popupRef = useRef(null);
 
   // Get base URL from environment variables
   const API_BASE_URL =
@@ -62,7 +86,11 @@ const Listings = () => {
   };
 
   // Fetch listings from backend
-  const fetchListings = async (page = 1, filters = {}, showFilterLoader = false) => {
+  const fetchListings = async (
+    page = 1,
+    filters = {},
+    showFilterLoader = false
+  ) => {
     try {
       if (showFilterLoader) {
         setIsFiltering(true);
@@ -93,13 +121,13 @@ const Listings = () => {
         // Initialize image indexes and random views for new listings
         const initialIndexes = {};
         const initialViews = {};
-        
+
         listingsData.forEach((listing) => {
           initialIndexes[listing._id] = 0;
           // Generate random views from the listing's viewsRange
           initialViews[listing._id] = generateRandomViews(listing.viewsRange);
         });
-        
+
         setCurrentImageIndexes((prev) => ({ ...prev, ...initialIndexes }));
         setListingViews((prev) => ({ ...prev, ...initialViews }));
 
@@ -148,6 +176,141 @@ const Listings = () => {
       console.error("Error fetching property types:", error);
     }
   };
+
+  // Handle Get Report button click
+  const handleGetReport = (listing) => {
+    setSelectedListing(listing);
+    setShowReportPopup(true);
+    setReportSubmissionSuccess(false);
+    setReportErrors({});
+    // Reset form
+    setUserInfo({
+      name: "",
+      company: "",
+      designation: "",
+      phone: "",
+      email: "",
+    });
+  };
+
+  // Close popup
+  const closeReportPopup = () => {
+    setShowReportPopup(false);
+    setSelectedListing(null);
+    setReportSubmissionSuccess(false);
+    setReportErrors({});
+    setUserInfo({
+      name: "",
+      company: "",
+      designation: "",
+      phone: "",
+      email: "",
+    });
+  };
+
+  // Validate form
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!userInfo.name.trim()) newErrors.name = "Name is required";
+    if (!userInfo.company.trim())
+      newErrors.company = "Company name is required";
+    if (!userInfo.designation.trim())
+      newErrors.designation = "Designation is required";
+    if (!userInfo.phone.trim()) newErrors.phone = "Phone number is required";
+    if (!userInfo.email.trim()) newErrors.email = "Email is required";
+    else if (!/\S+@\S+\.\S+/.test(userInfo.email))
+      newErrors.email = "Email is invalid";
+
+    setReportErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  // Submit report request using existing backend API
+  const submitReportRequest = async () => {
+    if (!validateForm()) return;
+
+    setIsSubmittingReport(true);
+    setReportErrors({});
+
+    try {
+      // Prepare data in the format expected by the existing leads API
+      const requestData = {
+        userInfo,
+        propertyDetails: {
+          propertyId: selectedListing._id,
+          propertyCode: selectedListing.propertyCode,
+          title: selectedListing.title,
+          location: selectedListing.location,
+          area: selectedListing.area,
+          price: selectedListing.price,
+          type: selectedListing.type,
+          features: selectedListing.features,
+        },
+        source: "propertyreport", // Different source to identify report requests
+        requestType: "property_report",
+      };
+
+      console.log("Submitting report request:", requestData);
+
+      const response = await api.post("/leads", requestData);
+
+      if (response.data.success) {
+        console.log(
+          "Report request submitted successfully:",
+          response.data.data
+        );
+        setReportSubmissionSuccess(true);
+
+        // Auto-close popup after 3 seconds
+        setTimeout(() => {
+          closeReportPopup();
+        }, 3000);
+      } else {
+        setReportErrors({
+          submit: response.data.message || "Failed to submit request",
+        });
+      }
+    } catch (error) {
+      console.error("Error submitting report request:", error);
+
+      let errorMessage = "Unable to connect to server. Please try again later.";
+
+      if (error.response) {
+        errorMessage =
+          error.response.data?.message ||
+          `Server error: ${error.response.status}`;
+      } else if (error.request) {
+        errorMessage =
+          "No response from server. Please check your internet connection.";
+      } else if (error.code === "ECONNABORTED") {
+        errorMessage = "Request timeout. Please try again.";
+      }
+
+      setReportErrors({ submit: errorMessage });
+    } finally {
+      setIsSubmittingReport(false);
+    }
+  };
+
+  // Close popup when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (popupRef.current && !popupRef.current.contains(event.target)) {
+        closeReportPopup();
+      }
+    };
+
+    if (showReportPopup) {
+      document.addEventListener("mousedown", handleClickOutside);
+      document.body.style.overflow = "hidden"; // Prevent background scroll
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.body.style.overflow = "unset";
+    };
+  }, [showReportPopup]);
 
   // Initial data fetch
   useEffect(() => {
@@ -482,7 +645,7 @@ const Listings = () => {
         )}
 
         {/* Listings Grid */}
-        <div className={`listings-grid ${isFiltering ? 'filtering' : ''}`}>
+        <div className={`listings-grid ${isFiltering ? "filtering" : ""}`}>
           {filteredListings.map((listing, index) => (
             <div
               key={listing._id}
@@ -579,16 +742,19 @@ const Listings = () => {
                 <div className="listing-footer">
                   <div className="listing-meta">
                     <span className="views-count">
-                      <FaEye /> {listingViews[listing._id] || generateRandomViews(listing.viewsRange)} views
+                      <FaEye />{" "}
+                      {listingViews[listing._id] ||
+                        generateRandomViews(listing.viewsRange)}{" "}
+                      views
                     </span>
                   </div>
                   <div className="listing-actions">
-                    <button className="btn-secondary">Contact</button>
                     <button
-                      className="btn-primary"
-                      onClick={() => handleViewListing(listing._id)}
+                      className="btn-primary get-report-btn"
+                      onClick={() => handleGetReport(listing)}
                     >
-                      View Details
+                      <FaFileAlt />
+                      Get Report
                     </button>
                   </div>
                 </div>
@@ -598,26 +764,276 @@ const Listings = () => {
         </div>
 
         {/* No Results */}
-        {filteredListings.length === 0 && !isLoading && !error && !isFiltering && (
-          <div className="no-results">
-            <div className="no-results-icon">
-              <MdLocationCity />
+        {filteredListings.length === 0 &&
+          !isLoading &&
+          !error &&
+          !isFiltering && (
+            <div className="no-results">
+              <div className="no-results-icon">
+                <MdLocationCity />
+              </div>
+              <h3>No properties found</h3>
+              <p>Try adjusting your search criteria or browse all properties</p>
+              <button
+                className="btn-primary"
+                onClick={() => {
+                  setSearchTerm("");
+                  setSelectedType("all");
+                  setSelectedLocation("all");
+                }}
+              >
+                Show All Properties
+              </button>
             </div>
-            <h3>No properties found</h3>
-            <p>Try adjusting your search criteria or browse all properties</p>
-            <button
-              className="btn-primary"
-              onClick={() => {
-                setSearchTerm("");
-                setSelectedType("all");
-                setSelectedLocation("all");
-              }}
-            >
-              Show All Properties
-            </button>
-          </div>
-        )}
+          )}
       </div>
+
+      {/* Report Request Popup */}
+      {showReportPopup && (
+        <div className="listings-popup-overlay">
+          <div className="listings-popup-container" ref={popupRef}>
+            <div className="listings-popup-header">
+              <h3>
+                <FaFileAlt
+                  style={{ marginRight: "0.5rem", color: "#23c6a4" }}
+                />
+                Get Property Report
+              </h3>
+              <button
+                className="listings-popup-close"
+                onClick={closeReportPopup}
+              >
+                <FaTimes />
+              </button>
+            </div>
+
+            <div className="listings-popup-content">
+              {selectedListing && (
+                <div className="listings-popup-property-summary">
+                  <h4>{selectedListing.title}</h4>
+                  <p>
+                    <FaMapMarkerAlt style={{ marginRight: "0.3rem" }} />
+                    {selectedListing.location} • {selectedListing.area} •{" "}
+                    {selectedListing.price}
+                  </p>
+                  <p className="listings-popup-property-code">
+                    Property Code: {selectedListing.propertyCode}
+                  </p>
+                </div>
+              )}
+
+              {!reportSubmissionSuccess ? (
+                <>
+                  <p className="listings-popup-description">
+                    Please provide your details to receive a comprehensive
+                    property report. Our team will contact you with detailed
+                    information about this property.
+                  </p>
+
+                  {reportErrors.submit && (
+                    <div className="listings-popup-error-banner">
+                      <span className="listings-popup-error-icon">⚠️</span>
+                      {reportErrors.submit}
+                    </div>
+                  )}
+
+                  <div className="listings-popup-form">
+                    <div className="listings-popup-form-grid">
+                      <div
+                        className={`listings-popup-form-group ${
+                          reportErrors.name ? "listings-popup-error" : ""
+                        }`}
+                      >
+                        <label>
+                          <MdPerson className="listings-popup-form-icon" />
+                          Full Name *
+                        </label>
+                        <input
+                          type="text"
+                          value={userInfo.name}
+                          onChange={(e) =>
+                            setUserInfo((prev) => ({
+                              ...prev,
+                              name: e.target.value,
+                            }))
+                          }
+                          placeholder="Enter your full name"
+                          disabled={isSubmittingReport}
+                        />
+                        {reportErrors.name && (
+                          <span className="listings-popup-error-message">
+                            {reportErrors.name}
+                          </span>
+                        )}
+                      </div>
+
+                      <div
+                        className={`listings-popup-form-group ${
+                          reportErrors.company ? "listings-popup-error" : ""
+                        }`}
+                      >
+                        <label>
+                          <MdBusiness className="listings-popup-form-icon" />
+                          Company Name *
+                        </label>
+                        <input
+                          type="text"
+                          value={userInfo.company}
+                          onChange={(e) =>
+                            setUserInfo((prev) => ({
+                              ...prev,
+                              company: e.target.value,
+                            }))
+                          }
+                          placeholder="Enter your company name"
+                          disabled={isSubmittingReport}
+                        />
+                        {reportErrors.company && (
+                          <span className="listings-popup-error-message">
+                            {reportErrors.company}
+                          </span>
+                        )}
+                      </div>
+
+                      <div
+                        className={`listings-popup-form-group ${
+                          reportErrors.designation ? "listings-popup-error" : ""
+                        }`}
+                      >
+                        <label>
+                          <FaBuilding className="listings-popup-form-icon" />
+                          Designation *
+                        </label>
+                        <input
+                          type="text"
+                          value={userInfo.designation}
+                          onChange={(e) =>
+                            setUserInfo((prev) => ({
+                              ...prev,
+                              designation: e.target.value,
+                            }))
+                          }
+                          placeholder="Enter your designation"
+                          disabled={isSubmittingReport}
+                        />
+                        {reportErrors.designation && (
+                          <span className="listings-popup-error-message">
+                            {reportErrors.designation}
+                          </span>
+                        )}
+                      </div>
+
+                      <div
+                        className={`listings-popup-form-group ${
+                          reportErrors.phone ? "listings-popup-error" : ""
+                        }`}
+                      >
+                        <label>
+                          <MdPhone className="listings-popup-form-icon" />
+                          Phone Number *
+                        </label>
+                        <input
+                          type="tel"
+                          value={userInfo.phone}
+                          onChange={(e) =>
+                            setUserInfo((prev) => ({
+                              ...prev,
+                              phone: e.target.value,
+                            }))
+                          }
+                          placeholder="Enter your phone number"
+                          disabled={isSubmittingReport}
+                        />
+                        {reportErrors.phone && (
+                          <span className="listings-popup-error-message">
+                            {reportErrors.phone}
+                          </span>
+                        )}
+                      </div>
+
+                      <div
+                        className={`listings-popup-form-group listings-popup-full-width ${
+                          reportErrors.email ? "listings-popup-error" : ""
+                        }`}
+                      >
+                        <label>
+                          <MdEmail className="listings-popup-form-icon" />
+                          Email Address *
+                        </label>
+                        <input
+                          type="email"
+                          value={userInfo.email}
+                          onChange={(e) =>
+                            setUserInfo((prev) => ({
+                              ...prev,
+                              email: e.target.value,
+                            }))
+                          }
+                          placeholder="Enter your email address"
+                          disabled={isSubmittingReport}
+                        />
+                        {reportErrors.email && (
+                          <span className="listings-popup-error-message">
+                            {reportErrors.email}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="listings-popup-actions">
+                    <button
+                      className="listings-popup-btn-secondary"
+                      onClick={closeReportPopup}
+                      disabled={isSubmittingReport}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      className="listings-popup-btn-primary"
+                      onClick={submitReportRequest}
+                      disabled={isSubmittingReport}
+                    >
+                      {isSubmittingReport ? (
+                        <>
+                          <FaSpinner className="listings-popup-loading-spinner" />
+                          Submitting...
+                        </>
+                      ) : (
+                        <>
+                          <FaFileAlt />
+                          Request Report
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <div className="listings-popup-success-content">
+                  <div className="listings-popup-success-icon">
+                    <FaCheckCircle />
+                  </div>
+                  <h4>Request Submitted Successfully!</h4>
+                  <p>
+                    Thank you for your interest in this property. Our team will
+                    connect with you soon with a detailed property report and
+                    all the information you need.
+                  </p>
+                  <p className="listings-popup-success-note">
+                    You will also receive a confirmation email shortly.
+                  </p>
+                  <button
+                    className="listings-popup-btn-primary"
+                    onClick={closeReportPopup}
+                  >
+                    Got It
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -201,23 +201,22 @@ const Hero = () => {
                 <FaRocket className="button-icon" />
                 <div className="button-ripple"></div>
               </button>
-              <button className="cta-secondary calculator-btn" onClick={handleSpaceCalculator}>
+              <button
+                className="cta-secondary calculator-btn"
+                onClick={handleSpaceCalculator}
+              >
                 <div className="btn-content">
                   <div className="btn-main">
                     <FaCalculator className="button-icon" />
                     <span>Space Calculator</span>
                   </div>
-                  <div className="btn-badge">
-                    <FaGift className="gift-icon" />
-                    <span>FREE</span>
-                  </div>
                 </div>
-                <div className="btn-subtitle">Calculate your ideal office space</div>
+                <div className="btn-subtitle">
+                  Calculate your ideal office space for free
+                </div>
                 <FaArrowRight className="arrow-icon" />
               </button>
             </div>
-
-            
 
             <div className={`hero-stats ${isLoaded ? "animate-in" : ""}`}>
               <div className="stat-item">
