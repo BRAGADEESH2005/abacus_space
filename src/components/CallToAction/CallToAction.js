@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import {
   FaArrowRight,
-  FaPhone,
   FaBuilding,
   FaHandshake,
-  FaMapMarkerAlt,
   FaUsers,
 } from "react-icons/fa";
 import { MdCall, MdLocationOn } from "react-icons/md";

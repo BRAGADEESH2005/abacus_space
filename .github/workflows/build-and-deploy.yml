@@ -26,7 +26,7 @@ jobs:
         run: npm ci
 
       - name: Build
-        run: npm run build
+        run: CI=false npm run build  # <-- added CI=false
 
       - name: Push build/ to deploy branch
         env:

@@ -26,7 +26,6 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/rera-registration" element={<RERARegistration />} />
-          // In your Routes section, add this new route:
           <Route path="/admin/leads" element={<LeadsManagement />} />
         </Routes>
         <Footer />

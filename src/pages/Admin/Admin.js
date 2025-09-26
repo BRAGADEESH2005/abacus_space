@@ -25,7 +25,6 @@ import {
 } from "react-icons/fa";
 import { MdSpaceDashboard, MdLocationCity } from "react-icons/md";
 import { BiFilterAlt } from "react-icons/bi";
-import LeadsManagement from "./LeadsManagement/LeadsManagement";
 import "./Admin.css";
 
 const Admin = () => {
@@ -43,7 +42,6 @@ const Admin = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [uploadingImages, setUploadingImages] = useState(false);
-  const [currentView, setCurrentView] = useState("dashboard");
   
   // Validation states
   const [validationErrors, setValidationErrors] = useState({});
@@ -1601,7 +1599,6 @@ const Admin = () => {
                     )}
                   </div>
                   {/* ADD THIS NEW SECTION RIGHT AFTER THE PRICE FIELD: */}
-                  // FOR EDIT LISTING FORM:
                   <div className="admin-form-group">
                     <label>
                       <FaEye className="admin-form-icon" />

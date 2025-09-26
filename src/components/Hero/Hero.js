@@ -8,7 +8,6 @@ import {
   FaKey,
   FaHandshake,
   FaCalculator,
-  FaGift,
 } from "react-icons/fa";
 import { MdLocationOn, MdVerified } from "react-icons/md";
 import { HiCurrencyDollar } from "react-icons/hi";

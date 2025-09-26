@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { HiOfficeBuilding } from 'react-icons/hi';
 import { FaStore, FaUsers, FaArrowRight } from 'react-icons/fa';
-import { MdBusinessCenter } from 'react-icons/md';
 import './Services.css';
 
 const Services = () => {
