@@ -12,6 +12,7 @@ import Contact from "./pages/Contact/Contact";
 import SpaceCalculator from "./pages/SpaceCalculator/SpaceCalculator";
 import Admin from "./pages/Admin/Admin";
 import RERARegistration from "./pages/RERA/RERARegistration";
+import LeadsManagement from "./pages/Admin/LeadsManagement/LeadsManagement";
 function App() {
   return (
     <div className="App">
@@ -25,6 +26,8 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/rera-registration" element={<RERARegistration />} />
+          // In your Routes section, add this new route:
+          <Route path="/admin/leads" element={<LeadsManagement />} />
         </Routes>
         <Footer />
       </Router>

@@ -295,7 +295,7 @@ const SpaceCalculator = () => {
             <div className="sc-header-icon">
               <FaCalculator />
             </div>
-            <h1>Space Calculator</h1>
+            <h1>Office Space Calculator</h1>
             <p>
               Calculate your perfect office space requirements with our
               intelligent calculator
