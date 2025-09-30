@@ -1,5 +1,5 @@
-.leads-management {
-  padding: 2rem;
+.ldm-leads-management {
+  padding: 5rem;
   background: #f8fafc;
   min-height: 100vh;
   color: #1a2f5c;
@@ -382,12 +382,12 @@
   font-size: 0.75rem;
 }
 
-.action-buttons {
+.ldm-action-buttons {
   display: flex;
   gap: 0.5rem;
 }
 
-.action-btn {
+.ldm-action-btn {
   width: 32px;
   height: 32px;
   border: none;
@@ -472,7 +472,7 @@
 }
 
 /* Modal Styles */
-.modal-overlay {
+.ldm-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -486,7 +486,7 @@
   padding: 1rem;
 }
 
-.modal-container {
+.ldm-modal-container {
   background: white;
   border-radius: 16px;
   width: 100%;
@@ -496,7 +496,7 @@
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
 }
 
-.modal-header {
+.ldm-modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -505,7 +505,7 @@
   background: #f8fafc;
 }
 
-.modal-header h3 {
+.ldm-modal-header h3 {
   margin: 0;
   color: #1a2f5c;
   display: flex;
@@ -513,7 +513,7 @@
   gap: 0.5rem;
 }
 
-.modal-icon {
+.ldm-modal-icon {
   color: #23c6a4;
 }
 
@@ -533,7 +533,7 @@
   color: #ef4444;
 }
 
-.modal-content {
+.ldm-modal-content {
   padding: 2rem;
 }
 
@@ -544,17 +544,17 @@
   gap: 2rem;
 }
 
-.detail-section {
+.ldm-detail-section {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
-.detail-section.full-width {
+.ldm-detail-section.full-width {
   grid-column: 1 / -1;
 }
 
-.detail-section h4 {
+.ldm-detail-section h4 {
   margin: 0;
   color: #1a2f5c;
   font-size: 1.125rem;
@@ -562,29 +562,29 @@
   border-bottom: 2px solid #e5e7eb;
 }
 
-.detail-item {
+.ldm-detail-item {
   display: flex;
   align-items: center;
   gap: 0.75rem;
   padding: 0.5rem 0;
 }
 
-.detail-icon {
+.ldm-detail-icon {
   color: #23c6a4;
   font-size: 1rem;
 }
 
-.detail-item label {
+.ldm-detail-item label {
   font-weight: 600;
   color: #374151;
   min-width: 80px;
 }
 
-.detail-item span {
+.ldm-detail-item span {
   color: #64748b;
 }
 
-.area-highlight {
+.ldm-area-highlight {
   background: linear-gradient(135deg, #23c6a4, #20b2aa);
   color: white;
   padding: 0.25rem 0.75rem;
@@ -695,23 +695,23 @@
 }
 
 /* Edit Lead Modal */
-.edit-lead-modal {
+.ldm-edit-lead-modal {
   max-width: 500px;
 }
 
-.lead-summary {
+.ldm-lead-summary {
   background: #f8fafc;
   padding: 1rem;
   border-radius: 8px;
   margin-bottom: 1.5rem;
 }
 
-.lead-summary h4 {
+.ldm-lead-summary h4 {
   margin: 0 0 0.25rem 0;
   color: #1a2f5c;
 }
 
-.lead-summary p {
+.ldm-lead-summary p {
   margin: 0;
   color: #64748b;
 }
@@ -722,20 +722,20 @@
   gap: 1.5rem;
 }
 
-.form-group {
+.ldm-form-group {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
 
-.form-group label {
+.ldm-form-group label {
   font-weight: 500;
   color: #374151;
 }
 
-.form-group select,
-.form-group input,
-.form-group textarea {
+.ldm-form-group select,
+.ldm-form-group input,
+.ldm-form-group textarea {
   padding: 0.75rem;
   border: 2px solid #e5e7eb;
   border-radius: 6px;
@@ -743,14 +743,14 @@
   transition: border-color 0.2s ease;
 }
 
-.form-group select:focus,
-.form-group input:focus,
-.form-group textarea:focus {
+.ldm-form-group select:focus,
+.ldm-form-group input:focus,
+.ldm-form-group textarea:focus {
   outline: none;
   border-color: #23c6a4;
 }
 
-.form-group textarea {
+.ldm-form-group textarea {
   resize: vertical;
   min-height: 100px;
 }
@@ -852,7 +852,7 @@
 }
 
 @media (max-width: 768px) {
-  .leads-management {
+  .ldm-leads-management {
     padding: 1rem;
   }
 
@@ -876,12 +876,12 @@
     grid-template-columns: 1fr;
   }
 
-  .modal-container {
+  .ldm-modal-container {
     margin: 1rem;
     max-width: calc(100vw - 2rem);
   }
 
-  .modal-content {
+  .ldm-modal-content {
     padding: 1rem;
   }
 }
@@ -930,11 +930,11 @@
     justify-content: center;
   }
 
-  .modal-header {
+  .ldm-modal-header {
     padding: 1rem;
   }
 
-  .modal-header h3 {
+  .ldm-modal-header h3 {
     font-size: 1.125rem;
   }
 }

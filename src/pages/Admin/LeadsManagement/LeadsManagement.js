@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import {
   FaSearch,
   FaDownload,
@@ -28,6 +29,7 @@ import { MdDashboard, MdRefresh } from 'react-icons/md';
 import './LeadsManagement.css';
 
 const LeadsManagement = ({ onNavigateBack }) => {
+   const navigate = useNavigate();
   const [leads, setLeads] = useState([]);
   const [filteredLeads, setFilteredLeads] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -59,6 +61,14 @@ const LeadsManagement = ({ onNavigateBack }) => {
       'Content-Type': 'application/json',
     },
   });
+    useEffect(() => {
+    const authStatus = sessionStorage.getItem("adminAuthenticated");
+
+    // If NOT authenticated → redirect to /admin
+    if (authStatus !== "true") {
+      navigate("/admin");
+    }
+  }, [navigate]);
 
   // Fetch leads with filters
   const fetchLeads = async (page = 1, search = '', source = 'all', status = 'all') => {
@@ -258,14 +268,11 @@ const LeadsManagement = ({ onNavigateBack }) => {
   }
 
   return (
-    <div className="leads-management">
+    <div className="ldm-leads-management">
       {/* Header */}
       <div className="leads-header">
         <div className="header-left">
-          <button className="back-btn" onClick={onNavigateBack}>
-            <FaArrowLeft />
-            Back to Dashboard
-          </button>
+          
           <div className="header-title">
             <h1>
               <MdDashboard className="header-icon" />
@@ -449,10 +456,10 @@ const LeadsManagement = ({ onNavigateBack }) => {
                     <span>{formatDate(lead.createdAt)}</span>
                   </div>
                 </td>
-                <td className="actions-cell">
-                  <div className="action-buttons">
+                <td className="ldm-actions-cell">
+                  <div className="ldm-action-buttons">
                     <button
-                      className="action-btn view-btn"
+                      className="ldm-action-btn view-btn"
                       onClick={() => {
                         setSelectedLead(lead);
                         setShowLeadDetails(true);
@@ -462,7 +469,7 @@ const LeadsManagement = ({ onNavigateBack }) => {
                       <FaEye />
                     </button>
                     <button
-                      className="action-btn edit-btn"
+                      className="ldm-action-btn edit-btn"
                       onClick={() => setEditingLead(lead)}
                       title="Edit Status"
                     >
@@ -515,11 +522,11 @@ const LeadsManagement = ({ onNavigateBack }) => {
 
       {/* Lead Details Modal */}
       {showLeadDetails && selectedLead && (
-        <div className="modal-overlay">
-          <div className="modal-container lead-details-modal">
-            <div className="modal-header">
+        <div className="ldm-modal-overlay">
+          <div className="ldm-modal-container lead-details-modal">
+            <div className="ldm-modal-header">
               <h3>
-                <FaUser className="modal-icon" />
+                <FaUser className="ldm-modal-icon" />
                 Lead Details
               </h3>
               <button className="close-btn" onClick={() => setShowLeadDetails(false)}>
@@ -527,40 +534,40 @@ const LeadsManagement = ({ onNavigateBack }) => {
               </button>
             </div>
             
-            <div className="modal-content">
+            <div className="ldm-modal-content">
               <div className="lead-details-grid">
-                <div className="detail-section">
+                <div className="ldm-detail-section">
                   <h4>Personal Information</h4>
-                  <div className="detail-item">
-                    <FaUser className="detail-icon" />
+                  <div className="ldm-detail-item">
+                    <FaUser className="ldm-detail-icon" />
                     <div>
                       <label>Name:</label>
                       <span>{selectedLead.name}</span>
                     </div>
                   </div>
-                  <div className="detail-item">
-                    <FaBriefcase className="detail-icon" />
+                  <div className="ldm-detail-item">
+                    <FaBriefcase className="ldm-detail-icon" />
                     <div>
                       <label>Designation:</label>
                       <span>{selectedLead.designation}</span>
                     </div>
                   </div>
-                  <div className="detail-item">
-                    <FaBuilding className="detail-icon" />
+                  <div className="ldm-detail-item">
+                    <FaBuilding className="ldm-detail-icon" />
                     <div>
                       <label>Company:</label>
                       <span>{selectedLead.company}</span>
                     </div>
                   </div>
-                  <div className="detail-item">
-                    <FaPhone className="detail-icon" />
+                  <div className="ldm-detail-item">
+                    <FaPhone className="ldm-detail-icon" />
                     <div>
                       <label>Phone:</label>
                       <span>{selectedLead.phone}</span>
                     </div>
                   </div>
-                  <div className="detail-item">
-                    <FaEnvelope className="detail-icon" />
+                  <div className="ldm-detail-item">
+                    <FaEnvelope className="ldm-detail-icon" />
                     <div>
                       <label>Email:</label>
                       <span>{selectedLead.email}</span>
@@ -568,34 +575,34 @@ const LeadsManagement = ({ onNavigateBack }) => {
                   </div>
                 </div>
 
-                <div className="detail-section">
+                <div className="ldm-detail-section">
                   <h4>Lead Information</h4>
-                  <div className="detail-item">
+                  <div className="ldm-detail-item">
                     <label>Source:</label>
                     {getSourceBadge(selectedLead.source)}
                   </div>
-                  <div className="detail-item">
+                  <div className="ldm-detail-item">
                     <label>Status:</label>
                     {getStatusBadge(selectedLead.status)}
                   </div>
-                  <div className="detail-item">
-                    <FaCalendarAlt className="detail-icon" />
+                  <div className="ldm-detail-item">
+                    <FaCalendarAlt className="ldm-detail-icon" />
                     <div>
                       <label>Created:</label>
                       <span>{formatDate(selectedLead.createdAt)}</span>
                     </div>
                   </div>
                   {selectedLead.totalArea > 0 && (
-                    <div className="detail-item">
+                    <div className="ldm-detail-item">
                       <label>Total Area:</label>
-                      <span className="area-highlight">{selectedLead.totalArea.toLocaleString()} sq.ft</span>
+                      <span className="ldm-area-highlight">{selectedLead.totalArea.toLocaleString()} sq.ft</span>
                     </div>
                   )}
                 </div>
 
                 {/* Space Requirements for Calculator leads */}
                 {selectedLead.source === 'spacecalculator' && selectedLead.spaceRequirements && (
-                  <div className="detail-section full-width">
+                  <div className="ldm-detail-section full-width">
                     <h4>Space Requirements</h4>
                     <div className="space-requirements">
                       {selectedLead.spaceRequirements.workstations?.persons > 0 && (
@@ -640,7 +647,7 @@ const LeadsManagement = ({ onNavigateBack }) => {
 
                 {/* Property Details for Report leads */}
                 {selectedLead.source === 'propertyreport' && selectedLead.propertyDetails && (
-                  <div className="detail-section full-width">
+                  <div className="ldm-detail-section full-width">
                     <h4>Requested Property</h4>
                     <div className="property-details">
                       <div className="property-header">
@@ -677,7 +684,7 @@ const LeadsManagement = ({ onNavigateBack }) => {
                 )}
 
                 {selectedLead.notes && (
-                  <div className="detail-section full-width">
+                  <div className="ldm-detail-section full-width">
                     <h4>Notes</h4>
                     <div className="notes-content">
                       {selectedLead.notes}
@@ -692,11 +699,11 @@ const LeadsManagement = ({ onNavigateBack }) => {
 
       {/* Edit Lead Modal */}
       {editingLead && (
-        <div className="modal-overlay">
-          <div className="modal-container edit-lead-modal">
-            <div className="modal-header">
+        <div className="ldm-modal-overlay">
+          <div className="ldm-modal-container ldm-edit-lead-modal">
+            <div className="ldm-modal-header">
               <h3>
-                <FaEdit className="modal-icon" />
+                <FaEdit className="ldmmodal-icon" />
                 Update Lead Status
               </h3>
               <button className="close-btn" onClick={() => setEditingLead(null)}>
@@ -704,14 +711,14 @@ const LeadsManagement = ({ onNavigateBack }) => {
               </button>
             </div>
             
-            <div className="modal-content">
+            <div className="ldm-modal-content">
               <div className="edit-form">
-                <div className="lead-summary">
+                <div className="ldm-lead-summary">
                   <h4>{editingLead.name}</h4>
                   <p>{editingLead.company} • {editingLead.designation}</p>
                 </div>
 
-                <div className="form-group">
+                <div className="ldm-form-group">
                   <label>Status:</label>
                   <select
                     value={editingLead.status}
@@ -726,7 +733,7 @@ const LeadsManagement = ({ onNavigateBack }) => {
                   </select>
                 </div>
 
-                <div className="form-group">
+                <div className="ldm-form-group">
                   <label>Notes:</label>
                   <textarea
                     value={editingLead.notes || ''}
@@ -736,7 +743,7 @@ const LeadsManagement = ({ onNavigateBack }) => {
                   />
                 </div>
 
-                <div className="form-group">
+                <div className="ldm-form-group">
                   <label>Follow-up Date:</label>
                   <input
                     type="date"

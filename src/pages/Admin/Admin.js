@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import {
   FaUser,
   FaLock,
@@ -28,6 +29,7 @@ import { BiFilterAlt } from "react-icons/bi";
 import "./Admin.css";
 
 const Admin = () => {
+  const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loginData, setLoginData] = useState({
     username: "",
@@ -42,7 +44,7 @@ const Admin = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [uploadingImages, setUploadingImages] = useState(false);
-  
+
   // Validation states
   const [validationErrors, setValidationErrors] = useState({});
 
@@ -115,7 +117,6 @@ const Admin = () => {
     features: [""],
     viewsRange: [100, 300],
   });
-  
 
   // Image upload states
   const [selectedFiles, setSelectedFiles] = useState([]);
@@ -877,6 +878,13 @@ const Admin = () => {
                 <p>Manage your property listings</p>
               </div>
             </div>
+            <button
+              className="admin-logout-btn"
+              onClick={() => navigate("/admin/leads")}
+            >
+              <FaUser />
+              Manage Leads
+            </button>
             <button onClick={handleLogout} className="admin-logout-btn">
               <FaSignOutAlt />
               Logout

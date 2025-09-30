@@ -491,11 +491,15 @@
 }
 
 .title-line-1 {
+  font-family: "Aquire", sans-serif;
+  font-weight: bold;
   display: block;
   animation: slideInLeft 1s ease-out 0.5s both;
 }
 
 .title-line-2 {
+  font-family: "LEMON MILK", sans-serif;
+  font-weight: 700; /* Bold */
   display: block;
   animation: slideInLeft 1s ease-out 0.8s both;
 }
