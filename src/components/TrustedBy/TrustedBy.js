@@ -43,27 +43,53 @@ const TrustedBy = () => {
     },
   ];
 
-  // Client logos data
+  // Clients (local images in /public/clients/)
   const clients = [
+    { name: "Lenskart", logo: "/clients/lenskart.png", sector: "E-commerce" },
     {
-      name: "Lenskart",
-      sector: "E-commerce",
-      logo: "https://tse1.mm.bing.net/th/id/OIP.IXIzDvLoAGCriB-eu8Dp5gHaGL?w=210&h=180&c=7&r=0&o=7&pid=1.7&rm=3",
+      name: "Imerit",
+      logo: "/clients/imerit.png",
+      sector: "AI & Data Annotation",
     },
     {
-      name: "FreshMart",
-      sector: "Retail",
-      logo: "https://tse3.mm.bing.net/th/id/OIP.It--2QHaTWr8Zwm7ywFLtwAAAA?w=165&h=176&c=7&r=0&o=7&pid=1.7&rm=3",
+      name: "Spazeone",
+      logo: "/clients/spazeone.png",
+      sector: "Coworking & Office Rentals",
     },
     {
-      name: "TechStart",
-      sector: "Technology",
-      logo: "https://tse3.mm.bing.net/th/id/OIP.B8yIjlnsFx1QAyb9lrNsfQAAAA?w=149&h=150&c=7&r=0&o=7&pid=1.7&rm=3",
+      name: "Awfis",
+      logo: "/clients/awfis.png",
+      sector: "Coworking & Flexible Workspaces",
     },
     {
-      name: "GrowthCorp",
-      sector: "Consulting",
-      logo: "https://tse1.mm.bing.net/th/id/OIP.mKKjuY2xp6qzAeskCxSlngHaEc?w=258&h=180&c=7&r=0&o=7&pid=1.7&rm=3",
+      name: "Winfomi",
+      logo: "/clients/winfomi.png",
+      sector: "IT & Salesforce Consulting",
+    },
+    {
+      name: "Raavan Workspace",
+      logo: "/clients/raavan.png",
+      sector: "Coworking & Office Rentals",
+    },
+    {
+      name: "Garuda Farm Equipments",
+      logo: "/clients/garuda.png",
+      sector: "Agricultural Machinery",
+    },
+    {
+      name: "Ventura Pumps",
+      logo: "/clients/ventura.png",
+      sector: "Pump Manufacturing",
+    },
+    {
+      name: "Stark Industries",
+      logo: "/clients/stark.png",
+      sector: "Technology & Defense (Fictional)",
+    },
+    {
+      name: "Pitowings",
+      logo: "/clients/pitowings.png",
+      sector: "Aviation Services",
     },
   ];
 
@@ -256,3 +282,5 @@ const TrustedBy = () => {
 };
 
 export default TrustedBy;
+
+
