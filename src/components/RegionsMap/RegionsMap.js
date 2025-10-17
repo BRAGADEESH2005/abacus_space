@@ -194,12 +194,7 @@ const RegionsMap = () => {
       <div className="regions-container">
         {/* Compact Header */}
         <div className={`regions-header ${isVisible ? "regions-visible" : ""}`}>
-          <div className="regions-badge">
-            <FaMapMarkerAlt className="regions-badge-icon" />
-            <span>Our Presence</span>
-          </div>
-          <h1>South India Coverage</h1>
-          <p>Strategically positioned across major commercial hubs</p>
+          <h1>Our presence across Southern India</h1>
         </div>
 
         {/* Compact Stats */}

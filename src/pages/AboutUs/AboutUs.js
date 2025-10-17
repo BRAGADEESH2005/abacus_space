@@ -1,144 +1,152 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { 
-  FaHandshake, 
-  FaLightbulb,
-  FaAward,
-  FaUserTie
-} from 'react-icons/fa';
+import React, { useState, useEffect } from 'react';
 import './AboutUs.css';
+import { FaBuilding, FaHandshake, FaLightbulb, FaUsers, FaClock, FaHeart, FaRocket } from 'react-icons/fa';
+import { MdBusiness, MdTrendingUp, MdSecurity } from 'react-icons/md';
 
 const AboutUs = () => {
   const [visibleSections, setVisibleSections] = useState({});
-  const sectionRefs = useRef({});
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const sectionName = entry.target.getAttribute('data-section');
-            setTimeout(() => {
-              setVisibleSections(prev => ({
-                ...prev,
-                [sectionName]: true
-              }));
-            }, 100);
-          }
-        });
-      },
-      { threshold: 0.2, rootMargin: '0px 0px -50px 0px' }
-    );
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
 
-    Object.values(sectionRefs.current).forEach(ref => {
-      if (ref) observer.observe(ref);
-    });
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setVisibleSections(prev => ({
+            ...prev,
+            [entry.target.id]: true
+          }));
+        }
+      });
+    }, observerOptions);
+
+    const sections = document.querySelectorAll('[id]');
+    sections.forEach((section) => observer.observe(section));
 
     return () => observer.disconnect();
   }, []);
 
-  const values = [
+  const teamMembers = [
     {
-      icon: <FaHandshake />,
-      title: 'Trust & Transparency',
-      description: 'We believe in building relationships based on trust and complete transparency in all our dealings.'
+      name: "Doss",
+      role: "CEO & Founder",
+      initial: "D"
     },
     {
-      icon: <FaLightbulb />,
-      title: 'Innovation',
-      description: 'Constantly evolving our services and adopting new technologies to serve our clients better.'
+      name: "Abhi",
+      role: "Operations",
+      initial: "A"
     },
     {
-      icon: <FaAward />,
-      title: 'Excellence',
-      description: 'We strive for excellence in everything we do, ensuring the highest quality of service.'
+      name: "Praveena",
+      role: "Creative Head",
+      initial: "P"
+    },
+    {
+      name: "Sugandh",
+      role: "Manager",
+      initial: "S"
     }
   ];
 
-  const team = [
+  const values = [
     {
-      name: 'Rajesh Kumar',
-      role: 'CEO & Founder',
-      initials: 'RK',
-      description: '15+ years in real estate with expertise in commercial properties and business development.'
+      icon: <FaClock />,
+      title: "Beyond Time",
+      description: "Ensuring every requirement is handled with urgency and precision."
     },
     {
-      name: 'Priya Sharma',
-      role: 'Head of Sales',
-      initials: 'PS',
-      description: 'Strategic sales leader with proven track record in luxury commercial real estate.'
+      icon: <FaRocket />,
+      title: "Beyond Effort",
+      description: "Ensuring we secure the most value-driven deals for our clients."
     },
     {
-      name: 'Amit Patel',
-      role: 'Operations Manager',
-      initials: 'AP',
-      description: 'Operations expert ensuring smooth transactions and exceptional client experiences.'
-    },
-    {
-      name: 'Sneha Gupta',
-      role: 'Property Consultant',
-      initials: 'SG',
-      description: 'Specialized in helping businesses find their perfect workspace solutions.'
+      icon: <FaHeart />,
+      title: "Beyond Relationships",
+      description: "Building trust with stakeholders for lasting partnerships."
     }
   ];
 
   return (
     <div className="about-page">
-      {/* Header */}
+      {/* Header Section */}
       <div 
+        id="header" 
         className={`about-header ${visibleSections.header ? 'visible' : ''}`}
-        data-section="header"
-        ref={el => sectionRefs.current.header = el}
       >
         <div className="about-container">
-          <h1>About Abacus Real Estate</h1>
-          <p>Your trusted partner in finding the perfect commercial spaces across India</p>
+          <h1>About Abacus Spaces</h1>
+          <p>
+            Commercial real estate consulting company, specializing exclusively into 
+            leasing office and retail spaces
+          </p>
         </div>
       </div>
 
       <div className="about-container">
         <div className="about-content">
+          
           {/* Story Section */}
           <section 
+            id="story" 
             className={`story-section ${visibleSections.story ? 'visible' : ''}`}
-            data-section="story"
-            ref={el => sectionRefs.current.story = el}
           >
             <div className="story-text">
-              <h2>Our Story</h2>
+              <h2>Who We Are</h2>
               <p>
-                Founded in 2015, Abacus Real Estate has emerged as one of India's leading 
-                commercial property consultants. We started with a simple vision: to make 
-                commercial real estate accessible, transparent, and hassle-free for businesses 
-                of all sizes.
+                Abacus Spaces is a commercial real estate Consulting Company, specializing 
+                exclusively into Leasing Office and Retail Spaces. We cater from startups 
+                seeking flexible workspaces to large corporates expanding their regional footprint.
               </p>
               <p>
-                Over the years, we have successfully helped thousands of businesses find their 
-                ideal workspace, from startups looking for co-working spaces to multinational 
-                corporations seeking premium office complexes. Our deep understanding of the 
-                Indian commercial real estate market sets us apart.
+                At Abacus Spaces, we believe that a space is more than four walls, it is the 
+                foundation where ideas grow, teams connect, and businesses thrive.
               </p>
               <p>
-                Today, we operate across major business hubs in India, offering comprehensive 
-                real estate solutions that go beyond just property transactions. We are your 
-                partners in business growth.
+                Our approach goes beyond brokerage where we act as consultants, negotiators, 
+                and partners invested in your long-term success.
+              </p>
+              <p>
+                We combine data-driven market Insights with Relationship-driven execution to 
+                ensure every client receives precise insights, transparent advice, and 
+                value-maximized deals.
               </p>
             </div>
             <div className="story-image">
               <img 
-                src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=400&fit=crop" 
-                alt="Modern office building"
+                src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=600&h=400&fit=crop&auto=format&q=80" 
+                alt="Modern office building representing Abacus Spaces"
               />
+            </div>
+          </section>
+
+          {/* Goal Section */}
+          <section 
+            id="goal" 
+            className={`goal-section ${visibleSections.goal ? 'visible' : ''}`}
+          >
+            <div className="goal-content">
+              <div className="goal-icon">
+                <MdBusiness />
+              </div>
+              <h2>Our Goal</h2>
+              <p>Making every square foot of space count for Business.</p>
             </div>
           </section>
 
           {/* Values Section */}
           <section 
+            id="values" 
             className={`values-section ${visibleSections.values ? 'visible' : ''}`}
-            data-section="values"
-            ref={el => sectionRefs.current.values = el}
           >
-            <h2>Our Values</h2>
-            <p>The principles that guide everything we do</p>
+            <h2>Our Team Goes Beyond</h2>
+            <p>
+              The strength of Abacus Spaces lies in its young, driven and collaborative team 
+              that believes excellence is not an act, but a habit.
+            </p>
             <div className="values-grid">
               {values.map((value, index) => (
                 <div 
@@ -156,27 +164,49 @@ const AboutUs = () => {
             </div>
           </section>
 
+          {/* Philosophy Section */}
+          <section 
+            id="philosophy" 
+            className={`philosophy-section ${visibleSections.philosophy ? 'visible' : ''}`}
+          >
+            <div className="philosophy-content">
+              <h2>Our Philosophy</h2>
+              <div className="philosophy-text">
+                <p>
+                  At Abacus Spaces, we don't just find spaces — we create business possibilities.
+                </p>
+                <p>
+                  In an industry built on transactions, we stand for transformation.
+                </p>
+                <p>
+                  And in every deal we close, we stand for people — our clients, our partners, 
+                  and our team.
+                </p>
+              </div>
+            </div>
+          </section>
+
           {/* Team Section */}
           <section 
+            id="team" 
             className={`team-section ${visibleSections.team ? 'visible' : ''}`}
-            data-section="team"
-            ref={el => sectionRefs.current.team = el}
           >
             <h2>Meet Our Team</h2>
-            <p>Experienced professionals dedicated to your success</p>
+            <p>
+              Our dedicated professionals bringing expertise and passion to every project
+            </p>
             <div className="team-grid">
-              {team.map((member, index) => (
+              {teamMembers.map((member, index) => (
                 <div 
                   key={index} 
                   className={`team-card ${visibleSections.team ? 'animate' : ''}`}
-                  style={{ animationDelay: `${index * 0.15}s` }}
+                  style={{ animationDelay: `${index * 0.2}s` }}
                 >
                   <div className="team-avatar">
-                    {member.initials}
+                    {member.initial}
                   </div>
                   <h4>{member.name}</h4>
                   <div className="role">{member.role}</div>
-                  <p>{member.description}</p>
                 </div>
               ))}
             </div>
@@ -184,49 +214,54 @@ const AboutUs = () => {
 
           {/* Mission Section */}
           <section 
+            id="mission" 
             className={`mission-section ${visibleSections.mission ? 'visible' : ''}`}
-            data-section="mission"
-            ref={el => sectionRefs.current.mission = el}
           >
             <div className="mission-content">
               <div className="mission-text">
                 <h2>Our Mission</h2>
                 <p>
-                  To revolutionize the commercial real estate industry in India by providing 
-                  innovative, transparent, and client-centric solutions that empower businesses 
-                  to thrive in their ideal workspaces.
+                  To revolutionize the commercial real estate experience by providing 
+                  innovative, client-focused solutions that drive business success and 
+                  create lasting value for all stakeholders.
                 </p>
                 <p>
-                  We are committed to building long-term relationships with our clients, 
-                  understanding their unique needs, and delivering exceptional value through 
-                  our expertise and dedication.
+                  We are committed to transparency, excellence, and building long-term 
+                  partnerships that help businesses find their perfect space to grow and thrive.
                 </p>
               </div>
               <div className="mission-stats">
                 <div className="mission-stat">
-                  <FaHandshake className="mission-icon" />
+                  <div className="mission-icon">
+                    <FaBuilding />
+                  </div>
                   <div>
-                    <h3>Premium Properties</h3>
-                    <p>Curated selection of top-tier commercial spaces</p>
+                    <h3>Expert Consultation</h3>
+                    <p>Professional guidance throughout your space journey</p>
                   </div>
                 </div>
                 <div className="mission-stat">
-                  <FaLightbulb className="mission-icon" />
+                  <div className="mission-icon">
+                    <MdTrendingUp />
+                  </div>
                   <div>
-                    <h3>Expert Guidance</h3>
-                    <p>Professional consultation at every step</p>
+                    <h3>Market Intelligence</h3>
+                    <p>Data-driven insights for informed decisions</p>
                   </div>
                 </div>
                 <div className="mission-stat">
-                  <FaUserTie className="mission-icon" />
+                  <div className="mission-icon">
+                    <FaHandshake />
+                  </div>
                   <div>
-                    <h3>Personalized Service</h3>
-                    <p>Tailored solutions for your business needs</p>
+                    <h3>Trusted Partnerships</h3>
+                    <p>Long-term relationships built on trust and results</p>
                   </div>
                 </div>
               </div>
             </div>
           </section>
+
         </div>
       </div>
     </div>

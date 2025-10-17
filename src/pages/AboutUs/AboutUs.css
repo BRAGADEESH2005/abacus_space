@@ -163,6 +163,10 @@
   animation-delay: 0.6s;
 }
 
+.story-text p:nth-child(6) {
+  animation-delay: 0.8s;
+}
+
 @keyframes slideInLeft {
   to {
     opacity: 1;
@@ -213,6 +217,99 @@
 
 .story-image:hover img {
   transform: scale(1.05);
+}
+
+/* Goal Section */
+.goal-section {
+  background: white;
+  padding: 3rem 2rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.goal-section::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(35, 198, 164, 0.02) 0%, transparent 70%);
+  animation: goalGlow 10s ease-in-out infinite;
+}
+
+@keyframes goalGlow {
+  0%, 100% { 
+    transform: rotate(0deg) scale(1); 
+  }
+  50% { 
+    transform: rotate(180deg) scale(1.1); 
+  }
+}
+
+.goal-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.goal-content {
+  position: relative;
+  z-index: 2;
+}
+
+.goal-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 2rem;
+  background: linear-gradient(135deg, #23c6a4, #1a2f5c);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  color: white;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 30px rgba(35, 198, 164, 0.3);
+}
+
+.goal-section:hover .goal-icon {
+  transform: scale(1.1) rotate(10deg);
+  box-shadow: 0 15px 40px rgba(35, 198, 164, 0.4);
+}
+
+.goal-content h2 {
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: #2d3748;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.goal-content h2::after {
+  content: "";
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(135deg, #23c6a4, #1a2f5c);
+  border-radius: 2px;
+}
+
+.goal-content p {
+  color: #4a5568;
+  font-size: 1.3rem;
+  font-weight: 500;
+  line-height: 1.6;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 /* Values Section */
@@ -350,6 +447,86 @@
   z-index: 2;
 }
 
+/* Philosophy Section */
+.philosophy-section {
+  background: linear-gradient(135deg, #23c6a4 0%, #1a2f5c 100%);
+  color: white;
+  padding: 4rem 2rem;
+  border-radius: 16px;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.philosophy-section::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
+  animation: philosophyGlow 12s ease-in-out infinite;
+}
+
+@keyframes philosophyGlow {
+  0%, 100% { 
+    transform: rotate(0deg) scale(1); 
+  }
+  50% { 
+    transform: rotate(180deg) scale(1.1); 
+  }
+}
+
+.philosophy-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.philosophy-content {
+  position: relative;
+  z-index: 2;
+}
+
+.philosophy-content h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.philosophy-content h2::after {
+  content: "";
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: white;
+  border-radius: 2px;
+}
+
+.philosophy-text p {
+  font-size: 1.3rem;
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+  opacity: 0.95;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  font-weight: 500;
+}
+
+.philosophy-text p:last-child {
+  margin-bottom: 0;
+  font-weight: 600;
+  font-size: 1.4rem;
+}
+
 /* Team Section */
 .team-section {
   text-align: center;
@@ -483,14 +660,6 @@
   font-weight: 500;
   margin-bottom: 1rem;
   font-size: 0.95rem;
-  position: relative;
-  z-index: 2;
-}
-
-.team-card p {
-  color: #4a5568;
-  line-height: 1.5;
-  font-size: 0.9rem;
   position: relative;
   z-index: 2;
 }
@@ -702,15 +871,26 @@
   .story-text h2,
   .values-section h2,
   .team-section h2,
-  .mission-text h2 {
+  .mission-text h2,
+  .goal-content h2,
+  .philosophy-content h2 {
     font-size: 1.8rem;
   }
   
   .story-text p,
   .values-section > p,
   .team-section > p,
-  .mission-text p {
+  .mission-text p,
+  .goal-content p {
     font-size: 1rem;
+  }
+  
+  .philosophy-text p {
+    font-size: 1.1rem;
+  }
+  
+  .philosophy-text p:last-child {
+    font-size: 1.2rem;
   }
   
   .story-image img {
@@ -732,7 +912,9 @@
     padding: 2rem 1.5rem;
   }
   
-  .mission-section {
+  .mission-section,
+  .goal-section,
+  .philosophy-section {
     padding: 2rem 1.5rem;
     margin: 2rem 0;
   }
@@ -740,7 +922,9 @@
   .story-text h2::after,
   .values-section h2::after,
   .team-section h2::after,
-  .mission-text h2::after {
+  .mission-text h2::after,
+  .goal-content h2::after,
+  .philosophy-content h2::after {
     width: 40px;
     height: 3px;
   }
@@ -754,8 +938,13 @@
   .story-text h2,
   .values-section h2,
   .team-section h2,
-  .mission-text h2 {
+  .mission-text h2,
+  .goal-content h2 {
     font-size: 1.6rem;
+  }
+  
+  .philosophy-content h2 {
+    font-size: 1.8rem;
   }
   
   .story-image img {
@@ -766,6 +955,12 @@
     width: 60px;
     height: 60px;
     font-size: 1.5rem;
+  }
+  
+  .goal-icon {
+    width: 70px;
+    height: 70px;
+    font-size: 2rem;
   }
   
   .team-avatar {
@@ -783,7 +978,9 @@
   .story-text h2::after,
   .values-section h2::after,
   .team-section h2::after,
-  .mission-text h2::after {
+  .mission-text h2::after,
+  .goal-content h2::after,
+  .philosophy-content h2::after {
     width: 30px;
     height: 2px;
   }
@@ -796,6 +993,8 @@
   .values-section,
   .team-section,
   .mission-section,
+  .goal-section,
+  .philosophy-section,
   .value-card,
   .team-card,
   .mission-stat {
@@ -811,7 +1010,9 @@
   }
 
   .about-header::before,
-  .mission-section::before {
+  .mission-section::before,
+  .goal-section::before,
+  .philosophy-section::before {
     animation: none;
   }
 

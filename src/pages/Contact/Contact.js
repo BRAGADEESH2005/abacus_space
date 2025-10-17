@@ -26,23 +26,23 @@ const Contact = () => {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            const sectionName = entry.target.getAttribute('data-section');
+            const sectionName = entry.target.getAttribute("data-section");
             if (sectionName) {
               setTimeout(() => {
-                setVisibleSections(prev => ({
+                setVisibleSections((prev) => ({
                   ...prev,
-                  [sectionName]: true
+                  [sectionName]: true,
                 }));
               }, 100);
             }
           }
         });
       },
-      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
     );
 
     // Observe all sections
-    Object.values(sectionRefs.current).forEach(ref => {
+    Object.values(sectionRefs.current).forEach((ref) => {
       if (ref) observer.observe(ref);
     });
 
@@ -83,32 +83,22 @@ const Contact = () => {
     {
       icon: <FaPhone />,
       title: "Phone",
-      details: "+91 98765 43210",
+      details: "+91 7339544927",
     },
     {
       icon: <FaEnvelope />,
       title: "Email",
-      details: "info@abacus.com",
-    },
-    {
-      icon: <FaMapMarkerAlt />,
-      title: "Address",
-      details: "123 Business District, Gurgaon, Haryana 122001",
-    },
-    {
-      icon: <FaClock />,
-      title: "Working Hours",
-      details: "Mon - Fri: 9:00 AM - 6:00 PM",
+      details: "info@abacuspaces.com",
     },
   ];
 
   return (
     <div className="contact-page">
       {/* Header */}
-      <div 
-        className={`contact-header ${visibleSections.header ? 'visible' : ''}`}
+      <div
+        className={`contact-header ${visibleSections.header ? "visible" : ""}`}
         data-section="header"
-        ref={el => sectionRefs.current.header = el}
+        ref={(el) => (sectionRefs.current.header = el)}
       >
         <div className="contact-container">
           <h1>Contact Us</h1>
@@ -119,16 +109,23 @@ const Contact = () => {
       <div className="contact-container">
         <div className="contact-content">
           {/* Contact Form */}
-          <div 
-            className={`contact-form-section ${visibleSections.form ? 'visible' : ''}`}
+          <div
+            className={`contact-form-section ${
+              visibleSections.form ? "visible" : ""
+            }`}
             data-section="form"
-            ref={el => sectionRefs.current.form = el}
+            ref={(el) => (sectionRefs.current.form = el)}
           >
             <h2>Send us a Message</h2>
 
             <form className="contact-form" onSubmit={handleSubmit}>
               <div className="form-row">
-                <div className={`form-group ${visibleSections.form ? 'animate' : ''}`} style={{ animationDelay: '0.3s' }}>
+                <div
+                  className={`form-group ${
+                    visibleSections.form ? "animate" : ""
+                  }`}
+                  style={{ animationDelay: "0.3s" }}
+                >
                   <input
                     type="text"
                     name="name"
@@ -138,7 +135,12 @@ const Contact = () => {
                     required
                   />
                 </div>
-                <div className={`form-group ${visibleSections.form ? 'animate' : ''}`} style={{ animationDelay: '0.4s' }}>
+                <div
+                  className={`form-group ${
+                    visibleSections.form ? "animate" : ""
+                  }`}
+                  style={{ animationDelay: "0.4s" }}
+                >
                   <input
                     type="email"
                     name="email"
@@ -151,7 +153,12 @@ const Contact = () => {
               </div>
 
               <div className="form-row">
-                <div className={`form-group ${visibleSections.form ? 'animate' : ''}`} style={{ animationDelay: '0.5s' }}>
+                <div
+                  className={`form-group ${
+                    visibleSections.form ? "animate" : ""
+                  }`}
+                  style={{ animationDelay: "0.5s" }}
+                >
                   <input
                     type="tel"
                     name="phone"
@@ -160,7 +167,12 @@ const Contact = () => {
                     onChange={handleInputChange}
                   />
                 </div>
-                <div className={`form-group ${visibleSections.form ? 'animate' : ''}`} style={{ animationDelay: '0.6s' }}>
+                <div
+                  className={`form-group ${
+                    visibleSections.form ? "animate" : ""
+                  }`}
+                  style={{ animationDelay: "0.6s" }}
+                >
                   <input
                     type="text"
                     name="subject"
@@ -172,7 +184,12 @@ const Contact = () => {
                 </div>
               </div>
 
-              <div className={`form-group ${visibleSections.form ? 'animate' : ''}`} style={{ animationDelay: '0.7s' }}>
+              <div
+                className={`form-group ${
+                  visibleSections.form ? "animate" : ""
+                }`}
+                style={{ animationDelay: "0.7s" }}
+              >
                 <textarea
                   name="message"
                   placeholder="Your Message"
@@ -185,7 +202,9 @@ const Contact = () => {
 
               <button
                 type="submit"
-                className={`submit-btn ${isSubmitting ? "submitting" : ""} ${visibleSections.form ? 'animate-btn' : ''}`}
+                className={`submit-btn ${isSubmitting ? "submitting" : ""} ${
+                  visibleSections.form ? "animate-btn" : ""
+                }`}
                 disabled={isSubmitting}
               >
                 {isSubmitting ? (
@@ -210,18 +229,24 @@ const Contact = () => {
           </div>
 
           {/* Contact Info */}
-          <div 
-            className={`contact-info-section ${visibleSections.info ? 'visible' : ''}`}
+          <div
+            className={`contact-info-section ${
+              visibleSections.info ? "visible" : ""
+            }`}
             data-section="info"
-            ref={el => sectionRefs.current.info = el}
+            ref={(el) => (sectionRefs.current.info = el)}
           >
-            <h2 className={visibleSections.info ? 'animate-title' : ''}>Get in Touch</h2>
+            <h2 className={visibleSections.info ? "animate-title" : ""}>
+              Get in Touch
+            </h2>
 
             <div className="contact-info-grid">
               {contactInfo.map((info, index) => (
-                <div 
-                  key={index} 
-                  className={`info-card ${visibleSections.info ? 'animate' : ''}`}
+                <div
+                  key={index}
+                  className={`info-card ${
+                    visibleSections.info ? "animate" : ""
+                  }`}
                   style={{ animationDelay: `${0.2 + index * 0.1}s` }}
                 >
                   <div className="info-icon">{info.icon}</div>

@@ -189,9 +189,8 @@ const Hero = () => {
               </span>
             </h1>
             <p className={`hero-subtitle ${isLoaded ? "animate-in" : ""}`}>
-              Commercial Leasing across South India <br />
               <span className="typing-text">
-                Spaces for Ambitious Businesses...
+                We Help Ambitious Businesses Lease Commercial Spaces
               </span>
             </p>
             <div className={`hero-buttons ${isLoaded ? "animate-in" : ""}`}>
@@ -207,7 +206,7 @@ const Hero = () => {
                 <div className="btn-content">
                   <div className="btn-main">
                     <FaCalculator className="button-icon" />
-                    <span>Space Calculator</span>
+                    <span>Office Space Calculator</span>
                   </div>
                 </div>
                 <div className="btn-subtitle">
@@ -216,20 +215,19 @@ const Hero = () => {
                 <FaArrowRight className="arrow-icon" />
               </button>
             </div>
-
-            <div className={`hero-stats ${isLoaded ? "animate-in" : ""}`}>
-              <div className="stat-item">
-                <span className="stat-number">500+</span>
-                <span className="stat-label">Properties</span>
+            <div className={`hero-achievement ${isLoaded ? "animate-in" : ""}`}>
+              <div className="achievement-content">
+                <div className="achievement-text">
+                  <span className="achievement-highlight">
+                    Transaction close to
+                  </span>
+                  <span className="achievement-number">1,00,000 sq.ft.</span>
+                  <span className="achievement-description">
+                    of Commercial space in 2025
+                  </span>
+                </div>
               </div>
-              <div className="stat-item">
-                <span className="stat-number">50+</span>
-                <span className="stat-label">Cities</span>
-              </div>
-              <div className="stat-item">
-                <span className="stat-number">1000+</span>
-                <span className="stat-label">Happy Clients</span>
-              </div>
+              <div className="achievement-glow"></div>
             </div>
           </div>
 
@@ -384,10 +382,6 @@ const Hero = () => {
                 <div className="benefit benefit-4">
                   <AiFillCheckCircle />
                   <span>Guaranteed</span>
-                </div>
-                <div className="benefit benefit-5">
-                  <FaCalculator />
-                  <span>Free Calculator</span>
                 </div>
               </div>
 

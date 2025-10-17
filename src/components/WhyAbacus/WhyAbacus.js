@@ -1,7 +1,12 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { BsLightningChargeFill } from 'react-icons/bs';
-import { FaMapMarkerAlt, FaHandshake, FaHeart,  FaShieldAlt } from 'react-icons/fa';
-import './WhyAbacus.css';
+import React, { useEffect, useState, useRef } from "react";
+import { BsLightningChargeFill } from "react-icons/bs";
+import {
+  FaMapMarkerAlt,
+  FaHandshake,
+  FaHeart,
+  FaShieldAlt,
+} from "react-icons/fa";
+import "./WhyAbacus.css";
 
 const WhyAbacus = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -13,26 +18,26 @@ const WhyAbacus = () => {
       title: "Fast Closures",
       icon: <BsLightningChargeFill />,
       color: "#ddea66ff",
-      delay: 0
+      delay: 0,
     },
     {
       title: "Local Insights",
       icon: <FaMapMarkerAlt />,
       color: "#f093fb",
-      delay: 0.2
+      delay: 0.2,
     },
     {
       title: "Trusted Partnerships",
       icon: <FaHandshake />,
       color: "#4facfe",
-      delay: 0.4
+      delay: 0.4,
     },
     {
       title: "Client-Centric Approach",
       icon: <FaHeart />,
       color: "#43e97b",
-      delay: 0.6
-    }
+      delay: 0.6,
+    },
   ];
 
   useEffect(() => {
@@ -72,7 +77,7 @@ const WhyAbacus = () => {
         <div className="gradient-orb orb-1"></div>
         <div className="gradient-orb orb-2"></div>
         <div className="gradient-orb orb-3"></div>
-        
+
         {/* Floating Particles */}
         {particles.map((particle) => (
           <div
@@ -91,23 +96,21 @@ const WhyAbacus = () => {
       </div>
 
       <div className="why-container">
-        <div className={`why-header ${isVisible ? 'visible' : ''}`}>
-          <div className="why-header-badge">
-            <FaShieldAlt className="badge-icon" />
-            <span>Why Choose Us</span>
-          </div>
+        <div className={`why-header ${isVisible ? "visible" : ""}`}>
           <h2>Why Abacus Spaces?</h2>
-          <p>Excellence in every transaction, success in every partnership</p>
+          <p>
+            Our Excellence in every Transaction to your Success with every Partnership
+          </p>
         </div>
-        
-        <div className={`why-grid ${isVisible ? 'visible' : ''}`}>
+
+        <div className={`why-grid ${isVisible ? "visible" : ""}`}>
           {features.map((feature, index) => (
             <div
               key={index}
               className="why-item"
-              style={{ 
-                '--feature-color': feature.color,
-                '--delay': `${feature.delay}s`
+              style={{
+                "--feature-color": feature.color,
+                "--delay": `${feature.delay}s`,
               }}
             >
               <div className="why-icon-wrapper">

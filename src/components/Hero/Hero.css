@@ -579,65 +579,137 @@
   }
 }
 
+/* ...existing code... */
+
 .hero-subtitle {
-  font-size: 1.4rem;
+  font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+  color: rgba(255, 255, 255, 0.9);
   margin-bottom: 2.5rem;
-  opacity: 0.9;
   line-height: 1.6;
-  transform: translateY(50px);
+  font-weight: 400;
+  max-width: 100%;
   opacity: 0;
-  transition: all 0.8s ease 0.4s;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.4s;
 }
 
 .hero-subtitle.animate-in {
+  opacity: 1;
   transform: translateY(0);
-  opacity: 0.9;
 }
 
 .typing-text {
-  display: block;
+  display: inline-block;
+  position: relative;
   color: #ffd700;
-  font-style: italic;
+  font-weight: 500;
   overflow: hidden;
-  border-right: 2px solid #ffd700;
   white-space: nowrap;
-  animation: typing 3s steps(30) 2s both, blink-caret 1s step-end infinite 2s;
   width: 0;
+  border-right: 3px solid #ffd700;
+  animation: typing 4s steps(55, end) 2s both,
+    blink-caret 0.75s step-end infinite 2s;
+  max-width: 100%;
 }
 
-/* Default for all screens */
+/* ...existing code... */
+
+/* Typing animation */
 @keyframes typing {
-  from {
+  0% {
     width: 0;
   }
-  to {
+  100% {
     width: 100%;
-  }
-}
-
-/* For large screens only */
-@media (min-width: 1200px) {
-  @keyframes typing {
-    from {
-      width: 0;
-    }
-    to {
-      width: 70%;
-    }
   }
 }
 
 @keyframes blink-caret {
   0%,
   50% {
-    border-color: transparent;
+    border-color: #ffd700;
   }
   51%,
   100% {
-    border-color: #ffd700;
+    border-color: transparent;
   }
 }
 
+/* Mobile and responsive adjustments */
+@media (max-width: 768px) {
+  .hero-subtitle {
+    font-size: clamp(1rem, 4vw, 1.2rem);
+    line-height: 1.5;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .typing-text {
+    border-right: 2px solid #ffd700;
+    animation: mobileTyping 3s ease-in-out 1.5s both,
+      blink-caret 0.75s step-end infinite 1.5s;
+  }
+
+  @keyframes mobileTyping {
+    0% {
+      width: 0;
+      white-space: nowrap;
+    }
+    80% {
+      width: 100%;
+      white-space: nowrap;
+    }
+    100% {
+      width: 100%;
+      white-space: normal;
+      border-right: none;
+    }
+  }
+}
+
+/* For devices with width less than 570px - No typing animation */
+@media (max-width: 570px) {
+  .hero-subtitle {
+    font-size: clamp(0.9rem, 4.5vw, 1.1rem);
+    line-height: 1.4;
+  }
+
+  .typing-text {
+    animation: none;
+    border-right: none;
+    white-space: normal;
+    word-wrap: break-word;
+    width: auto;
+    display: block;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInText 1.5s ease-out 1s both;
+  }
+
+  @keyframes fadeInText {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* For very small screens - simpler animation */
+@media (max-width: 360px) {
+  .typing-text {
+    animation: fadeInText 1.2s ease-out 0.8s both;
+    white-space: normal;
+    word-wrap: break-word;
+    border-right: none;
+    width: auto;
+  }
+}
+
+/* ...existing code... */
 .hero-buttons {
   display: flex;
   gap: 1rem;
@@ -1697,3 +1769,159 @@
     transform: scale(1.05);
   }
 }
+
+/* ...existing code... */
+
+/* Hero Achievement Section - Single Line Layout */
+.hero-achievement {
+  margin-top: 2rem;
+  padding: 1.5rem 2rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  position: relative;
+  overflow: hidden;
+  transform: translateY(50px);
+  opacity: 0;
+  transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) 1.2s;
+  box-shadow: 0 10px 30px rgba(35, 198, 164, 0.1);
+  text-align: center;
+}
+
+.hero-achievement.animate-in {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.achievement-content {
+  position: relative;
+  z-index: 2;
+}
+
+.achievement-text {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  line-height: 1.2;
+}
+
+.achievement-highlight {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.achievement-number {
+  color: #23c6a4;
+  font-size: 2.2rem;
+  font-weight: 800;
+  background: linear-gradient(45deg, #23c6a4, #4fd1c7);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: numberGlow 2s ease-in-out infinite alternate;
+  margin: 0 0.3rem;
+}
+
+@keyframes numberGlow {
+  0% {
+    filter: brightness(1);
+    text-shadow: 0 0 10px rgba(35, 198, 164, 0.3);
+  }
+  100% {
+    filter: brightness(1.2);
+    text-shadow: 0 0 20px rgba(35, 198, 164, 0.5);
+  }
+}
+
+.achievement-description {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.achievement-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    45deg,
+    rgba(35, 198, 164, 0.1),
+    rgba(79, 209, 199, 0.05),
+    rgba(35, 198, 164, 0.1)
+  );
+  border-radius: 20px;
+  opacity: 0;
+  animation: achievementGlow 4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes achievementGlow {
+  0%,
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.02);
+  }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .hero-achievement {
+    padding: 1.2rem 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .achievement-text {
+    gap: 0.3rem;
+  }
+
+  .achievement-highlight {
+    font-size: 0.9rem;
+  }
+
+  .achievement-number {
+    font-size: 1.8rem;
+    margin: 0 0.2rem;
+  }
+
+  .achievement-description {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-achievement {
+    padding: 1rem;
+    margin-top: 1rem;
+  }
+
+  .achievement-text {
+    flex-direction: column;
+    gap: 0.2rem;
+    text-align: center;
+  }
+
+  .achievement-highlight {
+    font-size: 0.85rem;
+  }
+
+  .achievement-number {
+    font-size: 1.6rem;
+    margin: 0;
+  }
+
+  .achievement-description {
+    font-size: 0.85rem;
+  }
+}
+
+/* ...existing code... */

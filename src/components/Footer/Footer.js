@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import {
   FaLinkedin,
-  FaTwitter,
   FaFacebookF,
   FaInstagram,
   FaPhone,
@@ -56,17 +55,9 @@ const Footer = () => {
               >
                 <FaLinkedin />
               </a>
+
               <a
-                href="https://twitter.com/abacusspaces"
-                className="footer-social-link"
-                aria-label="Twitter"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <FaTwitter />
-              </a>
-              <a
-                href="https://facebook.com/abacusspaces"
+                href="https://www.facebook.com/share/1LxaZMZRhC/?mibextid=wwXIfr"
                 className="footer-social-link"
                 aria-label="Facebook"
                 target="_blank"
@@ -75,7 +66,7 @@ const Footer = () => {
                 <FaFacebookF />
               </a>
               <a
-                href="https://instagram.com/abacusspaces"
+                href="https://www.instagram.com/abacus_spaces?igsh=b3VrM290NGRyMGx6"
                 className="footer-social-link"
                 aria-label="Instagram"
                 target="_blank"

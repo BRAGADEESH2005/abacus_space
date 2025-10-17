@@ -1,10 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import {
-  FaArrowRight,
-  FaBuilding,
-  FaHandshake,
-  FaUsers,
-} from "react-icons/fa";
+import { FaArrowRight, FaBuilding, FaHandshake, FaUsers } from "react-icons/fa";
 import { MdCall, MdLocationOn } from "react-icons/md";
 import "./CallToAction.css";
 
@@ -74,7 +69,7 @@ const CallToAction = () => {
           {/* Badge */}
           <div className="cta-badge">
             <FaHandshake />
-            <span>Ready to Get Started?</span>
+            <span>Get Started?</span>
           </div>
 
           {/* Main Headline */}
@@ -82,8 +77,8 @@ const CallToAction = () => {
 
           {/* Supporting Text */}
           <p className="cta-description">
-            Connect with our expert team to find the perfect commercial space
-            that matches your Needs, we’ll cater to it !
+            Connect with our Team, to find you the Space that caters to your
+            Business
           </p>
 
           {/* Action Buttons */}
@@ -101,40 +96,48 @@ const CallToAction = () => {
             </button>
           </div>
 
-          {/* Quick Stats */}
-          <div className="cta-stats">
-            <div className="cta-stat">
-              <div className="cta-stat-icon">
-                <FaBuilding />
-              </div>
-              <div className="cta-stat-content">
-                <span className="cta-stat-number">500+</span>
-                <span className="cta-stat-label">Properties</span>
-              </div>
+          {/* City Coverage */}
+          <div className="cta-cities">
+            <div className="cta-cities-header">
+              <h3>We Operate In</h3>
             </div>
+            <div className="cta-cities-grid">
+              <div className="cta-city">
+                <div className="cta-city-icon">
+                  <MdLocationOn />
+                </div>
+                <span className="cta-city-name">Chennai</span>
+              </div>
 
-            <div className="cta-stat">
-              <div className="cta-stat-icon">
-                <FaUsers />
+              <div className="cta-city">
+                <div className="cta-city-icon">
+                  <MdLocationOn />
+                </div>
+                <span className="cta-city-name">Coimbatore</span>
               </div>
-              <div className="cta-stat-content">
-                <span className="cta-stat-number">150+</span>
-                <span className="cta-stat-label">Happy Clients</span>
-              </div>
-            </div>
 
-            <div className="cta-stat">
-              <div className="cta-stat-icon">
-                <MdLocationOn />
+              <div className="cta-city">
+                <div className="cta-city-icon">
+                  <MdLocationOn />
+                </div>
+                <span className="cta-city-name">Kochi</span>
               </div>
-              <div className="cta-stat-content">
-                <span className="cta-stat-number">12+</span>
-                <span className="cta-stat-label">Cities</span>
+
+              <div className="cta-city">
+                <div className="cta-city-icon">
+                  <MdLocationOn />
+                </div>
+                <span className="cta-city-name">Bangalore</span>
+              </div>
+
+              <div className="cta-city">
+                <div className="cta-city-icon">
+                  <MdLocationOn />
+                </div>
+                <span className="cta-city-name">Hyderabad</span>
               </div>
             </div>
           </div>
-
-          
         </div>
       </div>
     </section>
