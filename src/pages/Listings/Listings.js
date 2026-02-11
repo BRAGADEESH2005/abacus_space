@@ -89,7 +89,7 @@ const Listings = () => {
   const fetchListings = async (
     page = 1,
     filters = {},
-    showFilterLoader = false
+    showFilterLoader = false,
   ) => {
     try {
       if (showFilterLoader) {
@@ -143,7 +143,7 @@ const Listings = () => {
       setError(
         error.response?.data?.message ||
           error.message ||
-          "Failed to load properties"
+          "Failed to load properties",
       );
       setListings([]);
       setFilteredListings([]);
@@ -208,6 +208,31 @@ const Listings = () => {
     });
   };
 
+  // Add this helper function at the top of the component, after the state declarations
+  const formatPrice = (price) => {
+    if (!price) return price;
+
+    // Check if price is 0 or "0"
+    const priceStr = price.toString().trim();
+    if (priceStr === "0" || priceStr === "₹0") {
+      return "Price available upon request";
+    }
+
+    // If price already starts with ₹, remove it
+    if (priceStr.startsWith("₹")) {
+      return priceStr.substring(1).trim();
+    }
+
+    return price;
+  };
+
+  // Helper to check if price is available
+  const isPriceAvailable = (price) => {
+    if (!price) return false;
+    const priceStr = price.toString().trim();
+    return priceStr !== "0" && priceStr !== "₹0";
+  };
+
   // Validate form
   const validateForm = () => {
     const newErrors = {};
@@ -258,7 +283,7 @@ const Listings = () => {
       if (response.data.success) {
         console.log(
           "Report request submitted successfully:",
-          response.data.data
+          response.data.data,
         );
         setReportSubmissionSuccess(true);
 
@@ -415,7 +440,7 @@ const Listings = () => {
       {
         threshold: 0.2,
         rootMargin: "0px 0px -50px 0px",
-      }
+      },
     );
 
     const elements = sectionRef.current?.querySelectorAll(".observe-animation");
@@ -695,7 +720,7 @@ const Listings = () => {
                             }`}
                             onClick={() => {
                               clearInterval(
-                                imageIntervals.current[listing._id]
+                                imageIntervals.current[listing._id],
                               );
                               setCurrentImageIndexes((prev) => ({
                                 ...prev,
@@ -725,8 +750,10 @@ const Listings = () => {
                     <span>{listing.area}</span>
                   </div>
                   <div className="detail-item price">
-                    <FaRupeeSign className="detail-icon" />
-                    <span>{listing.price}</span>
+                    {isPriceAvailable(listing.price) && (
+                      <FaRupeeSign className="detail-icon" />
+                    )}
+                    <span>{formatPrice(listing.price)}</span>
                   </div>
                 </div>
 
@@ -754,7 +781,9 @@ const Listings = () => {
                       onClick={() => handleGetReport(listing)}
                     >
                       <FaFileAlt />
-                      Get Report
+                      {isPriceAvailable(listing.price)
+                        ? "Get Best Price"
+                        : "Request Price"}
                     </button>
                   </div>
                 </div>
@@ -814,7 +843,8 @@ const Listings = () => {
                   <p>
                     <FaMapMarkerAlt style={{ marginRight: "0.3rem" }} />
                     {selectedListing.location} • {selectedListing.area} •{" "}
-                    {selectedListing.price}
+                    {isPriceAvailable(selectedListing.price) && "₹"}
+                    {formatPrice(selectedListing.price)}
                   </p>
                   <p className="listings-popup-property-code">
                     Property Code: {selectedListing.propertyCode}
@@ -1002,7 +1032,7 @@ const Listings = () => {
                       ) : (
                         <>
                           <FaFileAlt />
-                          Request Report
+                          Submit Request
                         </>
                       )}
                     </button>

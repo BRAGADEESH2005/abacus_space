@@ -1557,3 +1557,21 @@
     grid-column: span 2; /* Span 2 columns on larger screens */
   }
 }
+.admin-auto-generated {
+  background-color: #f7fafc;
+  font-style: italic;
+  color: #718096;
+}
+
+.admin-field-hint {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
+  color: #718096;
+}
+
+.admin-field-hint svg {
+  font-size: 0.875rem;
+}

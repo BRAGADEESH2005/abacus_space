@@ -106,13 +106,14 @@ const Admin = () => {
     Bhubaneswar: "BBR",
   };
 
-  // Updated newListing state - removed propertyCode since it's auto-generated
+  // Updated newListing state - propertyCode will be auto-generated but editable
   const [newListing, setNewListing] = useState({
     title: "",
     type: "Office",
     location: "",
     area: "",
     price: "",
+    propertyCode: "", // Auto-generated preview, editable by admin
     images: [],
     features: [""],
     viewsRange: [100, 300],
@@ -147,7 +148,7 @@ const Admin = () => {
     return type === "Office" ? "O" : type === "Retail" ? "R" : "C";
   };
 
-  // Updated validation function for new listing - removed propertyCode validation
+  // Updated validation function for new listing - propertyCode is optional/editable
   const validateNewListing = () => {
     const errors = {};
 
@@ -165,9 +166,22 @@ const Admin = () => {
       errors.price = "Price is required";
     }
 
+    // Validate propertyCode format if provided by admin
+    if (
+      newListing.propertyCode &&
+      newListing.propertyCode.trim() &&
+      !newListing.propertyCode.includes("XXX")
+    ) {
+      const codePattern = /^[A-Z]{3}-[ORC]-\d{3}$/;
+      if (!codePattern.test(newListing.propertyCode.trim())) {
+        errors.propertyCode =
+          "Property code must follow format: XXX-X-XXX (e.g., BLR-O-001)";
+      }
+    }
+
     // Check features - at least one non-empty feature
     const validFeatures = newListing.features.filter(
-      (feature) => feature.trim() !== ""
+      (feature) => feature.trim() !== "",
     );
     if (validFeatures.length === 0) {
       errors.features = "At least one feature is required";
@@ -181,7 +195,7 @@ const Admin = () => {
     return errors;
   };
 
-  // Updated validation function for editing listing - propertyCode is readonly
+  // Updated validation function for editing listing - propertyCode is editable
   const validateEditListing = () => {
     const errors = {};
 
@@ -198,11 +212,21 @@ const Admin = () => {
     if (!editingListing.price.trim()) {
       errors.price = "Price is required";
     }
-    // Note: propertyCode validation removed since it's immutable
+
+    // Validate propertyCode - it's required and must follow format
+    if (!editingListing.propertyCode || !editingListing.propertyCode.trim()) {
+      errors.propertyCode = "Property code is required";
+    } else {
+      const codePattern = /^[A-Z]{3}-[ORC]-\d{3}$/;
+      if (!codePattern.test(editingListing.propertyCode.trim())) {
+        errors.propertyCode =
+          "Property code must follow format: XXX-X-XXX (e.g., BLR-O-001)";
+      }
+    }
 
     // Check features - at least one non-empty feature
     const validFeatures = editingListing.features.filter(
-      (feature) => feature.trim() !== ""
+      (feature) => feature.trim() !== "",
     );
     if (validFeatures.length === 0) {
       errors.features = "At least one feature is required";
@@ -290,7 +314,7 @@ const Admin = () => {
             .toLowerCase()
             .includes(searchTerm.toLowerCase()) ||
           listing.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          listing.area.toLowerCase().includes(searchTerm.toLowerCase())
+          listing.area.toLowerCase().includes(searchTerm.toLowerCase()),
       );
     }
 
@@ -302,7 +326,7 @@ const Admin = () => {
     // Location filter
     if (selectedLocation !== "all") {
       filtered = filtered.filter(
-        (listing) => listing.location === selectedLocation
+        (listing) => listing.location === selectedLocation,
       );
     }
 
@@ -376,7 +400,7 @@ const Admin = () => {
             "Content-Type": "multipart/form-data",
           },
           timeout: 60000,
-        }
+        },
       );
 
       if (response.data.success) {
@@ -387,7 +411,7 @@ const Admin = () => {
     } catch (error) {
       console.error("Error uploading images:", error);
       throw new Error(
-        error.response?.data?.message || "Failed to upload images"
+        error.response?.data?.message || "Failed to upload images",
       );
     } finally {
       setUploadingImages(false);
@@ -441,6 +465,7 @@ const Admin = () => {
     setPropertyCodeStats(null);
   };
 
+  // Update the handleInputChange function to handle price formatting
   const handleInputChange = (e, isNewListing = false) => {
     const { name, value } = e.target;
 
@@ -451,18 +476,64 @@ const Admin = () => {
       return newErrors;
     });
 
+    // Handle price field with automatic ₹ prefix
+    if (name === "price") {
+      let formattedValue = value;
+
+      // Remove existing ₹ symbols to avoid duplicates
+      formattedValue = formattedValue.replace(/₹/g, "").trim();
+
+      // Only add ₹ if there's a value
+      if (formattedValue) {
+        formattedValue = `₹${formattedValue}`;
+      }
+
+      if (isNewListing) {
+        setNewListing((prev) => ({ ...prev, [name]: formattedValue }));
+
+        // Auto-generate property code preview when location or type changes
+        if (name === "location" || name === "type") {
+          const location = name === "location" ? value : newListing.location;
+          const type = name === "type" ? value : newListing.type;
+
+          if (location && type) {
+            const locationCode = getLocationCode(location);
+            const typeCode = getTypeCode(type);
+            const autoCode = `${locationCode}-${typeCode}-XXX`;
+            setNewListing((prev) => ({ ...prev, propertyCode: autoCode }));
+          }
+        }
+      } else if (editingListing) {
+        setEditingListing((prev) => ({ ...prev, [name]: formattedValue }));
+      }
+      return;
+    }
+
+    // Handle other fields normally
     if (isNewListing) {
       setNewListing((prev) => ({ ...prev, [name]: value }));
+
+      // Auto-generate property code preview when location or type changes
+      if (name === "location" || name === "type") {
+        const location = name === "location" ? value : newListing.location;
+        const type = name === "type" ? value : newListing.type;
+
+        if (location && type) {
+          const locationCode = getLocationCode(location);
+          const typeCode = getTypeCode(type);
+          const autoCode = `${locationCode}-${typeCode}-XXX`;
+          setNewListing((prev) => ({ ...prev, propertyCode: autoCode }));
+        }
+      }
     } else if (editingListing) {
       setEditingListing((prev) => ({ ...prev, [name]: value }));
     }
   };
-
   const handleArrayInputChange = (
     index,
     value,
     field,
-    isNewListing = false
+    isNewListing = false,
   ) => {
     if (isNewListing) {
       setNewListing((prev) => {
@@ -510,7 +581,7 @@ const Admin = () => {
 
     if (field === "features" && remainingFeatures.length === 0) {
       alert(
-        "You must have at least one feature. Please add a feature before removing this one."
+        "You must have at least one feature. Please add a feature before removing this one.",
       );
       return;
     }
@@ -531,13 +602,13 @@ const Admin = () => {
   // Remove existing image from editing listing
   const removeExistingImage = (index) => {
     const remainingExistingImages = editingListing.images.filter(
-      (_, i) => i !== index
+      (_, i) => i !== index,
     );
     const hasNewImages = editSelectedFiles.length > 0;
 
     if (remainingExistingImages.length === 0 && !hasNewImages) {
       alert(
-        "You must have at least one image. Please upload a new image before removing this one."
+        "You must have at least one image. Please upload a new image before removing this one.",
       );
       return;
     }
@@ -562,7 +633,7 @@ const Admin = () => {
 
     if (remainingFiles.length === 0) {
       alert(
-        "You must have at least one image. Please select another image before removing this one."
+        "You must have at least one image. Please select another image before removing this one.",
       );
       return;
     }
@@ -583,7 +654,7 @@ const Admin = () => {
 
     if (remainingNewFiles.length === 0 && !hasExistingImages) {
       alert(
-        "You must have at least one image. Please keep this image or upload another one."
+        "You must have at least one image. Please keep this image or upload another one.",
       );
       return;
     }
@@ -615,11 +686,11 @@ const Admin = () => {
       let imageUrls = [];
 
       if (selectedFiles.length > 0) {
-        // Don't pass propertyCode since it will be auto-generated
+        // Upload images (propertyCode will be added after creation)
         imageUrls = await uploadImages(selectedFiles);
       }
 
-      // Prepare listing data - removed propertyCode
+      // Prepare listing data - include propertyCode if admin provided one
       const listingData = {
         title: newListing.title.trim(),
         type: newListing.type,
@@ -628,7 +699,7 @@ const Admin = () => {
         price: newListing.price.trim(),
         images: imageUrls,
         features: newListing.features.filter(
-          (feature) => feature.trim() !== ""
+          (feature) => feature.trim() !== "",
         ),
         viewsRange: [
           parseInt(newListing.viewsRange[0]),
@@ -636,21 +707,36 @@ const Admin = () => {
         ],
       };
 
+      // Only include propertyCode if admin has edited it (not the auto-preview)
+      if (
+        newListing.propertyCode &&
+        newListing.propertyCode.trim() &&
+        !newListing.propertyCode.includes("XXX")
+      ) {
+        listingData.propertyCode = newListing.propertyCode.trim();
+      }
+      console.log(
+        "Creating listing with data:",
+        listingData,
+        listingData.propertyCode,
+      );
+
       const response = await api.post("/listings", listingData);
 
       if (response.data.success) {
         const createdListing = response.data.data;
         alert(
-          `Listing created successfully!\nProperty Code: ${createdListing.propertyCode}`
+          `Listing created successfully!\nProperty Code: ${createdListing.propertyCode}`,
         );
 
-        // Reset form - removed propertyCode
+        // Reset form - include propertyCode reset
         setNewListing({
           title: "",
           type: "Office",
           location: "",
           area: "",
           price: "",
+          propertyCode: "",
           images: [],
           features: [""],
           viewsRange: [100, 300],
@@ -696,23 +782,25 @@ const Admin = () => {
       if (editSelectedFiles.length > 0) {
         const newImageUrls = await uploadImages(
           editSelectedFiles,
-          editingListing.propertyCode
+          editingListing.propertyCode,
         );
         imageUrls = [...imageUrls, ...newImageUrls];
       }
 
-      // Prepare listing data - propertyCode will be removed by backend
+      // Prepare listing data - include editable propertyCode
       const listingData = {
         ...editingListing,
+        propertyCode: editingListing.propertyCode.trim(), // Admin can edit this
         images: imageUrls,
         features: editingListing.features.filter(
-          (feature) => feature.trim() !== ""
+          (feature) => feature.trim() !== "",
         ),
       };
+      console.log("Updating listing with data:", listingData.propertyCode);
 
       const response = await api.put(
         `/listings/${editingListing._id}`,
-        listingData
+        listingData,
       );
 
       if (response.data.success) {
@@ -1261,12 +1349,25 @@ const Admin = () => {
                       <FaRupeeSign className="admin-form-icon" />
                       Price *
                     </label>
+                    <small
+                      className="admin-field-hint"
+                      style={{
+                        marginBottom: "8px",
+                        display: "block",
+                        color: "#666",
+                      }}
+                    >
+                      <FaInfoCircle style={{ marginRight: "4px" }} />
+                      {newListing.type === "Co-Working"
+                        ? "Price is per seat per month"
+                        : "Price is per sqft"}
+                    </small>
                     <input
                       type="text"
                       name="price"
                       value={newListing.price}
                       onChange={(e) => handleInputChange(e, true)}
-                      placeholder="e.g., ₹1,50,000/month"
+                      placeholder="e.g.,1,50,000/month"
                       required
                     />
                     {validationErrors.price && (
@@ -1275,6 +1376,49 @@ const Admin = () => {
                         {validationErrors.price}
                       </div>
                     )}
+                    <small
+                      className="admin-field-hint"
+                      style={{ marginTop: "4px", display: "block" }}
+                    >
+                      💡 Tip: Enter "0" to display "Price available upon
+                      request"
+                    </small>
+                  </div>
+
+                  <div
+                    className={`admin-form-group ${
+                      validationErrors.propertyCode ? "error" : ""
+                    }`}
+                  >
+                    <label>
+                      <FaBuilding className="admin-form-icon" />
+                      Property Code
+                    </label>
+                    <input
+                      type="text"
+                      name="propertyCode"
+                      value={newListing.propertyCode}
+                      onChange={(e) => handleInputChange(e, true)}
+                      placeholder="Auto-generated (editable)"
+                      style={{
+                        backgroundColor: newListing.propertyCode.includes("XXX")
+                          ? "#f0f8ff"
+                          : "#fff",
+                      }}
+                    />
+                    {validationErrors.propertyCode && (
+                      <div className="admin-validation-error">
+                        <FaExclamationTriangle />
+                        {validationErrors.propertyCode}
+                      </div>
+                    )}
+                    <small className="admin-field-hint">
+                      {newListing.propertyCode.includes("XXX")
+                        ? "Auto-preview - will be replaced with actual number. You can edit this field."
+                        : newListing.propertyCode
+                          ? "Custom property code - Format: XXX-X-XXX (e.g., BLR-O-001)"
+                          : "Select location and type to see preview"}
+                    </small>
                   </div>
 
                   <div className="admin-form-group">
@@ -1426,7 +1570,7 @@ const Admin = () => {
                             index,
                             e.target.value,
                             "features",
-                            true
+                            true,
                           )
                         }
                         placeholder="Enter feature"
@@ -1592,6 +1736,19 @@ const Admin = () => {
                       <FaRupeeSign className="admin-form-icon" />
                       Price *
                     </label>
+                    <small
+                      className="admin-field-hint"
+                      style={{
+                        marginBottom: "8px",
+                        display: "block",
+                        color: "#666",
+                      }}
+                    >
+                      <FaInfoCircle style={{ marginRight: "4px" }} />
+                      {editingListing.type === "Co-Working"
+                        ? "Price is per seat per month"
+                        : "Price is per sqft"}
+                    </small>
                     <input
                       type="text"
                       name="price"
@@ -1605,7 +1762,43 @@ const Admin = () => {
                         {validationErrors.price}
                       </div>
                     )}
+                    <small
+                      className="admin-field-hint"
+                      style={{ marginTop: "4px", display: "block" }}
+                    >
+                      💡 Tip: Enter "0" to display "Price available upon
+                      request"
+                    </small>
                   </div>
+
+                  <div
+                    className={`admin-form-group ${
+                      validationErrors.propertyCode ? "error" : ""
+                    }`}
+                  >
+                    {/* <label>
+                      <FaBuilding className="admin-form-icon" />
+                      Property Code *
+                    </label>
+                    <input
+                      type="text"
+                      name="propertyCode"
+                      value={editingListing.propertyCode}
+                      onChange={handleInputChange}
+                      placeholder="XXX-X-XXX"
+                      required
+                    /> */}
+                    {validationErrors.propertyCode && (
+                      <div className="admin-validation-error">
+                        <FaExclamationTriangle />
+                        {validationErrors.propertyCode}
+                      </div>
+                    )}
+                    {/* <small className="admin-field-hint">
+                      Format: XXX-X-XXX (e.g., BLR-O-001) - Editable
+                    </small> */}
+                  </div>
+
                   {/* ADD THIS NEW SECTION RIGHT AFTER THE PRICE FIELD: */}
                   <div className="admin-form-group">
                     <label>
@@ -1686,20 +1879,33 @@ const Admin = () => {
                       )}
                     </small>
                   </div>
-                  {/* Property Code - Read Only */}
-                  <div className="admin-form-group">
+                  {/* Property Code - Editable */}
+                  <div
+                    className={`admin-form-group ${
+                      validationErrors.propertyCode ? "error" : ""
+                    }`}
+                  >
                     <label>
                       <FaCode className="admin-form-icon" />
-                      Property Code (Auto-generated)
+                      Property Code *
                     </label>
                     <input
                       type="text"
+                      name="propertyCode"
                       value={editingListing.propertyCode}
-                      disabled
-                      className="admin-readonly-input"
+                      onChange={handleInputChange}
+                      placeholder="XXX-X-XXX (e.g., BLR-O-001)"
+                      required
                     />
+                    {validationErrors.propertyCode && (
+                      <div className="admin-validation-error">
+                        <FaExclamationTriangle />
+                        {validationErrors.propertyCode}
+                      </div>
+                    )}
                     <small className="admin-field-hint">
-                      Property codes cannot be changed after creation
+                      Format: XXX-X-XXX (e.g., BLR-O-001) - You can edit if
+                      needed
                     </small>
                   </div>
                 </div>
@@ -1803,7 +2009,7 @@ const Admin = () => {
                           handleArrayInputChange(
                             index,
                             e.target.value,
-                            "features"
+                            "features",
                           )
                         }
                         placeholder="Enter feature"
@@ -1841,7 +2047,7 @@ const Admin = () => {
                       setEditingListing(null);
                       setActiveTab("listings");
                       editImagePreviewUrls.forEach((url) =>
-                        URL.revokeObjectURL(url)
+                        URL.revokeObjectURL(url),
                       );
                       setEditSelectedFiles([]);
                       setEditImagePreviewUrls([]);
@@ -1926,14 +2132,14 @@ const Admin = () => {
                             counter.prefix.split("-");
                           const locationName =
                             Object.keys(locationCodes).find(
-                              (key) => locationCodes[key] === locationCode
+                              (key) => locationCodes[key] === locationCode,
                             ) || locationCode;
                           const typeName =
                             typeCode === "O"
                               ? "Office"
                               : typeCode === "R"
-                              ? "Retail"
-                              : "Co-Working";
+                                ? "Retail"
+                                : "Co-Working";
 
                           return (
                             <tr key={index}>
@@ -1945,7 +2151,7 @@ const Admin = () => {
                               <td>{counter.count}</td>
                               <td>
                                 {new Date(
-                                  counter.lastUpdated
+                                  counter.lastUpdated,
                                 ).toLocaleDateString()}
                               </td>
                               <td>
