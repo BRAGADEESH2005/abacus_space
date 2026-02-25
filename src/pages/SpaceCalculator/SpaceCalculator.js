@@ -3,7 +3,6 @@ import axios from "axios";
 import {
   FaCalculator,
   FaBuilding,
-  FaUsers,
   FaDesktop,
   FaDoorOpen,
   FaHandshake,

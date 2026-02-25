@@ -4,7 +4,6 @@ import {
   FaMapMarkerAlt,
   FaHandshake,
   FaHeart,
-  FaShieldAlt,
 } from "react-icons/fa";
 import "./WhyAbacus.css";
 

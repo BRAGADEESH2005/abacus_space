@@ -1,13 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./VideoAnimation.css";
-import {
-  FaBuilding,
-  FaStore,
-  FaUsers,
-  FaCalculator,
-  FaBullseye,
-} from "react-icons/fa";
-import { MdLocationOn } from "react-icons/md";
+import { FaCalculator, FaBullseye } from "react-icons/fa";
 
 const VideoAnimation = () => {
   const [currentScene, setCurrentScene] = useState(0);
@@ -19,14 +12,6 @@ const VideoAnimation = () => {
     { id: 3, name: "calculator", duration: 4000 },
     { id: 4, name: "goal", duration: 4000 },
     { id: 5, name: "conclusion", duration: 4000 },
-  ];
-
-  const cities = [
-    { name: "Chennai", x: 78, y: 65, delay: 0 },
-    { name: "Bangalore", x: 77, y: 73, delay: 0.3 },
-    { name: "Coimbatore", x: 76, y: 68, delay: 0.6 },
-    { name: "Kochi", x: 75, y: 78, delay: 0.9 },
-    { name: "Hyderabad", x: 78, y: 58, delay: 1.2 },
   ];
 
   useEffect(() => {
@@ -101,8 +86,7 @@ const VideoAnimation = () => {
                   <div className="card-overlay"></div>
                 </div>
                 <div className="card-content">
-                  <div className="space-icon-container">
-                  </div>
+                  <div className="space-icon-container"></div>
                   <h3>OFFICE SPACE</h3>
                   <p>Premium corporate offices for growing businesses</p>
                   <div className="card-glow"></div>
@@ -119,8 +103,7 @@ const VideoAnimation = () => {
                   <div className="card-overlay"></div>
                 </div>
                 <div className="card-content">
-                  <div className="space-icon-container">
-                  </div>
+                  <div className="space-icon-container"></div>
                   <h3>RETAIL SPACE</h3>
                   <p>High-footfall retail locations for maximum visibility</p>
                   <div className="card-glow"></div>
@@ -137,8 +120,7 @@ const VideoAnimation = () => {
                   <div className="card-overlay"></div>
                 </div>
                 <div className="card-content">
-                  <div className="space-icon-container">
-                  </div>
+                  <div className="space-icon-container"></div>
                   <h3>CO-WORKING SPACE</h3>
                   <p>Flexible collaborative environments for teams</p>
                   <div className="card-glow"></div>

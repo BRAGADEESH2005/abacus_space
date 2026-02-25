@@ -2,8 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import {
   FaPhone,
   FaEnvelope,
-  FaMapMarkerAlt,
-  FaClock,
   FaPaperPlane,
 } from "react-icons/fa";
 import "./Contact.css";

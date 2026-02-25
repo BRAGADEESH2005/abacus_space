@@ -3,7 +3,6 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import {
   FaBuilding,
-  FaMapMarkerAlt,
   FaCity,
   FaArrowRight,
   FaPhone,
@@ -152,7 +151,7 @@ const RegionsMap = () => {
           }
         });
       },
-      { threshold: 0.2 }
+      { threshold: 0.2 },
     );
 
     if (sectionRef.current) {
@@ -337,7 +336,7 @@ const RegionsMap = () => {
                   }}
                   onClick={() =>
                     setActiveRegion(
-                      activeRegion === region.id ? null : region.id
+                      activeRegion === region.id ? null : region.id,
                     )
                   }
                 >

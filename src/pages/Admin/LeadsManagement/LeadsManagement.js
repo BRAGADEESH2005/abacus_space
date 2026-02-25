@@ -23,7 +23,6 @@ import {
   FaCheckCircle,
   FaTimesCircle,
   FaExclamationTriangle,
-  FaArrowLeft
 } from 'react-icons/fa';
 import { MdDashboard, MdRefresh } from 'react-icons/md';
 import './LeadsManagement.css';
@@ -31,7 +30,6 @@ import './LeadsManagement.css';
 const LeadsManagement = ({ onNavigateBack }) => {
    const navigate = useNavigate();
   const [leads, setLeads] = useState([]);
-  const [filteredLeads, setFilteredLeads] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -88,7 +86,6 @@ const LeadsManagement = ({ onNavigateBack }) => {
 
       if (response.data.success) {
         setLeads(response.data.data);
-        setFilteredLeads(response.data.data);
         setCurrentPage(response.data.pagination.page);
         setTotalPages(response.data.pagination.pages);
         

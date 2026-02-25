@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { FaArrowRight, FaBuilding, FaHandshake, FaUsers } from "react-icons/fa";
+import { FaArrowRight, FaBuilding, FaHandshake } from "react-icons/fa";
 import { MdCall, MdLocationOn } from "react-icons/md";
 import "./CallToAction.css";
 
@@ -28,7 +28,7 @@ const CallToAction = () => {
           }
         });
       },
-      { threshold: 0.3 }
+      { threshold: 0.3 },
     );
 
     if (sectionRef.current) {

@@ -1,15 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  FaBuilding,
-  FaRocket,
-  FaArrowRight,
-  FaCalculator,
-} from "react-icons/fa";
-import { BsLightningChargeFill } from "react-icons/bs";
-import { MdVerified } from "react-icons/md";
-import { HiCurrencyDollar } from "react-icons/hi";
-import { AiFillCheckCircle } from "react-icons/ai";
+import { FaRocket, FaArrowRight, FaCalculator } from "react-icons/fa";
 import VideoAnimation from "../VideoAnimation/VideoAnimation";
 import "./Hero.css";
 
