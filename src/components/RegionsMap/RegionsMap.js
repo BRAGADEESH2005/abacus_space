@@ -234,7 +234,9 @@ const RegionsMap = () => {
               <span className="regions-stat-number">
                 {animatedStats.retail || 0}+
               </span>
-              <span className="regions-stat-label">Co-Working Spaces</span>
+              <span className="regions-stat-label">
+                Hospitality & Healthcare Spaces
+              </span>
             </div>
           </div>
 

@@ -114,14 +114,14 @@ const VideoAnimation = () => {
                 <div className="card-background">
                   <img
                     src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=400&h=300&fit=crop&auto=format&q=80"
-                    alt="Co-working Space"
+                    alt="Hospitality & Healthcare Space"
                     className="space-bg-image"
                   />
                   <div className="card-overlay"></div>
                 </div>
                 <div className="card-content">
                   <div className="space-icon-container"></div>
-                  <h3>CO-WORKING SPACE</h3>
+                  <h3>Hospitality & Healthcare SPACE</h3>
                   <p>Flexible collaborative environments for teams</p>
                   <div className="card-glow"></div>
                 </div>

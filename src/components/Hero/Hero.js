@@ -1,49 +1,35 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaRocket, FaArrowRight, FaCalculator } from "react-icons/fa";
-import VideoAnimation from "../VideoAnimation/VideoAnimation";
+import { FaRocket, FaCalculator, FaArrowRight } from "react-icons/fa";
 import "./Hero.css";
 
 const Hero = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [showIntro, setShowIntro] = useState(true);
   const [introPhase, setIntroPhase] = useState("entering");
-  const [particles, setParticles] = useState([]);
   const heroRef = useRef(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Simple intro animation sequence
-    const introSequence = async () => {
-      // Phase 1: Show intro logo (entering)
-      setTimeout(() => {
-        setIntroPhase("visible");
-      }, 200);
+    // Intro animation sequence
+    const enterTimer = setTimeout(() => {
+      setIntroPhase("visible");
+    }, 100);
 
-      // Phase 2: Keep intro visible for 2.5 seconds
-      setTimeout(() => {
-        setIntroPhase("exiting");
-      }, 1800);
+    const exitTimer = setTimeout(() => {
+      setIntroPhase("exiting");
+    }, 2500);
 
-      // Phase 3: Hide intro and show hero
-      setTimeout(() => {
-        setShowIntro(false);
-        setIsLoaded(true);
-      }, 2500);
+    const hideTimer = setTimeout(() => {
+      setShowIntro(false);
+      setIsLoaded(true);
+    }, 3300);
+
+    return () => {
+      clearTimeout(enterTimer);
+      clearTimeout(exitTimer);
+      clearTimeout(hideTimer);
     };
-
-    introSequence();
-
-    // Create floating particles
-    const newParticles = Array.from({ length: 15 }, (_, i) => ({
-      id: i,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      size: Math.random() * 4 + 2,
-      speed: Math.random() * 2 + 1,
-      delay: Math.random() * 2,
-    }));
-    setParticles(newParticles);
   }, []);
 
   // Navigation functions
@@ -57,7 +43,6 @@ const Hero = () => {
 
   return (
     <>
-      {/* Logo Intro Overlay */}
       {showIntro && (
         <div className={`intro-overlay ${introPhase}`}>
           <div className="intro-background">
@@ -76,36 +61,20 @@ const Hero = () => {
         </div>
       )}
 
-      {/* Main Hero Section */}
       <section
         className={`hero ${!showIntro ? "hero-visible" : ""}`}
         ref={heroRef}
       >
-        {/* Animated Background */}
-        <div className="hero-background">
-          <div className="gradient-orb orb-1"></div>
-          <div className="gradient-orb orb-2"></div>
-          <div className="gradient-orb orb-3"></div>
+        {/* Background Video */}
+        <video autoPlay loop muted playsInline className="hero-video">
+          <source src="/aigen_vid_dark.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
 
-          {/* Floating Particles */}
-          {particles.map((particle) => (
-            <div
-              key={particle.id}
-              className="floating-particle"
-              style={{
-                left: `${particle.x}%`,
-                top: `${particle.y}%`,
-                width: `${particle.size}px`,
-                height: `${particle.size}px`,
-                animationDelay: `${particle.delay}s`,
-                animationDuration: `${particle.speed + 3}s`,
-              }}
-            />
-          ))}
-        </div>
+        {/* Dark Overlay for text visibility */}
+        <div className="hero-overlay"></div>
 
         <div className="hero-container">
-          {/* Left Content */}
           <div className="hero-content">
             <h1 className={`hero-title ${isLoaded ? "animate-in" : ""}`}>
               <span className="title-line-1">ABACUS</span>
@@ -134,32 +103,8 @@ const Hero = () => {
                     <span>Office Space Calculator</span>
                   </div>
                 </div>
-                <div className="btn-subtitle">
-                  Calculate your ideal office space for free
-                </div>
                 <FaArrowRight className="arrow-icon" />
               </button>
-            </div>
-            <div className={`hero-achievement ${isLoaded ? "animate-in" : ""}`}>
-              <div className="achievement-content">
-                <div className="achievement-text">
-                  <span className="achievement-highlight">
-                    Transaction close to
-                  </span>
-                  <span className="achievement-number">1,00,000 sq.ft.</span>
-                  <span className="achievement-description">
-                    of Commercial space in 2025
-                  </span>
-                </div>
-              </div>
-              <div className="achievement-glow"></div>
-            </div>
-          </div>
-
-          {/* Right Visual - New Video Animation Component */}
-          <div className="hero-visual">
-            <div className="visual-container">
-              <VideoAnimation />
             </div>
           </div>
         </div>

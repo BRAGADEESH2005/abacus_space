@@ -145,7 +145,7 @@ const Admin = () => {
 
   // Helper function to get type code
   const getTypeCode = (type) => {
-    return type === "Office" ? "O" : type === "Retail" ? "R" : "C";
+    return type === "Office" ? "O" : type === "Retail" ? "R" : "H";
   };
 
   // Updated validation function for new listing - propertyCode is optional/editable
@@ -172,7 +172,7 @@ const Admin = () => {
       newListing.propertyCode.trim() &&
       !newListing.propertyCode.includes("XXX")
     ) {
-      const codePattern = /^[A-Z]{3}-[ORC]-\d{3}$/;
+      const codePattern = /^[A-Z]{3}-[ORH]-\d{3}$/;
       if (!codePattern.test(newListing.propertyCode.trim())) {
         errors.propertyCode =
           "Property code must follow format: XXX-X-XXX (e.g., BLR-O-001)";
@@ -1098,8 +1098,8 @@ const Admin = () => {
                       <option value="all">All Types</option>
                       {availableTypes.map((type) => (
                         <option key={type} value={type}>
-                          {type === "Co-Working"
-                            ? "Co-Working"
+                          {type === "Hospitality & Healthcare"
+                            ? "Hospitality & Healthcare"
                             : `${type} Space`}
                         </option>
                       ))}
@@ -1227,7 +1227,7 @@ const Admin = () => {
                     <p>
                       Property codes are automatically generated based on
                       location and type (e.g., BLR-C-001 for Bangalore
-                      Co-Working #1)
+                      Hospitality & Healthcare #1)
                     </p>
                   </div>
                 </div>
@@ -1274,7 +1274,9 @@ const Admin = () => {
                     >
                       <option value="Office">Office Space</option>
                       <option value="Retail">Retail Space</option>
-                      <option value="Co-Working">Co-Working</option>
+                      <option value="Hospitality & Healthcare">
+                        Hospitality & Healthcare
+                      </option>
                     </select>
                     <small className="admin-field-hint">
                       Code: {getTypeCode(newListing.type)}
@@ -1358,7 +1360,7 @@ const Admin = () => {
                       }}
                     >
                       <FaInfoCircle style={{ marginRight: "4px" }} />
-                      {newListing.type === "Co-Working"
+                      {newListing.type === "Hospitality & Healthcare"
                         ? "Price is per seat per month"
                         : "Price is per sqft"}
                     </small>
@@ -1367,7 +1369,11 @@ const Admin = () => {
                       name="price"
                       value={newListing.price}
                       onChange={(e) => handleInputChange(e, true)}
-                      placeholder="e.g.,1,50,000/month"
+                      placeholder={
+                        newListing.type === "Hospitality & Healthcare"
+                          ? "e.g.,1,50,000/month"
+                          : "e.g.,150/sqft"
+                      }
                       required
                     />
                     {validationErrors.price && (
@@ -1671,7 +1677,9 @@ const Admin = () => {
                     >
                       <option value="Office">Office Space</option>
                       <option value="Retail">Retail Space</option>
-                      <option value="Co-Working">Co-Working</option>
+                      <option value="Hospitality & Healthcare">
+                        Hospitality & Healthcare
+                      </option>
                     </select>
                   </div>
                   {/* UPDATED: Location Dropdown for Edit */}
@@ -1745,7 +1753,7 @@ const Admin = () => {
                       }}
                     >
                       <FaInfoCircle style={{ marginRight: "4px" }} />
-                      {editingListing.type === "Co-Working"
+                      {editingListing.type === "Hospitality & Healthcare"
                         ? "Price is per seat per month"
                         : "Price is per sqft"}
                     </small>
@@ -2139,7 +2147,7 @@ const Admin = () => {
                               ? "Office"
                               : typeCode === "R"
                                 ? "Retail"
-                                : "Co-Working";
+                                : "Hospitality & Healthcare";
 
                           return (
                             <tr key={index}>
@@ -2181,7 +2189,7 @@ const Admin = () => {
                         </li>
                         <li>
                           <strong>TYPE:</strong> Property type code (O=Office,
-                          R=Retail, C=Co-Working)
+                          R=Retail, C=Hospitality & Healthcare)
                         </li>
                         <li>
                           <strong>SEQUENCE:</strong> 3-digit number with leading
@@ -2193,8 +2201,8 @@ const Admin = () => {
                       </p>
                       <ul>
                         <li>
-                          <code>BLR-C-001</code> - First Co-Working space in
-                          Bangalore
+                          <code>BLR-C-001</code> - First Hospitality &
+                          Healthcare space in Bangalore
                         </li>
                         <li>
                           <code>MUM-O-042</code> - 42nd Office space in Mumbai

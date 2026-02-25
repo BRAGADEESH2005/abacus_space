@@ -615,7 +615,7 @@ const Listings = () => {
                   <option value="all">All Types</option>
                   {availableTypes.map((type) => (
                     <option key={type} value={type}>
-                      {type === "Co-Working" ? "Co-Working" : `${type} Space`}
+                      {type === "Hospitality & Healthcare" ? "Hospitality & Healthcare" : `${type} Space`}
                     </option>
                   ))}
                 </select>

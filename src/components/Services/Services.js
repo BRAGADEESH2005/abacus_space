@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { HiOfficeBuilding } from "react-icons/hi";
-import { FaStore, FaUsers, FaArrowRight } from "react-icons/fa";
+import { FaStore, FaBuilding, FaHospital, FaArrowRight } from "react-icons/fa";
 import "./Services.css";
 
 const Services = () => {
@@ -15,44 +14,57 @@ const Services = () => {
   const services = useMemo(
     () => [
       {
-        title: "Office Space",
+        title: "Retail",
         description:
-          "Find and secure the ideal office space based on team size, location preference, and growth plans.",
-        icon: <HiOfficeBuilding />,
+          "Premium retail spaces across malls, high streets, experience centers, and dining establishments to maximize your brand's visibility and customer engagement.",
+        icon: <FaStore />,
         color: "#23c6a4",
         delay: 0,
         image:
           "https://i.pinimg.com/736x/1d/ea/bf/1deabf56ead86762ab1293481096adc8.jpg",
-        features: ["Prime Locations", "Flexible Terms", "End-to-End Support"],
+        features: [
+          "Malls",
+          "High Street Stores",
+          "Experience Centres",
+          "Restaurants & QSR Spaces",
+        ],
       },
       {
-        title: "Retail Space",
+        title: "Office",
         description:
-          "Prime retail locations that maximize visibility, footfall, and sales, with end-to-end landlord negotiations.",
-        icon: <FaStore />,
+          "Comprehensive office solutions from GCC setups to co-working spaces, tech parks, and standalone offices designed for modern businesses.",
+        icon: <FaBuilding />,
         color: "#1a2f5c",
         delay: 200,
         image:
           "https://i.pinimg.com/1200x/94/52/14/94521417be896fbd8b5ed984da3ad244.jpg",
         features: [
-          "High Footfall Areas",
-          "Competitive Rates",
-          "Marketing Support",
+          "GCC",
+          "Co-Working & Flex Spaces",
+          "Tech & SEZ Parks",
+          "Standalone Office Space",
+          "Research Centres",
         ],
       },
       {
-        title: "Co-Working Spaces",
+        title: "Hospitality & Healthcare",
         description:
-          "Fully managed, ready-to-use flexible spaces that enable hassle-free plug-and-play operations.",
-        icon: <FaUsers />,
+          "Thoughtfully designed spaces for senior living, co-living communities, early education, and healthcare facilities that prioritize comfort, wellness, and quality care.",
+        icon: <FaHospital />,
         color: "#4fd1c7",
         delay: 400,
         image:
           "https://i.pinimg.com/1200x/5a/54/ff/5a54ff359b4ab9d4a8d986150554144a.jpg",
-        features: ["Plug & Play", "Community Access", "Flexible Memberships"],
+        features: [
+          "Senior Living Homes",
+          "Co Living Homes",
+          "Pre Schools",
+          "Clinics & Hospitals",
+          "Rehabilitation Centers",
+        ],
       },
     ],
-    []
+    [],
   );
 
   // ...existing code...
@@ -81,11 +93,11 @@ const Services = () => {
       {
         threshold: 0.2,
         rootMargin: "0px 0px -50px 0px",
-      }
+      },
     );
 
     const elements = sectionRef.current?.querySelectorAll(
-      ".services-observe-animation"
+      ".services-observe-animation",
     );
     elements?.forEach((el) => observer.observe(el));
 
