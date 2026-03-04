@@ -6,16 +6,18 @@ import RegionsMap from "../../components/RegionsMap/RegionsMap";
 import TrustedBy from "../../components/TrustedBy/TrustedBy";
 import InsightsNews from "../../components/InsightsNews/InsightsNews";
 import CallToAction from "../../components/CallToAction/CallToAction";
-
+import LatestInRealEstate from "../../components/LatestInRealEstate/LatestInRealEstate";
 const Home = () => {
   return (
     <>
       <Hero />
-      <Services />
+      {/* <InsightsNews /> */}
+      <LatestInRealEstate />
+
       <WhyAbacus />
       <RegionsMap />
       <TrustedBy />
-      <InsightsNews />
+      <Services />
       <CallToAction />
     </>
   );

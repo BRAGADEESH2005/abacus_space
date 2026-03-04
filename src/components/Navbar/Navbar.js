@@ -7,6 +7,11 @@ import {
   FaTimes,
   FaChevronRight,
   FaCalculator,
+  FaSearch,
+  FaPhotoVideo,
+  FaBriefcase,
+  FaLightbulb,
+  FaUsers,
 } from "react-icons/fa";
 import { MdViewList } from "react-icons/md";
 import "./Navbar.css";
@@ -14,6 +19,7 @@ import "./Navbar.css";
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const location = useLocation();
 
   useEffect(() => {
@@ -45,11 +51,76 @@ const Navbar = () => {
     setIsMobileMenuOpen(false);
   };
 
+  const handleSearch = (e) => {
+    e.preventDefault();
+    console.log("Searching for:", searchQuery);
+    // Implement search functionality here
+  };
+
   return (
     <>
       <nav className={`navbar ${isScrolled ? "navbar-scrolled" : ""}`}>
         <div className="navbar-container">
-          {/* Brand Logo */}
+          {/* Left Section */}
+          <div className="navbar-left">
+            <div className="navbar-left-row">
+              <Link
+                to="/media"
+                className={`navbar-link ${
+                  location.pathname === "/media" ? "active" : ""
+                }`}
+              >
+                <FaPhotoVideo className="link-icon" />
+                <span>Media</span>
+                <div className="link-underline"></div>
+              </Link>
+
+              <Link
+                to="/contact"
+                className={`navbar-link ${
+                  location.pathname === "/contact" ? "active" : ""
+                }`}
+              >
+                <FaEnvelope className="link-icon" />
+                <span>Contact</span>
+                <div className="link-underline"></div>
+              </Link>
+            </div>
+
+            <div className="navbar-left-row">
+              <Link
+                to="/services"
+                className={`navbar-link ${
+                  location.pathname === "/services" ? "active" : ""
+                }`}
+              >
+                <span>Services</span>
+                <div className="link-underline"></div>
+              </Link>
+
+              <Link
+                to="/listings"
+                className={`navbar-link ${
+                  location.pathname === "/listings" ? "active" : ""
+                }`}
+              >
+                <span>Projects</span>
+                <div className="link-underline"></div>
+              </Link>
+
+              <Link
+                to="/technology"
+                className={`navbar-link ${
+                  location.pathname === "/technology" ? "active" : ""
+                }`}
+              >
+                <span>Technology</span>
+                <div className="link-underline"></div>
+              </Link>
+            </div>
+          </div>
+
+          {/* Center Section - Logo */}
           <Link to="/" className="navbar-brand" onClick={closeMobileMenu}>
             <img
               src="/logo_abacus.png"
@@ -58,62 +129,59 @@ const Navbar = () => {
             />
           </Link>
 
-          {/* Desktop Menu */}
-          <div className="navbar-menu">
-            <Link
-              to="/"
-              className={`navbar-link ${
-                location.pathname === "/" ? "active" : ""
-              }`}
-            >
-              <FaHome className="link-icon" />
-              <span>Home</span>
-              <div className="link-underline"></div>
-            </Link>
+          {/* Right Section */}
+          <div className="navbar-right">
+            <div className="navbar-right-row">
+              <form className="search-bar" onSubmit={handleSearch}>
+                <span className="search-label">Looking for</span>
+                <input
+                  type="text"
+                  placeholder="office, commercial, hospitality"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="search-input"
+                />
+                <button
+                  type="submit"
+                  className="search-button"
+                  aria-label="Search"
+                >
+                  <FaSearch />
+                </button>
+              </form>
+            </div>
 
-            <Link
-              to="/listings"
-              className={`navbar-link ${
-                location.pathname === "/listings" ? "active" : ""
-              }`}
-            >
-              <MdViewList className="link-icon" />
-              <span>Listings</span>
-              <div className="link-underline"></div>
-            </Link>
+            <div className="navbar-right-row">
+              <Link
+                to="/aboutus"
+                className={`navbar-link ${
+                  location.pathname === "/aboutus" ? "active" : ""
+                }`}
+              >
+                <span>About Us</span>
+                <div className="link-underline"></div>
+              </Link>
 
-            <Link
-              to="/space-calculator"
-              className={`navbar-link ${
-                location.pathname === "/space-calculator" ? "active" : ""
-              }`}
-            >
-              <FaCalculator className="link-icon" />
-              <span>Space Calculator</span>
-              <div className="link-underline"></div>
-            </Link>
+              <Link
+                to="/insights"
+                className={`navbar-link ${
+                  location.pathname === "/insights" ? "active" : ""
+                }`}
+              >
+                <span>Insights</span>
+                <div className="link-underline"></div>
+              </Link>
 
-            <Link
-              to="/aboutus"
-              className={`navbar-link ${
-                location.pathname === "/aboutus" ? "active" : ""
-              }`}
-            >
-              <FaInfoCircle className="link-icon" />
-              <span>About Us</span>
-              <div className="link-underline"></div>
-            </Link>
-
-            <Link
-              to="/contact"
-              className={`navbar-link ${
-                location.pathname === "/contact" ? "active" : ""
-              }`}
-            >
-              <FaEnvelope className="link-icon" />
-              <span>Contact</span>
-              <div className="link-underline"></div>
-            </Link>
+              <Link
+                to="/careers"
+                className={`navbar-link ${
+                  location.pathname === "/careers" ? "active" : ""
+                }`}
+              >
+                <span>Careers</span>
+                <div className="link-underline"></div>
+              </Link>
+            </div>
           </div>
 
           {/* Mobile Menu Toggle */}
@@ -154,6 +222,26 @@ const Navbar = () => {
           </button>
         </div>
 
+        {/* Mobile Search */}
+        <div className="mobile-search-container">
+          <form className="mobile-search-bar" onSubmit={handleSearch}>
+            <input
+              type="text"
+              placeholder="Looking for"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="mobile-search-input"
+            />
+            <button
+              type="submit"
+              className="mobile-search-button"
+              aria-label="Search"
+            >
+              <FaSearch />
+            </button>
+          </form>
+        </div>
+
         {/* Mobile Menu Items */}
         <div className="mobile-menu-items">
           <Link
@@ -170,41 +258,15 @@ const Navbar = () => {
           </Link>
 
           <Link
-            to="/listings"
+            to="/media"
             className={`mobile-nav-link ${
-              location.pathname === "/listings" ? "active" : ""
+              location.pathname === "/media" ? "active" : ""
             }`}
             onClick={closeMobileMenu}
             style={{ animationDelay: "0.2s" }}
           >
-            <MdViewList className="mobile-link-icon" />
-            <span className="mobile-link-text">Listings</span>
-            <FaChevronRight className="mobile-link-arrow" />
-          </Link>
-
-          <Link
-            to="/space-calculator"
-            className={`mobile-nav-link ${
-              location.pathname === "/space-calculator" ? "active" : ""
-            }`}
-            onClick={closeMobileMenu}
-            style={{ animationDelay: "0.3s" }}
-          >
-            <FaCalculator className="mobile-link-icon" />
-            <span className="mobile-link-text">Space Calculator</span>
-            <FaChevronRight className="mobile-link-arrow" />
-          </Link>
-
-          <Link
-            to="/aboutus"
-            className={`mobile-nav-link ${
-              location.pathname === "/aboutus" ? "active" : ""
-            }`}
-            onClick={closeMobileMenu}
-            style={{ animationDelay: "0.4s" }}
-          >
-            <FaInfoCircle className="mobile-link-icon" />
-            <span className="mobile-link-text">About Us</span>
+            <FaPhotoVideo className="mobile-link-icon" />
+            <span className="mobile-link-text">Media</span>
             <FaChevronRight className="mobile-link-arrow" />
           </Link>
 
@@ -214,10 +276,88 @@ const Navbar = () => {
               location.pathname === "/contact" ? "active" : ""
             }`}
             onClick={closeMobileMenu}
-            style={{ animationDelay: "0.5s" }}
+            style={{ animationDelay: "0.3s" }}
           >
             <FaEnvelope className="mobile-link-icon" />
             <span className="mobile-link-text">Contact</span>
+            <FaChevronRight className="mobile-link-arrow" />
+          </Link>
+
+          <Link
+            to="/services"
+            className={`mobile-nav-link ${
+              location.pathname === "/services" ? "active" : ""
+            }`}
+            onClick={closeMobileMenu}
+            style={{ animationDelay: "0.4s" }}
+          >
+            <FaBriefcase className="mobile-link-icon" />
+            <span className="mobile-link-text">Services</span>
+            <FaChevronRight className="mobile-link-arrow" />
+          </Link>
+
+          <Link
+            to="/listings"
+            className={`mobile-nav-link ${
+              location.pathname === "/listings" ? "active" : ""
+            }`}
+            onClick={closeMobileMenu}
+            style={{ animationDelay: "0.5s" }}
+          >
+            <MdViewList className="mobile-link-icon" />
+            <span className="mobile-link-text">Projects</span>
+            <FaChevronRight className="mobile-link-arrow" />
+          </Link>
+
+          <Link
+            to="/technology"
+            className={`mobile-nav-link ${
+              location.pathname === "/technology" ? "active" : ""
+            }`}
+            onClick={closeMobileMenu}
+            style={{ animationDelay: "0.6s" }}
+          >
+            <FaCalculator className="mobile-link-icon" />
+            <span className="mobile-link-text">Technology</span>
+            <FaChevronRight className="mobile-link-arrow" />
+          </Link>
+
+          <Link
+            to="/aboutus"
+            className={`mobile-nav-link ${
+              location.pathname === "/aboutus" ? "active" : ""
+            }`}
+            onClick={closeMobileMenu}
+            style={{ animationDelay: "0.7s" }}
+          >
+            <FaInfoCircle className="mobile-link-icon" />
+            <span className="mobile-link-text">About Us</span>
+            <FaChevronRight className="mobile-link-arrow" />
+          </Link>
+
+          <Link
+            to="/insights"
+            className={`mobile-nav-link ${
+              location.pathname === "/insights" ? "active" : ""
+            }`}
+            onClick={closeMobileMenu}
+            style={{ animationDelay: "0.8s" }}
+          >
+            <FaLightbulb className="mobile-link-icon" />
+            <span className="mobile-link-text">Insights</span>
+            <FaChevronRight className="mobile-link-arrow" />
+          </Link>
+
+          <Link
+            to="/careers"
+            className={`mobile-nav-link ${
+              location.pathname === "/careers" ? "active" : ""
+            }`}
+            onClick={closeMobileMenu}
+            style={{ animationDelay: "0.9s" }}
+          >
+            <FaUsers className="mobile-link-icon" />
+            <span className="mobile-link-text">Careers</span>
             <FaChevronRight className="mobile-link-arrow" />
           </Link>
         </div>

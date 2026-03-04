@@ -9,12 +9,12 @@ const Services = () => {
   const sectionRef = useRef(null);
   const navigate = useNavigate();
 
-  // ...existing code...
-
   const services = useMemo(
     () => [
       {
         title: "Retail",
+        subtitle:
+          "Strategic commercial spaces designed to enhance brand visibility and drive customer engagement across diverse retail environments.",
         description:
           "Premium retail spaces across malls, high streets, experience centers, and dining establishments to maximize your brand's visibility and customer engagement.",
         icon: <FaStore />,
@@ -31,6 +31,8 @@ const Services = () => {
       },
       {
         title: "Office",
+        subtitle:
+          "Innovative workspace solutions tailored for modern businesses, fostering productivity and collaboration in premium locations.",
         description:
           "Comprehensive office solutions from GCC setups to co-working spaces, tech parks, and standalone offices designed for modern businesses.",
         icon: <FaBuilding />,
@@ -48,6 +50,8 @@ const Services = () => {
       },
       {
         title: "Hospitality & Healthcare",
+        subtitle:
+          "Purpose-built facilities combining comfort, wellness, and care to create nurturing environments for living and healing.",
         description:
           "Thoughtfully designed spaces for senior living, co-living communities, early education, and healthcare facilities that prioritize comfort, wellness, and quality care.",
         icon: <FaHospital />,
@@ -67,7 +71,6 @@ const Services = () => {
     [],
   );
 
-  // ...existing code...
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -143,44 +146,46 @@ const Services = () => {
                   loading="lazy"
                 />
                 <div className="services-image-overlay"></div>
-                <div className="services-icon-wrapper">
+                {/* <div className="services-icon-wrapper">
                   <div className="services-icon-background"></div>
                   <div className="services-icon">{service.icon}</div>
                   <div className="services-icon-ripple"></div>
-                </div>
+                </div> */}
               </div>
 
-              {/* Service Content */}
+              {/* Service Content - Always Visible (Bottom) */}
               <div className="services-content">
-                <h3>{service.title}</h3>
-                <p>{service.description}</p>
-
-                {/* Service Features */}
-                <div className="services-features">
-                  {service.features.map((feature, idx) => (
-                    <span key={idx} className="services-feature-tag">
-                      {feature}
-                    </span>
-                  ))}
+                <div className="services-preview">
+                  <h3>{service.title}</h3>
+                  <p className="services-subtitle">{service.subtitle}</p>
                 </div>
 
-                <div className="services-card-footer">
-                  <button
-                    className="services-learn-more-btn"
-                    onClick={handleExploreMore}
-                  >
-                    <span>Explore More</span>
-                    <FaArrowRight className="services-arrow-icon" />
-                  </button>
+                {/* Hidden Content - Slides Up on Hover */}
+                <div className="services-detailed-content">
+                  <p className="services-description">{service.description}</p>
+
+                  {/* Service Features */}
+                  <div className="services-features">
+                    {service.features.map((feature, idx) => (
+                      <span key={idx} className="services-feature-tag">
+                        {feature}
+                      </span>
+                    ))}
+                  </div>
+
+                  <div className="services-card-footer">
+                    <button
+                      className="services-learn-more-btn"
+                      onClick={handleExploreMore}
+                    >
+                      <span>Explore More</span>
+                      <FaArrowRight className="services-arrow-icon" />
+                    </button>
+                  </div>
                 </div>
               </div>
 
               <div className="services-hover-effect"></div>
-              <div className="services-floating-particles">
-                <div className="services-particle services-particle-1"></div>
-                <div className="services-particle services-particle-2"></div>
-                <div className="services-particle services-particle-3"></div>
-              </div>
             </div>
           ))}
         </div>

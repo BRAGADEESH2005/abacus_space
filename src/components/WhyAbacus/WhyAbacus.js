@@ -4,62 +4,53 @@ import {
   FaMapMarkerAlt,
   FaHandshake,
   FaHeart,
+  FaChartLine,
 } from "react-icons/fa";
 import "./WhyAbacus.css";
 
 const WhyAbacus = () => {
-  const [isVisible, setIsVisible] = useState(false);
+  const [animatedPillars, setAnimatedPillars] = useState([]);
+  const [animatedLines, setAnimatedLines] = useState([]);
   const sectionRef = useRef(null);
-  const [particles, setParticles] = useState([]);
 
   const features = [
     {
       title: "Fast Closures",
+      description: "Quick & efficient transactions",
       icon: <BsLightningChargeFill />,
-      color: "#ddea66ff",
-      delay: 0,
     },
     {
       title: "Local Insights",
+      description: "Deep market knowledge",
       icon: <FaMapMarkerAlt />,
-      color: "#f093fb",
-      delay: 0.2,
     },
     {
-      title: "Trusted Partnerships",
+      title: "Trusted Partners",
+      description: "Building relationships",
       icon: <FaHandshake />,
-      color: "#4facfe",
-      delay: 0.4,
     },
     {
-      title: "Client-Centric Approach",
+      title: "Client-Centric",
+      description: "Your success matters",
       icon: <FaHeart />,
-      color: "#43e97b",
-      delay: 0.6,
+    },
+    {
+      title: "Market Excellence",
+      description: "Leading performance",
+      icon: <FaChartLine />,
     },
   ];
 
   useEffect(() => {
-    // Create floating particles
-    const newParticles = Array.from({ length: 10 }, (_, i) => ({
-      id: i,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      size: Math.random() * 3 + 2,
-      speed: Math.random() * 2 + 1,
-      delay: Math.random() * 2,
-    }));
-    setParticles(newParticles);
-
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsVisible(true);
+          if (entry.isIntersecting && animatedPillars.length === 0) {
+            animateSequence();
           }
         });
       },
-      { threshold: 0.2 }
+      { threshold: 0.3 }
     );
 
     if (sectionRef.current) {
@@ -67,61 +58,64 @@ const WhyAbacus = () => {
     }
 
     return () => observer.disconnect();
-  }, []);
+  }, [animatedPillars]);
+
+  const animateSequence = () => {
+    features.forEach((_, index) => {
+      setTimeout(() => {
+        setAnimatedPillars((prev) => [...prev, index]);
+        
+        if (index < features.length - 1) {
+          setTimeout(() => {
+            setAnimatedLines((prev) => [...prev, index]);
+          }, 600);
+        }
+      }, index * 1200);
+    });
+  };
 
   return (
     <section className="why-abacus" ref={sectionRef}>
-      {/* Hero-style background */}
-      <div className="why-background">
-        <div className="gradient-orb orb-1"></div>
-        <div className="gradient-orb orb-2"></div>
-        <div className="gradient-orb orb-3"></div>
-
-        {/* Floating Particles */}
-        {particles.map((particle) => (
-          <div
-            key={particle.id}
-            className="floating-particle"
-            style={{
-              left: `${particle.x}%`,
-              top: `${particle.y}%`,
-              width: `${particle.size}px`,
-              height: `${particle.size}px`,
-              animationDelay: `${particle.delay}s`,
-              animationDuration: `${particle.speed + 3}s`,
-            }}
-          />
-        ))}
-      </div>
-
       <div className="why-container">
-        <div className={`why-header ${isVisible ? "visible" : ""}`}>
-          <h2>Why Abacus Spaces?</h2>
-          <p>
-            Our Excellence in every Transaction to your Success with every Partnership
-          </p>
+        <div className="why-header">
+          <span className="why-badge">
+            <BsLightningChargeFill />
+            Excellence in Real Estate
+          </span>
+          <h2>Why Choose Abacus Spaces</h2>
         </div>
 
-        <div className={`why-grid ${isVisible ? "visible" : ""}`}>
+        <div className="pillars-section">
           {features.map((feature, index) => (
-            <div
-              key={index}
-              className="why-item"
-              style={{
-                "--feature-color": feature.color,
-                "--delay": `${feature.delay}s`,
-              }}
-            >
-              <div className="why-icon-wrapper">
-                <div className="icon-background"></div>
-                <div className="why-icon">{feature.icon}</div>
-                <div className="icon-ripple"></div>
+            <React.Fragment key={index}>
+              {/* Pillar */}
+              <div
+                className={`pillar-item ${
+                  animatedPillars.includes(index) ? "animate-in" : ""
+                }`}
+              >
+                <div className="pillar-column">
+                  <div className="pillar-top"></div>
+                  <div className="pillar-body">
+                    <div className="pillar-icon">{feature.icon}</div>
+                    <h3 className="pillar-title">{feature.title}</h3>
+                    <p className="pillar-description">{feature.description}</p>
+                  </div>
+                  <div className="pillar-bottom"></div>
+                </div>
               </div>
-              <div className="why-content">
-                <h3>{feature.title}</h3>
-              </div>
-              <div className="why-glow"></div>
-            </div>
+
+              {/* Connecting Line */}
+              {index < features.length - 1 && (
+                <div
+                  className={`connecting-line ${
+                    animatedLines.includes(index) ? "animate-line" : ""
+                  }`}
+                >
+                  <div className="line-inner"></div>
+                </div>
+              )}
+            </React.Fragment>
           ))}
         </div>
       </div>
