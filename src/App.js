@@ -12,6 +12,7 @@ import AboutUs from "./pages/AboutUs/AboutUs";
 import Contact from "./pages/Contact/Contact";
 import SpaceCalculator from "./pages/SpaceCalculator/SpaceCalculator";
 import Admin from "./pages/Admin/Admin";
+import PrivacyPolicy from "./pages/PrivacyPolicy/PrivacyPolicy";
 import RERARegistration from "./pages/RERA/RERARegistration";
 import LeadsManagement from "./pages/Admin/LeadsManagement/LeadsManagement";
 function App() {
@@ -27,6 +28,7 @@ function App() {
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/rera-registration" element={<RERARegistration />} />
           <Route path="/admin/leads" element={<LeadsManagement />} />
         </Routes>

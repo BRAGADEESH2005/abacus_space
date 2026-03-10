@@ -1,115 +1,160 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaRocket, FaCalculator, FaArrowRight } from "react-icons/fa";
 import "./Hero.css";
 
 const Hero = () => {
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [showIntro, setShowIntro] = useState(true);
-  const [introPhase, setIntroPhase] = useState("entering");
-  const heroRef = useRef(null);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [progress, setProgress] = useState(0);
   const navigate = useNavigate();
+  const progressIntervalRef = useRef(null);
+  const slideIntervalRef = useRef(null);
+
+  const slides = [
+    {
+      title: "Raising standards in Real Estate",
+      description:
+        "We listen, understand & deliver spaces aligned to your business.",
+      image: "/hero/slide90.png",
+      backgroundColor: "#1E3A5F",
+      textColor: "#FFFFFF",
+    },
+    {
+      title: "Clarity & Trust in every property",
+      description:
+        "Creating credibility, nurturing relationships & empowering clients.",
+      image: "/hero/fslide2.png",
+      backgroundColor: "#C58B2A",
+      textColor: "#FFFFFF",
+    },
+    {
+      title: "Innovate, Transform & Grow",
+      description: "Innovating the future for Indian Real Estate.",
+      image: "/hero/jammu.png",
+      backgroundColor: "#f2983f",
+      textColor: "#FFFFFF",
+    },
+    {
+      title: "From data to smart decisions",
+      description:
+        "Track trends, identify opportunities & make smarter decisions.",
+      image: "/hero/aidaa.png",
+      backgroundColor: "#070328",
+      textColor: "#FFFFFF",
+    },
+  ];
+
+  const SLIDE_DURATION = 5000; // 5 seconds
+  const PROGRESS_INTERVAL = 50; // Update progress every 50ms
 
   useEffect(() => {
-    // Intro animation sequence
-    const enterTimer = setTimeout(() => {
-      setIntroPhase("visible");
-    }, 100);
-
-    const exitTimer = setTimeout(() => {
-      setIntroPhase("exiting");
-    }, 2500);
-
-    const hideTimer = setTimeout(() => {
-      setShowIntro(false);
-      setIsLoaded(true);
-    }, 3300);
-
+    startProgress();
     return () => {
-      clearTimeout(enterTimer);
-      clearTimeout(exitTimer);
-      clearTimeout(hideTimer);
+      clearInterval(progressIntervalRef.current);
+      clearTimeout(slideIntervalRef.current);
     };
-  }, []);
+  }, [currentSlide]);
 
-  // Navigation functions
-  const handleFindSpace = () => {
-    navigate("/listings");
+  const startProgress = () => {
+    setProgress(0);
+    clearInterval(progressIntervalRef.current);
+    clearTimeout(slideIntervalRef.current);
+
+    progressIntervalRef.current = setInterval(() => {
+      setProgress((prev) => {
+        const newProgress = prev + (PROGRESS_INTERVAL / SLIDE_DURATION) * 100;
+        if (newProgress >= 100) {
+          clearInterval(progressIntervalRef.current);
+          return 100;
+        }
+        return newProgress;
+      });
+    }, PROGRESS_INTERVAL);
+
+    slideIntervalRef.current = setTimeout(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, SLIDE_DURATION);
   };
 
-  const handleSpaceCalculator = () => {
-    navigate("/space-calculator");
+  const goToSlide = (index) => {
+    if (index !== currentSlide) {
+      setCurrentSlide(index);
+    }
   };
 
   return (
-    <>
-      {showIntro && (
-        <div className={`intro-overlay ${introPhase}`}>
-          <div className="intro-background">
-            <div className="animated-gradient"></div>
+    <section className="hero-slider">
+      {slides.map((slide, index) => (
+        <div
+          key={index}
+          className={`hero-slide ${index === currentSlide ? "active" : ""}`}
+          style={{ backgroundColor: slide.backgroundColor }}
+        >
+          <div className="hero-slide-container">
+            {/* Left Side - Text Content */}
+            <div className="hero-text-section">
+              <div className="hero-text-content">
+                <h1
+                  className="hero-slide-title"
+                  style={{ color: slide.textColor }}
+                >
+                  {slide.title}
+                </h1>
+                <p
+                  className="hero-slide-description"
+                  style={{ color: slide.textColor }}
+                >
+                  {slide.description}
+                </p>
+                <button
+                  className="hero-cta-button"
+                  onClick={() => navigate("/listings")}
+                >
+                  Explore Properties
+                </button>
+              </div>
+            </div>
+
+            {/* Right Side - Image */}
+            <div className="hero-image-section">
+              <div className="hero-image-wrapper">
+                <img
+                  src={slide.image}
+                  alt={slide.title}
+                  className="hero-slide-image"
+                />
+              </div>
+            </div>
           </div>
-          <div className="intro-content">
-            <div className="intro-logo-container">
-              <img
-                src="/logo_abacus.png"
-                alt="Abacus Logo"
-                className="intro-logo"
+        </div>
+      ))}
+
+      {/* Progress Bar Navigation */}
+      <div className="hero-progress-bars">
+        {slides.map((_, index) => (
+          <div
+            key={index}
+            className="hero-progress-bar-wrapper"
+            onClick={() => goToSlide(index)}
+          >
+            <div className="hero-progress-bar-bg">
+              <div
+                className={`hero-progress-bar-fill ${
+                  index === currentSlide ? "active" : ""
+                } ${index < currentSlide ? "completed" : ""}`}
+                style={{
+                  width:
+                    index === currentSlide
+                      ? `${progress}%`
+                      : index < currentSlide
+                        ? "100%"
+                        : "0%",
+                }}
               />
-              <div className="intro-logo-glow"></div>
             </div>
           </div>
-        </div>
-      )}
-
-      <section
-        className={`hero ${!showIntro ? "hero-visible" : ""}`}
-        ref={heroRef}
-      >
-        {/* Background Video */}
-        <video autoPlay loop muted playsInline className="hero-video">
-          <source src="/aigen_vid_dark.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-
-        {/* Dark Overlay for text visibility */}
-        <div className="hero-overlay"></div>
-
-        <div className="hero-container">
-          <div className="hero-content">
-            <h1 className={`hero-title ${isLoaded ? "animate-in" : ""}`}>
-              <span className="title-line-1">ABACUS</span>
-              <span className="title-line-2 highlight-text">
-                Spaces That Mean Business
-              </span>
-            </h1>
-            <p className={`hero-subtitle ${isLoaded ? "animate-in" : ""}`}>
-              <span className="typing-text">
-                We Help Ambitious Businesses Lease Commercial Spaces
-              </span>
-            </p>
-            <div className={`hero-buttons ${isLoaded ? "animate-in" : ""}`}>
-              <button className="cta-primary" onClick={handleFindSpace}>
-                <span>Find Your Space</span>
-                <FaRocket className="button-icon" />
-                <div className="button-ripple"></div>
-              </button>
-              <button
-                className="cta-secondary calculator-btn"
-                onClick={handleSpaceCalculator}
-              >
-                <div className="btn-content">
-                  <div className="btn-main">
-                    <FaCalculator className="button-icon" />
-                    <span>Office Space Calculator</span>
-                  </div>
-                </div>
-                <FaArrowRight className="arrow-icon" />
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-    </>
+        ))}
+      </div>
+    </section>
   );
 };
 

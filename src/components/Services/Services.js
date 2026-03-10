@@ -1,6 +1,12 @@
 import React, { useEffect, useState, useRef, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaStore, FaBuilding, FaHospital, FaArrowRight } from "react-icons/fa";
+import {
+  FaStore,
+  FaBuilding,
+  FaHospital,
+  FaArrowRight,
+  FaCheckCircle,
+} from "react-icons/fa";
 import "./Services.css";
 
 const Services = () => {
@@ -15,8 +21,7 @@ const Services = () => {
         title: "Retail",
         subtitle:
           "Strategic commercial spaces designed to enhance brand visibility and drive customer engagement across diverse retail environments.",
-        description:
-          "Premium retail spaces across malls, high streets, experience centers, and dining establishments to maximize your brand's visibility and customer engagement.",
+
         icon: <FaStore />,
         color: "#23c6a4",
         delay: 0,
@@ -33,8 +38,7 @@ const Services = () => {
         title: "Office",
         subtitle:
           "Innovative workspace solutions tailored for modern businesses, fostering productivity and collaboration in premium locations.",
-        description:
-          "Comprehensive office solutions from GCC setups to co-working spaces, tech parks, and standalone offices designed for modern businesses.",
+
         icon: <FaBuilding />,
         color: "#1a2f5c",
         delay: 200,
@@ -52,8 +56,7 @@ const Services = () => {
         title: "Hospitality & Healthcare",
         subtitle:
           "Purpose-built facilities combining comfort, wellness, and care to create nurturing environments for living and healing.",
-        description:
-          "Thoughtfully designed spaces for senior living, co-living communities, early education, and healthcare facilities that prioritize comfort, wellness, and quality care.",
+
         icon: <FaHospital />,
         color: "#4fd1c7",
         delay: 400,
@@ -146,11 +149,6 @@ const Services = () => {
                   loading="lazy"
                 />
                 <div className="services-image-overlay"></div>
-                {/* <div className="services-icon-wrapper">
-                  <div className="services-icon-background"></div>
-                  <div className="services-icon">{service.icon}</div>
-                  <div className="services-icon-ripple"></div>
-                </div> */}
               </div>
 
               {/* Service Content - Always Visible (Bottom) */}
@@ -162,13 +160,19 @@ const Services = () => {
 
                 {/* Hidden Content - Slides Up on Hover */}
                 <div className="services-detailed-content">
-                  <p className="services-description">{service.description}</p>
+                  {/* <p className="services-description">{service.description}</p> */}
 
-                  {/* Service Features */}
+                  {/* Service Features - With Vertical Highlight Animation */}
                   <div className="services-features">
                     {service.features.map((feature, idx) => (
-                      <span key={idx} className="services-feature-tag">
-                        {feature}
+                      <span
+                        key={idx}
+                        className="services-feature-tag"
+                        style={{ "--feature-index": idx }}
+                      >
+                        <FaCheckCircle className="services-feature-check-icon" />
+                        <span className="services-feature-text">{feature}</span>
+                        <div className="services-feature-highlight-bar"></div>
                       </span>
                     ))}
                   </div>

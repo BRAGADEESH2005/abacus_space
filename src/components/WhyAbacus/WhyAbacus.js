@@ -9,6 +9,7 @@ import {
 import "./WhyAbacus.css";
 
 const WhyAbacus = () => {
+  const [showRoots, setShowRoots] = useState(false);
   const [animatedPillars, setAnimatedPillars] = useState([]);
   const [animatedLines, setAnimatedLines] = useState([]);
   const sectionRef = useRef(null);
@@ -45,12 +46,12 @@ const WhyAbacus = () => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting && animatedPillars.length === 0) {
-            animateSequence();
+          if (entry.isIntersecting && !showRoots) {
+            startAnimation();
           }
         });
       },
-      { threshold: 0.3 }
+      { threshold: 0.2 }
     );
 
     if (sectionRef.current) {
@@ -58,19 +59,33 @@ const WhyAbacus = () => {
     }
 
     return () => observer.disconnect();
-  }, [animatedPillars]);
+  }, [showRoots]);
+
+  const startAnimation = () => {
+    // First show roots from heading
+    setShowRoots(true);
+
+    // Start pillar and line animations after roots appear
+    setTimeout(() => {
+      animateSequence();
+    }, 800);
+  };
 
   const animateSequence = () => {
     features.forEach((_, index) => {
+      const delay = index * 1400;
+
+      // Animate connecting line first (except for first pillar)
+      if (index > 0) {
+        setTimeout(() => {
+          setAnimatedLines((prev) => [...prev, index - 1]);
+        }, delay - 600);
+      }
+
+      // Then animate pillar
       setTimeout(() => {
         setAnimatedPillars((prev) => [...prev, index]);
-        
-        if (index < features.length - 1) {
-          setTimeout(() => {
-            setAnimatedLines((prev) => [...prev, index]);
-          }, 600);
-        }
-      }, index * 1200);
+      }, delay);
     });
   };
 
@@ -83,29 +98,53 @@ const WhyAbacus = () => {
             Excellence in Real Estate
           </span>
           <h2>Why Choose Abacus Spaces</h2>
+          
+          {/* Root lines from heading */}
+          <div className={`root-lines ${showRoots ? "show" : ""}`}>
+            <div className="root-line root-center"></div>
+          </div>
         </div>
 
         <div className="pillars-section">
           {features.map((feature, index) => (
             <React.Fragment key={index}>
-              {/* Pillar */}
+              {/* Pillar with architectural design */}
               <div
                 className={`pillar-item ${
-                  animatedPillars.includes(index) ? "animate-in" : ""
+                  animatedPillars.includes(index) ? "animate-draw" : ""
                 }`}
               >
-                <div className="pillar-column">
-                  <div className="pillar-top"></div>
-                  <div className="pillar-body">
-                    <div className="pillar-icon">{feature.icon}</div>
-                    <h3 className="pillar-title">{feature.title}</h3>
-                    <p className="pillar-description">{feature.description}</p>
+                <div className="pillar-structure">
+                  {/* Capital (top decorative part) */}
+                  <div className="pillar-capital">
+                    <div className="capital-abacus"></div>
+                    <div className="capital-echinus"></div>
+                    <div className="capital-neck"></div>
                   </div>
-                  <div className="pillar-bottom"></div>
+
+                  {/* Shaft (main column body) */}
+                  <div className="pillar-shaft">
+                    <div className="shaft-flute shaft-flute-1"></div>
+                    <div className="shaft-flute shaft-flute-2"></div>
+                    <div className="shaft-flute shaft-flute-3"></div>
+                    
+                    {/* Content in center */}
+                    <div className="pillar-content">
+                      <div className="pillar-icon">{feature.icon}</div>
+                      <h3 className="pillar-title">{feature.title}</h3>
+                      <p className="pillar-description">{feature.description}</p>
+                    </div>
+                  </div>
+
+                  {/* Base (bottom part) */}
+                  <div className="pillar-base">
+                    <div className="base-torus"></div>
+                    <div className="base-plinth"></div>
+                  </div>
                 </div>
               </div>
 
-              {/* Connecting Line */}
+              {/* Connecting Line between pillars */}
               {index < features.length - 1 && (
                 <div
                   className={`connecting-line ${
