@@ -15,6 +15,9 @@ import Admin from "./pages/Admin/Admin";
 import PrivacyPolicy from "./pages/PrivacyPolicy/PrivacyPolicy";
 import RERARegistration from "./pages/RERA/RERARegistration";
 import LeadsManagement from "./pages/Admin/LeadsManagement/LeadsManagement";
+import ContentManagementPage from "./pages/Admin/ContentManagement/ContentManagementPage"; // Add this import
+import DetailedReport from "./pages/DetailedReport/DetailedReport";
+
 function App() {
   return (
     <div className="App">
@@ -28,9 +31,15 @@ function App() {
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/content/:slug" element={<DetailedReport />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/rera-registration" element={<RERARegistration />} />
           <Route path="/admin/leads" element={<LeadsManagement />} />
+          <Route
+            path="/admin/content"
+            element={<ContentManagementPage />}
+          />{" "}
+          {/* Add this route */}
         </Routes>
         <Footer />
       </Router>

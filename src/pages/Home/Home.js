@@ -6,6 +6,7 @@ import RegionsMap from "../../components/RegionsMap/RegionsMap";
 import TrustedBy from "../../components/TrustedBy/TrustedBy";
 import InsightsNews from "../../components/InsightsNews/InsightsNews";
 import CallToAction from "../../components/CallToAction/CallToAction";
+import ResidentialBanner from "../../components/ResidentialBanner/ResidentialBanner";
 import LatestInRealEstate from "../../components/LatestInRealEstate/LatestInRealEstate";
 const Home = () => {
   return (
@@ -16,7 +17,8 @@ const Home = () => {
 
       <WhyAbacus />
       <RegionsMap />
-      <TrustedBy />
+      {/* <TrustedBy /> */}
+      <ResidentialBanner />
       <Services />
       <CallToAction />
     </>

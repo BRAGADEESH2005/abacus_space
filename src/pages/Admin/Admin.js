@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import {
+  FaFileAlt,
   FaUser,
   FaLock,
   FaEye,
@@ -966,6 +967,13 @@ const Admin = () => {
                 <p>Manage your property listings</p>
               </div>
             </div>
+            <button
+              className="admin-logout-btn"
+              onClick={() => navigate("/admin/content")}
+            >
+              <FaFileAlt />
+              Manage Content
+            </button>
             <button
               className="admin-logout-btn"
               onClick={() => navigate("/admin/leads")}
