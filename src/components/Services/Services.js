@@ -115,7 +115,7 @@ const Services = () => {
   };
 
   return (
-    <section className="services" ref={sectionRef}>
+    <section id="services" className="services" ref={sectionRef}>
       <div className="services-container">
         <div
           className={`services-header services-observe-animation ${

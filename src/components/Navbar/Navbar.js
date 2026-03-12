@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   FaHome,
   FaInfoCircle,
@@ -21,6 +21,7 @@ const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -43,6 +44,18 @@ const Navbar = () => {
     };
   }, [isMobileMenuOpen]);
 
+  // Handle scroll to services section
+  useEffect(() => {
+    if (location.hash === "#services") {
+      setTimeout(() => {
+        const servicesSection = document.getElementById("services");
+        if (servicesSection) {
+          servicesSection.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 100);
+    }
+  }, [location]);
+
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
@@ -57,6 +70,22 @@ const Navbar = () => {
     // Implement search functionality here
   };
 
+  const handleServicesClick = (e) => {
+    e.preventDefault();
+    closeMobileMenu();
+
+    if (location.pathname === "/") {
+      // Already on home page, just scroll
+      const servicesSection = document.getElementById("services");
+      if (servicesSection) {
+        servicesSection.scrollIntoView({ behavior: "smooth" });
+      }
+    } else {
+      // Navigate to home page with hash
+      navigate("/#services");
+    }
+  };
+
   return (
     <>
       <nav className={`navbar ${isScrolled ? "navbar-scrolled" : ""}`}>
@@ -65,9 +94,9 @@ const Navbar = () => {
           <div className="navbar-left">
             <div className="navbar-left-row">
               <Link
-                to="/media"
+                to="/insights-reports"
                 className={`navbar-link ${
-                  location.pathname === "/media" ? "active" : ""
+                  location.pathname === "/insights-reports" ? "active" : ""
                 }`}
               >
                 <FaPhotoVideo className="link-icon" />
@@ -88,15 +117,16 @@ const Navbar = () => {
             </div>
 
             <div className="navbar-left-row">
-              <Link
-                to="/services"
+              <a
+                href="/#services"
                 className={`navbar-link ${
-                  location.pathname === "/services" ? "active" : ""
+                  location.hash === "#services" ? "active" : ""
                 }`}
+                onClick={handleServicesClick}
               >
                 <span>Services</span>
                 <div className="link-underline"></div>
-              </Link>
+              </a>
 
               <Link
                 to="/listings"
@@ -109,12 +139,12 @@ const Navbar = () => {
               </Link>
 
               <Link
-                to="/technology"
+                to="/space-calculator"
                 className={`navbar-link ${
-                  location.pathname === "/technology" ? "active" : ""
+                  location.pathname === "/space-calculator" ? "active" : ""
                 }`}
               >
-                <span>Technology</span>
+                <span>Space Calculator</span>
                 <div className="link-underline"></div>
               </Link>
             </div>
@@ -258,9 +288,9 @@ const Navbar = () => {
           </Link>
 
           <Link
-            to="/media"
+            to="/insights-reports"
             className={`mobile-nav-link ${
-              location.pathname === "/media" ? "active" : ""
+              location.pathname === "/insights-reports" ? "active" : ""
             }`}
             onClick={closeMobileMenu}
             style={{ animationDelay: "0.2s" }}
@@ -283,18 +313,18 @@ const Navbar = () => {
             <FaChevronRight className="mobile-link-arrow" />
           </Link>
 
-          <Link
-            to="/services"
+          <a
+            href="/#services"
             className={`mobile-nav-link ${
-              location.pathname === "/services" ? "active" : ""
+              location.hash === "#services" ? "active" : ""
             }`}
-            onClick={closeMobileMenu}
+            onClick={handleServicesClick}
             style={{ animationDelay: "0.4s" }}
           >
             <FaBriefcase className="mobile-link-icon" />
             <span className="mobile-link-text">Services</span>
             <FaChevronRight className="mobile-link-arrow" />
-          </Link>
+          </a>
 
           <Link
             to="/listings"

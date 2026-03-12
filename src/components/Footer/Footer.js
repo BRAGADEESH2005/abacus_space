@@ -1,21 +1,35 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import {
-  FaLinkedin,
-  FaInstagram,
-  FaTwitter,
-} from "react-icons/fa";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { FaLinkedin, FaInstagram, FaTwitter } from "react-icons/fa";
 import "./Footer.css";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   const [email, setEmail] = useState("");
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const handleSubscribe = (e) => {
     e.preventDefault();
     // Add your subscribe logic here
     console.log("Subscribing email:", email);
     setEmail("");
+  };
+
+  // Handle scroll to Latest in Real Estate section
+  const handleLatestEstateClick = (e) => {
+    e.preventDefault();
+
+    if (location.pathname === "/") {
+      // Already on home page, just scroll
+      const latestEstateSection = document.getElementById("latest-estate");
+      if (latestEstateSection) {
+        latestEstateSection.scrollIntoView({ behavior: "smooth" });
+      }
+    } else {
+      // Navigate to home page with hash
+      navigate("/#latest-estate");
+    }
   };
 
   return (
@@ -66,8 +80,13 @@ const Footer = () => {
 
             {/* Subscribe Section */}
             <div className="footer-subscribe">
-              <p className="footer-subscribe-text">Subscribe now to stay updated</p>
-              <form onSubmit={handleSubscribe} className="footer-subscribe-form">
+              <p className="footer-subscribe-text">
+                Subscribe now to stay updated
+              </p>
+              <form
+                onSubmit={handleSubscribe}
+                className="footer-subscribe-form"
+              >
                 <input
                   type="email"
                   placeholder="Email address"
@@ -87,11 +106,21 @@ const Footer = () => {
           <div className="footer-column">
             <h3 className="footer-column-title">Services</h3>
             <ul className="footer-links">
-              <li><Link to="/services/retail">Retail</Link></li>
-              <li><Link to="/services/office-space">Office Space</Link></li>
-              <li><Link to="/services/bts">BTS</Link></li>
-              <li><Link to="/services/managed-office">Managed Office Setup</Link></li>
-              <li><Link to="/services/hospitality">Hospitality</Link></li>
+              <li>
+                <Link to="/#services">Retail</Link>
+              </li>
+              <li>
+                <Link to="/#services">Office Space</Link>
+              </li>
+              <li>
+                <Link to="/#services">BTS</Link>
+              </li>
+              <li>
+                <Link to="/#services">Managed Office Setup</Link>
+              </li>
+              <li>
+                <Link to="/#services">Hospitality</Link>
+              </li>
             </ul>
           </div>
 
@@ -99,15 +128,25 @@ const Footer = () => {
           <div className="footer-column">
             <h3 className="footer-column-title">Technology</h3>
             <ul className="footer-links">
-              <li><Link to="/space-calculator">Space Calculator</Link></li>
+              <li>
+                <Link to="/space-calculator">Space Calculator</Link>
+              </li>
             </ul>
-            
+
             <h3 className="footer-column-title">Projects</h3>
             <ul className="footer-links">
-              <li><Link to="/projects/retail">Retail Space</Link></li>
-              <li><Link to="/projects/office">Office Space</Link></li>
-              <li><Link to="/projects/hospitality">Hospitality</Link></li>
-              <li><Link to="/projects/healthcare">Healthcare Space</Link></li>
+              <li>
+                <Link to="/listings">Retail Space</Link>
+              </li>
+              <li>
+                <Link to="/listings">Office Space</Link>
+              </li>
+              <li>
+                <Link to="/listings">Hospitality</Link>
+              </li>
+              <li>
+                <Link to="/listings">Healthcare Space</Link>
+              </li>
             </ul>
           </div>
 
@@ -115,14 +154,28 @@ const Footer = () => {
           <div className="footer-column">
             <h3 className="footer-column-title">Insights</h3>
             <ul className="footer-links">
-              <li><Link to="/insights/research-report">Research Report</Link></li>
-              <li><Link to="/insights/blogs">Blogs</Link></li>
-              <li><Link to="/insights/industrial-update">Industrial Update</Link></li>
+              <li>
+                <a href="/#latest-estate" onClick={handleLatestEstateClick}>
+                  Research Report
+                </a>
+              </li>
+              <li>
+                <a href="/#latest-estate" onClick={handleLatestEstateClick}>
+                  Blogs
+                </a>
+              </li>
+              <li>
+                <a href="/#latest-estate" onClick={handleLatestEstateClick}>
+                  Industrial Update
+                </a>
+              </li>
             </ul>
-            
+
             <h3 className="footer-column-title">Media</h3>
             <ul className="footer-links">
-              <li><Link to="/media/news">In The News</Link></li>
+              <li>
+                <Link to="/insights-reports">In The News</Link>
+              </li>
             </ul>
           </div>
         </div>
@@ -130,11 +183,15 @@ const Footer = () => {
         {/* Diversity Statement */}
         <div className="footer-diversity">
           <p>
-            We value diversity within Abacus Spaces and are committed to offering equal opportunities in employment. 
-            We do not discriminate against any team member or applicant for employment on the basis of nationality, 
-            race, colour, religion, caste, gender identity/expression, sexual orientation, disability, social origin 
-            and status, indigenous status, political opinion, age, marital status or any other personal characteristics 
-            or status. Abacus Spaces values all talent and will do its utmost to hire, nurture, and grow them.
+            We value diversity within Abacus Spaces and are committed to
+            offering equal opportunities in employment. We do not discriminate
+            against any team member or applicant for employment on the basis of
+            nationality, race, colour, religion, caste, gender
+            identity/expression, sexual orientation, disability, social origin
+            and status, indigenous status, political opinion, age, marital
+            status or any other personal characteristics or status. Abacus
+            Spaces values all talent and will do its utmost to hire, nurture,
+            and grow them.
           </p>
         </div>
 

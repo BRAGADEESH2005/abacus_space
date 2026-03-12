@@ -17,6 +17,7 @@ import RERARegistration from "./pages/RERA/RERARegistration";
 import LeadsManagement from "./pages/Admin/LeadsManagement/LeadsManagement";
 import ContentManagementPage from "./pages/Admin/ContentManagement/ContentManagementPage"; // Add this import
 import DetailedReport from "./pages/DetailedReport/DetailedReport";
+import InsightsReports from "./pages/InsightsReports/InsightsReports";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/content/:slug" element={<DetailedReport />} />
+          <Route path="/insights-reports" element={<InsightsReports />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/rera-registration" element={<RERARegistration />} />
           <Route path="/admin/leads" element={<LeadsManagement />} />

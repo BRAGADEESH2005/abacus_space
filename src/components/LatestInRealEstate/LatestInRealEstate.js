@@ -1,5 +1,10 @@
 import React, { useRef, useState, useEffect } from "react";
-import { FaDownload, FaChevronLeft, FaChevronRight, FaArrowRight } from "react-icons/fa";
+import {
+  FaDownload,
+  FaChevronLeft,
+  FaChevronRight,
+  FaArrowRight,
+} from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./LatestInRealEstate.css";
@@ -71,7 +76,7 @@ const LatestInRealEstate = () => {
         if (scrollRef.current) {
           const container = scrollRef.current;
           const maxScrollLeft = container.scrollWidth - container.clientWidth;
-          
+
           if (container.scrollLeft >= maxScrollLeft - 1) {
             container.scrollTo({ left: 0, behavior: "smooth" });
           } else {
@@ -121,15 +126,21 @@ const LatestInRealEstate = () => {
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", { month: "short", year: "numeric" });
+    return date.toLocaleDateString("en-US", {
+      month: "short",
+      year: "numeric",
+    });
   };
 
   const renderCard = (item) => (
     <div key={item._id} className="estate-card">
       <div className="estate-card-image">
-        <img 
-          src={item.image?.url || "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=500"} 
-          alt={item.title} 
+        <img
+          src={
+            item.image?.url ||
+            "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=500"
+          }
+          alt={item.title}
         />
         <div className="estate-card-overlay">
           <button
@@ -144,7 +155,7 @@ const LatestInRealEstate = () => {
           </button>
         </div>
       </div>
-      <div 
+      <div
         className="estate-card-content"
         onClick={() => handleCardClick(item.slug)}
         style={{ cursor: "pointer" }}
@@ -152,7 +163,9 @@ const LatestInRealEstate = () => {
         <div className="estate-card-meta">
           <span className="estate-card-date">{formatDate(item.date)}</span>
           <span className="estate-card-divider">•</span>
-          <span className="estate-card-category">{item.sector || item.type}</span>
+          <span className="estate-card-category">
+            {item.sector || item.type}
+          </span>
         </div>
         <h3 className="estate-card-title">{item.title}</h3>
       </div>
@@ -160,7 +173,7 @@ const LatestInRealEstate = () => {
   );
 
   return (
-    <div className="latest-estate-section">
+    <div id="latest-estate" className="latest-estate-section">
       <div className="estate-container">
         <h2 className="estate-main-title">Latest in Real Estate</h2>
 
@@ -201,8 +214,8 @@ const LatestInRealEstate = () => {
           ) : contentData.length === 0 ? (
             <div className="estate-no-content">No content available</div>
           ) : (
-            <div 
-              className="estate-cards-container" 
+            <div
+              className="estate-cards-container"
               ref={scrollRef}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}

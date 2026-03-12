@@ -12,6 +12,8 @@ import {
   FaTimes,
   FaFileAlt,
   FaCheckCircle,
+  FaAngleDoubleLeft,
+  FaAngleDoubleRight,
 } from "react-icons/fa";
 import {
   MdSpaceDashboard,
@@ -62,6 +64,7 @@ const Listings = () => {
   const sectionRef = useRef(null);
   const imageIntervals = useRef({});
   const popupRef = useRef(null);
+  const listingsGridRef = useRef(null);
 
   // Get base URL from environment variables
   const API_BASE_URL =
@@ -79,10 +82,19 @@ const Listings = () => {
   // Generate random views from viewsRange
   const generateRandomViews = (viewsRange) => {
     if (!viewsRange || viewsRange.length !== 2) {
-      return Math.floor(Math.random() * 200) + 100; // Default fallback
+      return Math.floor(Math.random() * 200) + 100;
     }
     const [min, max] = viewsRange;
     return Math.floor(Math.random() * (max - min + 1)) + min;
+  };
+
+  // Helper function to get current active filters
+  const getActiveFilters = () => {
+    const filters = {};
+    if (searchTerm) filters.search = searchTerm;
+    if (selectedType !== "all") filters.type = selectedType;
+    if (selectedLocation !== "all") filters.location = selectedLocation;
+    return filters;
   };
 
   // Fetch listings from backend
@@ -115,7 +127,6 @@ const Listings = () => {
       const response = await api.get("/listings", { params });
 
       if (response.data.success) {
-        console.log("Fetched listings----:", response.data.data);
         const listingsData = response.data.data;
 
         // Initialize image indexes and random views for new listings
@@ -124,7 +135,6 @@ const Listings = () => {
 
         listingsData.forEach((listing) => {
           initialIndexes[listing._id] = 0;
-          // Generate random views from the listing's viewsRange
           initialViews[listing._id] = generateRandomViews(listing.viewsRange);
         });
 
@@ -177,13 +187,25 @@ const Listings = () => {
     }
   };
 
+  // Handle pagination - go to specific page
+  const handlePageChange = (newPage) => {
+    if (newPage < 1 || newPage > pagination.pages) return;
+    
+    // Scroll to top of listings grid smoothly
+    if (listingsGridRef.current) {
+      listingsGridRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+    
+    setVisibleCards([]);
+    fetchListings(newPage, getActiveFilters(), true);
+  };
+
   // Handle Get Report button click
   const handleGetReport = (listing) => {
     setSelectedListing(listing);
     setShowReportPopup(true);
     setReportSubmissionSuccess(false);
     setReportErrors({});
-    // Reset form
     setUserInfo({
       name: "",
       company: "",
@@ -208,21 +230,16 @@ const Listings = () => {
     });
   };
 
-  // Add this helper function at the top of the component, after the state declarations
+  // Format price helper
   const formatPrice = (price) => {
     if (!price) return price;
-
-    // Check if price is 0 or "0"
     const priceStr = price.toString().trim();
     if (priceStr === "0" || priceStr === "₹0") {
       return "Price available upon request";
     }
-
-    // If price already starts with ₹, remove it
     if (priceStr.startsWith("₹")) {
       return priceStr.substring(1).trim();
     }
-
     return price;
   };
 
@@ -236,30 +253,23 @@ const Listings = () => {
   // Validate form
   const validateForm = () => {
     const newErrors = {};
-
     if (!userInfo.name.trim()) newErrors.name = "Name is required";
-    if (!userInfo.company.trim())
-      newErrors.company = "Company name is required";
-    if (!userInfo.designation.trim())
-      newErrors.designation = "Designation is required";
+    if (!userInfo.company.trim()) newErrors.company = "Company name is required";
+    if (!userInfo.designation.trim()) newErrors.designation = "Designation is required";
     if (!userInfo.phone.trim()) newErrors.phone = "Phone number is required";
     if (!userInfo.email.trim()) newErrors.email = "Email is required";
-    else if (!/\S+@\S+\.\S+/.test(userInfo.email))
-      newErrors.email = "Email is invalid";
-
+    else if (!/\S+@\S+\.\S+/.test(userInfo.email)) newErrors.email = "Email is invalid";
     setReportErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  // Submit report request using existing backend API
+  // Submit report request
   const submitReportRequest = async () => {
     if (!validateForm()) return;
-
     setIsSubmittingReport(true);
     setReportErrors({});
 
     try {
-      // Prepare data in the format expected by the existing leads API
       const requestData = {
         userInfo,
         propertyDetails: {
@@ -272,22 +282,14 @@ const Listings = () => {
           type: selectedListing.type,
           features: selectedListing.features,
         },
-        source: "propertyreport", // Different source to identify report requests
+        source: "propertyreport",
         requestType: "property_report",
       };
-
-      console.log("Submitting report request:", requestData);
 
       const response = await api.post("/leads", requestData);
 
       if (response.data.success) {
-        console.log(
-          "Report request submitted successfully:",
-          response.data.data,
-        );
         setReportSubmissionSuccess(true);
-
-        // Auto-close popup after 3 seconds
         setTimeout(() => {
           closeReportPopup();
         }, 3000);
@@ -298,20 +300,14 @@ const Listings = () => {
       }
     } catch (error) {
       console.error("Error submitting report request:", error);
-
       let errorMessage = "Unable to connect to server. Please try again later.";
-
       if (error.response) {
-        errorMessage =
-          error.response.data?.message ||
-          `Server error: ${error.response.status}`;
+        errorMessage = error.response.data?.message || `Server error: ${error.response.status}`;
       } else if (error.request) {
-        errorMessage =
-          "No response from server. Please check your internet connection.";
+        errorMessage = "No response from server. Please check your internet connection.";
       } else if (error.code === "ECONNABORTED") {
         errorMessage = "Request timeout. Please try again.";
       }
-
       setReportErrors({ submit: errorMessage });
     } finally {
       setIsSubmittingReport(false);
@@ -328,7 +324,7 @@ const Listings = () => {
 
     if (showReportPopup) {
       document.addEventListener("mousedown", handleClickOutside);
-      document.body.style.overflow = "hidden"; // Prevent background scroll
+      document.body.style.overflow = "hidden";
     }
 
     return () => {
@@ -346,8 +342,16 @@ const Listings = () => {
         fetchPropertyTypes(),
       ]);
     };
-
     initializeData();
+  }, []);
+
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "instant",
+    });
   }, []);
 
   // Auto-scroll images
@@ -360,7 +364,6 @@ const Listings = () => {
             [listing._id]: (prev[listing._id] + 1) % listing.images.length,
           }));
         }, 3000);
-
         imageIntervals.current[listing._id] = interval;
       }
     });
@@ -449,42 +452,57 @@ const Listings = () => {
     return () => observer.disconnect();
   }, [filteredListings]);
 
-  // Handle filters - now refetch from backend
+  // Handle filters - refetch from backend
   useEffect(() => {
     const debounceTimer = setTimeout(() => {
-      const filters = {};
-
-      if (searchTerm) {
-        filters.search = searchTerm;
-      }
-
-      if (selectedType !== "all") {
-        filters.type = selectedType;
-      }
-
-      if (selectedLocation !== "all") {
-        filters.location = selectedLocation;
-      }
-
-      fetchListings(1, filters, true); // true = show filter loader
+      fetchListings(1, getActiveFilters(), true);
       setVisibleCards([]);
     }, 500);
 
     return () => clearTimeout(debounceTimer);
   }, [searchTerm, selectedType, selectedLocation]);
 
-  // Handle view listing (increment views)
+  // Handle view listing
   const handleViewListing = async (listingId) => {
     try {
       setListingViews((prev) => ({
         ...prev,
         [listingId]: (prev[listingId] || 0) + 1,
       }));
-
       await api.get(`/listings/${listingId}`);
     } catch (error) {
       console.error("Error viewing listing:", error);
     }
+  };
+
+  // Generate page numbers for pagination
+  const getPageNumbers = () => {
+    const pages = [];
+    const totalPages = pagination.pages || 1;
+    const current = currentPage;
+
+    if (totalPages <= 7) {
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      if (current <= 4) {
+        for (let i = 1; i <= 5; i++) pages.push(i);
+        pages.push("...");
+        pages.push(totalPages);
+      } else if (current >= totalPages - 3) {
+        pages.push(1);
+        pages.push("...");
+        for (let i = totalPages - 4; i <= totalPages; i++) pages.push(i);
+      } else {
+        pages.push(1);
+        pages.push("...");
+        for (let i = current - 1; i <= current + 1; i++) pages.push(i);
+        pages.push("...");
+        pages.push(totalPages);
+      }
+    }
+    return pages;
   };
 
   return (
@@ -615,7 +633,9 @@ const Listings = () => {
                   <option value="all">All Types</option>
                   {availableTypes.map((type) => (
                     <option key={type} value={type}>
-                      {type === "Hospitality & Healthcare" ? "Hospitality & Healthcare" : `${type} Space`}
+                      {type === "Hospitality & Healthcare"
+                        ? "Hospitality & Healthcare"
+                        : `${type} Space`}
                     </option>
                   ))}
                 </select>
@@ -636,12 +656,23 @@ const Listings = () => {
           </div>
         </div>
 
-        {/* Results Info */}
-        <div className="results-info">
+        {/* Results Info with Pagination Stats */}
+        <div className="results-info" ref={listingsGridRef}>
           <div className="results-count">
-            <span className="count-number">{filteredListings.length}</span>
+            <span className="count-number">
+              {pagination.total > 0 ? (
+                <>
+                  Showing {(currentPage - 1) * 50 + 1}-
+                  {Math.min(currentPage * 50, pagination.total)} of{" "}
+                  {pagination.total}
+                </>
+              ) : (
+                "0"
+              )}
+            </span>
             <span className="count-text">
-              {filteredListings.length === 1 ? "property" : "properties"} found
+              {" "}
+              {pagination.total === 1 ? "property" : "properties"}
             </span>
           </div>
           <div className="sort-options">
@@ -734,7 +765,6 @@ const Listings = () => {
                   )}
                 </div>
                 <div className="listing-type">{listing.type}</div>
-                <div className="property-code">{listing.propertyCode}</div>
               </div>
 
               <div className="listing-content">
@@ -792,6 +822,83 @@ const Listings = () => {
           ))}
         </div>
 
+        {/* Pagination Controls */}
+        {pagination.pages > 1 && !isLoading && !error && (
+          <div className="pagination-wrapper">
+            <div className="pagination-info">
+              <p>
+                Page {currentPage} of {pagination.pages} • Total{" "}
+                {pagination.total} properties
+              </p>
+            </div>
+            <div className="pagination-controls">
+              {/* First Page Button */}
+              <button
+                className="pagination-btn pagination-btn-first"
+                onClick={() => handlePageChange(1)}
+                disabled={currentPage === 1 || isFiltering}
+                title="First Page"
+              >
+                <FaAngleDoubleLeft />
+              </button>
+
+              {/* Previous Button */}
+              <button
+                className="pagination-btn pagination-btn-prev"
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={!pagination.hasPrev || isFiltering}
+                title="Previous Page"
+              >
+                <FaChevronLeft />
+                <span className="pagination-btn-text">Previous</span>
+              </button>
+
+              {/* Page Numbers */}
+              <div className="pagination-numbers">
+                {getPageNumbers().map((page, index) =>
+                  page === "..." ? (
+                    <span key={`ellipsis-${index}`} className="pagination-ellipsis">
+                      ...
+                    </span>
+                  ) : (
+                    <button
+                      key={page}
+                      className={`pagination-number ${
+                        currentPage === page ? "active" : ""
+                      }`}
+                      onClick={() => handlePageChange(page)}
+                      disabled={isFiltering}
+                    >
+                      {page}
+                    </button>
+                  ),
+                )}
+              </div>
+
+              {/* Next Button */}
+              <button
+                className="pagination-btn pagination-btn-next"
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={!pagination.hasNext || isFiltering}
+                title="Next Page"
+              >
+                <span className="pagination-btn-text">Next</span>
+                <FaChevronRight />
+              </button>
+
+              {/* Last Page Button */}
+              <button
+                className="pagination-btn pagination-btn-last"
+                onClick={() => handlePageChange(pagination.pages)}
+                disabled={currentPage === pagination.pages || isFiltering}
+                title="Last Page"
+              >
+                <FaAngleDoubleRight />
+              </button>
+            </div>
+          </div>
+        )}
+
         {/* No Results */}
         {filteredListings.length === 0 &&
           !isLoading &&
@@ -817,7 +924,7 @@ const Listings = () => {
           )}
       </div>
 
-      {/* Report Request Popup */}
+      {/* Report Request Popup - keeping the existing popup code */}
       {showReportPopup && (
         <div className="listings-popup-overlay">
           <div className="listings-popup-container" ref={popupRef}>
