@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { MdEmail } from "react-icons/md";
 import {
   FaFileAlt,
   FaUser,
@@ -980,6 +981,13 @@ const Admin = () => {
             >
               <FaUser />
               Manage Leads
+            </button>
+            <button
+              className="admin-logout-btn"
+              onClick={() => navigate("/admin/subscriptions")}
+            >
+              <MdEmail />
+              Manage Subscriptions
             </button>
             <button onClick={handleLogout} className="admin-logout-btn">
               <FaSignOutAlt />

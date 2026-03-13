@@ -26,7 +26,8 @@ const Services = () => {
         color: "#23c6a4",
         delay: 0,
         image:
-          "https://i.pinimg.com/736x/1d/ea/bf/1deabf56ead86762ab1293481096adc8.jpg",
+          "https://i.pinimg.com/1200x/94/52/14/94521417be896fbd8b5ed984da3ad244.jpg",
+
         features: [
           "Malls",
           "High Street Stores",
@@ -42,8 +43,10 @@ const Services = () => {
         icon: <FaBuilding />,
         color: "#1a2f5c",
         delay: 200,
+
         image:
-          "https://i.pinimg.com/1200x/94/52/14/94521417be896fbd8b5ed984da3ad244.jpg",
+          "https://i.pinimg.com/736x/1d/ea/bf/1deabf56ead86762ab1293481096adc8.jpg",
+
         features: [
           "GCC",
           "Co-Working & Flex Spaces",
@@ -61,7 +64,8 @@ const Services = () => {
         color: "#4fd1c7",
         delay: 400,
         image:
-          "https://i.pinimg.com/1200x/5a/54/ff/5a54ff359b4ab9d4a8d986150554144a.jpg",
+          "https://plus.unsplash.com/premium_photo-1681995326134-cdc947934015?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8aG9zcGl0YWxpdHklMjBhbmQlMjBoZWFsdGhjYXJlJTIwcmVhbCUyMGVzdGF0ZXxlbnwwfHwwfHx8MA%3D%3D",
+        // "https://i.pinimg.com/1200x/5a/54/ff/5a54ff359b4ab9d4a8d986150554144a.jpg",
         features: [
           "Senior Living Homes",
           "Co Living Homes",

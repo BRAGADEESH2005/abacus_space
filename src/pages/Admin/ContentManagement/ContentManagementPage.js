@@ -49,6 +49,7 @@ const ContentManagementPage = () => {
     status: "Published",
     author: "Abacus Spaces",
     tags: [],
+    views: 0,
   });
 
   // Image file state
@@ -276,6 +277,7 @@ const ContentManagementPage = () => {
         date: formData.date,
         status: formData.status,
         author: formData.author,
+        views: formData.views,
         tags: formData.tags,
         ...(imageUrl && { imageUrl }),
       };
@@ -322,6 +324,7 @@ const ContentManagementPage = () => {
       date: new Date(content.date).toISOString().split("T")[0],
       status: content.status,
       author: content.author,
+      views: content.views || 0,
       tags: content.tags || [],
     });
     setImagePreviewUrl(content.image.url);
@@ -357,6 +360,7 @@ const ContentManagementPage = () => {
       status: "Published",
       author: "Abacus Spaces",
       tags: [],
+      views: 0,
     });
     setEditingContent(null);
     setShowForm(false);
@@ -700,6 +704,24 @@ const ContentManagementPage = () => {
                     }
                     placeholder="Author name..."
                   />
+                </div>
+                <div className="cmp-form-group">
+                  <label>Initial Views</label>
+                  <input
+                    type="number"
+                    value={formData.views}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        views: parseInt(e.target.value) || 0,
+                      })
+                    }
+                    placeholder="Enter initial views count..."
+                    min="0"
+                  />
+                  <small>
+                    Leave as 0 or set initial view count for this content
+                  </small>
                 </div>
 
                 <div className="cmp-form-group">

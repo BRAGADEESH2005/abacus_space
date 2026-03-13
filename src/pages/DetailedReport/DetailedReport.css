@@ -403,3 +403,10 @@
     justify-content: center;
   }
 }
+
+.report-text-content {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  line-height: 1.8;
+}

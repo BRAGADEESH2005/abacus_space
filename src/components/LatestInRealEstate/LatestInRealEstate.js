@@ -61,6 +61,7 @@ const LatestInRealEstate = () => {
       if (response.data.success) {
         setContentData(response.data.data);
       }
+      console.log("Fetched content:--------", response.data.data);
     } catch (error) {
       console.error("Error fetching content:", error);
       setContentData([]);
@@ -180,6 +181,12 @@ const LatestInRealEstate = () => {
         {/* Tabs Navigation */}
         <div className="estate-tabs">
           <button
+            className={`estate-tab ${activeTab === "updates" ? "active" : ""}`}
+            onClick={() => setActiveTab("updates")}
+          >
+            Updates
+          </button>
+          <button
             className={`estate-tab ${activeTab === "research" ? "active" : ""}`}
             onClick={() => setActiveTab("research")}
           >
@@ -190,12 +197,6 @@ const LatestInRealEstate = () => {
             onClick={() => setActiveTab("blog")}
           >
             Blog
-          </button>
-          <button
-            className={`estate-tab ${activeTab === "updates" ? "active" : ""}`}
-            onClick={() => setActiveTab("updates")}
-          >
-            Updates
           </button>
         </div>
 

@@ -159,10 +159,13 @@ const DetailedReport = () => {
             </div>
           )}
           {/* Text Content */}
+          {/* Text Content */}
           <div
             className="report-text-content"
-            dangerouslySetInnerHTML={{ __html: content.text }}
-          />
+            style={{ whiteSpace: "pre-wrap", wordWrap: "break-word" }}
+          >
+            {content.text}
+          </div>
           {/* Download Section
           <div className="report-download-section">
             <button className="download-report-btn">

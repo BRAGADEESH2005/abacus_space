@@ -18,6 +18,7 @@ import LeadsManagement from "./pages/Admin/LeadsManagement/LeadsManagement";
 import ContentManagementPage from "./pages/Admin/ContentManagement/ContentManagementPage"; // Add this import
 import DetailedReport from "./pages/DetailedReport/DetailedReport";
 import InsightsReports from "./pages/InsightsReports/InsightsReports";
+import SubscriptionsManagement from "./pages/Admin/SubscriptionManagement/SubscriptionManagement";
 
 function App() {
   return (
@@ -38,9 +39,10 @@ function App() {
           <Route path="/rera-registration" element={<RERARegistration />} />
           <Route path="/admin/leads" element={<LeadsManagement />} />
           <Route
-            path="/admin/content"
-            element={<ContentManagementPage />}
-          />{" "}
+            path="/admin/subscriptions"
+            element={<SubscriptionsManagement />}
+          />
+          <Route path="/admin/content" element={<ContentManagementPage />} />{" "}
           {/* Add this route */}
         </Routes>
         <Footer />

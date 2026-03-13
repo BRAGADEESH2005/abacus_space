@@ -1,7 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import './AboutUs.css';
-import { FaBuilding, FaHandshake, FaLightbulb, FaUsers, FaClock, FaHeart, FaRocket } from 'react-icons/fa';
-import { MdBusiness, MdTrendingUp, MdSecurity } from 'react-icons/md';
+import React, { useState, useEffect } from "react";
+import "./AboutUs.css";
+import {
+  FaBuilding,
+  FaHandshake,
+  FaLightbulb,
+  FaUsers,
+  FaClock,
+  FaHeart,
+  FaRocket,
+} from "react-icons/fa";
+import { MdBusiness, MdTrendingUp, MdSecurity } from "react-icons/md";
 
 const AboutUs = () => {
   const [visibleSections, setVisibleSections] = useState({});
@@ -9,21 +17,21 @@ const AboutUs = () => {
   useEffect(() => {
     const observerOptions = {
       threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
+      rootMargin: "0px 0px -50px 0px",
     };
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          setVisibleSections(prev => ({
+          setVisibleSections((prev) => ({
             ...prev,
-            [entry.target.id]: true
+            [entry.target.id]: true,
           }));
         }
       });
     }, observerOptions);
 
-    const sections = document.querySelectorAll('[id]');
+    const sections = document.querySelectorAll("[id]");
     sections.forEach((section) => observer.observe(section));
 
     return () => observer.disconnect();
@@ -33,100 +41,113 @@ const AboutUs = () => {
     {
       name: "Doss",
       role: "CEO & Founder",
-      initial: "D"
+      initial: "D",
     },
     {
       name: "Abhi",
       role: "Operations",
-      initial: "A"
+      initial: "A",
     },
     {
       name: "Praveena",
       role: "Creative Head",
-      initial: "P"
+      initial: "P",
     },
     {
-      name: "Sugandh",
-      role: "Manager",
-      initial: "S"
-    }
+      name: "Gokul",
+      role: "Marketing Head",
+      initial: "G",
+    },
+    {
+      name: "Indhu",
+      role: "Facility Head",
+      initial: "I",
+    },
+    {
+      name: "Bragadeesh",
+      role: "Technical Head",
+      initial: "B",
+    },
   ];
 
   const values = [
     {
       icon: <FaClock />,
       title: "Beyond Time",
-      description: "Ensuring every requirement is handled with urgency and precision."
+      description:
+        "Ensuring every requirement is handled with urgency and precision.",
     },
     {
       icon: <FaRocket />,
       title: "Beyond Effort",
-      description: "Ensuring we secure the most value-driven deals for our clients."
+      description:
+        "Ensuring we secure the most value-driven deals for our clients.",
     },
     {
       icon: <FaHeart />,
       title: "Beyond Relationships",
-      description: "Building trust with stakeholders for lasting partnerships."
-    }
+      description: "Building trust with stakeholders for lasting partnerships.",
+    },
   ];
 
   return (
     <div className="about-page">
       {/* Header Section */}
-      <div 
-        id="header" 
-        className={`about-header ${visibleSections.header ? 'visible' : ''}`}
+      <div
+        id="header"
+        className={`about-header ${visibleSections.header ? "visible" : ""}`}
       >
         <div className="about-container">
           <h1>About Abacus Spaces</h1>
           <p>
-            Commercial real estate consulting company, specializing exclusively into 
-            leasing office and retail spaces
+            Commercial real estate consulting company, specializing exclusively
+            into leasing office and retail spaces
           </p>
         </div>
       </div>
 
       <div className="about-container">
         <div className="about-content">
-          
           {/* Story Section */}
-          <section 
-            id="story" 
-            className={`story-section ${visibleSections.story ? 'visible' : ''}`}
+          <section
+            id="story"
+            className={`story-section ${visibleSections.story ? "visible" : ""}`}
           >
             <div className="story-text">
               <h2>Who We Are</h2>
               <p>
-                Abacus Spaces is a commercial real estate Consulting Company, specializing 
-                exclusively into Leasing Office and Retail Spaces. We cater from startups 
-                seeking flexible workspaces to large corporates expanding their regional footprint.
+                Abacus Spaces is a commercial real estate Consulting Company,
+                specializing exclusively into Leasing Office and Retail Spaces.
+                We cater from startups seeking flexible workspaces to large
+                corporates expanding their regional footprint.
               </p>
               <p>
-                At Abacus Spaces, we believe that a space is more than four walls, it is the 
-                foundation where ideas grow, teams connect, and businesses thrive.
+                At Abacus Spaces, we believe that a space is more than four
+                walls, it is the foundation where ideas grow, teams connect, and
+                businesses thrive.
               </p>
               <p>
-                Our approach goes beyond brokerage where we act as consultants, negotiators, 
-                and partners invested in your long-term success.
+                Our approach goes beyond brokerage where we act as consultants,
+                negotiators, and partners invested in your long-term success.
               </p>
               <p>
-                We combine data-driven market Insights with Relationship-driven execution to 
-                ensure every client receives precise insights, transparent advice, and 
-                value-maximized deals.
+                We combine data-driven market Insights with Relationship-driven
+                execution to ensure every client receives precise insights,
+                transparent advice, and value-maximized deals.
               </p>
             </div>
             <div className="story-image">
-              <img 
-                src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=600&h=400&fit=crop&auto=format&q=80" 
+              <img
+                src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=600&h=400&fit=crop&auto=format&q=80"
                 alt="Modern office building representing Abacus Spaces"
               />
             </div>
           </section>
 
           {/* Goal Section */}
-          <section 
-            id="goal" 
-            className={`goal-section ${visibleSections.goal ? 'visible' : ''}`}
+          <section
+            id="goal"
+            className={`goal-section ${visibleSections.goal ? "visible" : ""}`}
           >
             <div className="goal-content">
               <div className="goal-icon">
@@ -138,25 +159,24 @@ const AboutUs = () => {
           </section>
 
           {/* Values Section */}
-          <section 
-            id="values" 
-            className={`values-section ${visibleSections.values ? 'visible' : ''}`}
+          <section
+            id="values"
+            className={`values-section ${visibleSections.values ? "visible" : ""}`}
           >
             <h2>Our Team Goes Beyond</h2>
             <p>
-              The strength of Abacus Spaces lies in its young, driven and collaborative team 
-              that believes excellence is not an act, but a habit.
+              The strength of Abacus Spaces lies in its young, driven and
+              collaborative team that believes excellence is not an act, but a
+              habit.
             </p>
             <div className="values-grid">
               {values.map((value, index) => (
-                <div 
-                  key={index} 
-                  className={`value-card ${visibleSections.values ? 'animate' : ''}`}
+                <div
+                  key={index}
+                  className={`value-card ${visibleSections.values ? "animate" : ""}`}
                   style={{ animationDelay: `${index * 0.2}s` }}
                 >
-                  <div className="value-icon">
-                    {value.icon}
-                  </div>
+                  <div className="value-icon">{value.icon}</div>
                   <h3>{value.title}</h3>
                   <p>{value.description}</p>
                 </div>
@@ -165,46 +185,47 @@ const AboutUs = () => {
           </section>
 
           {/* Philosophy Section */}
-          <section 
-            id="philosophy" 
-            className={`philosophy-section ${visibleSections.philosophy ? 'visible' : ''}`}
+          <section
+            id="philosophy"
+            className={`philosophy-section ${visibleSections.philosophy ? "visible" : ""}`}
           >
             <div className="philosophy-content">
               <h2>Our Philosophy</h2>
               <div className="philosophy-text">
                 <p>
-                  At Abacus Spaces, we don't just find spaces — we create business possibilities.
+                  At Abacus Spaces, we don't just find spaces — we create
+                  business possibilities.
                 </p>
                 <p>
-                  In an industry built on transactions, we stand for transformation.
+                  In an industry built on transactions, we stand for
+                  transformation.
                 </p>
                 <p>
-                  And in every deal we close, we stand for people — our clients, our partners, 
-                  and our team.
+                  And in every deal we close, we stand for people — our clients,
+                  our partners, and our team.
                 </p>
               </div>
             </div>
           </section>
 
           {/* Team Section */}
-          <section 
-            id="team" 
-            className={`team-section ${visibleSections.team ? 'visible' : ''}`}
+          <section
+            id="team"
+            className={`team-section ${visibleSections.team ? "visible" : ""}`}
           >
             <h2>Meet Our Team</h2>
             <p>
-              Our dedicated professionals bringing expertise and passion to every project
+              Our dedicated professionals bringing expertise and passion to
+              every project
             </p>
             <div className="team-grid">
               {teamMembers.map((member, index) => (
-                <div 
-                  key={index} 
-                  className={`team-card ${visibleSections.team ? 'animate' : ''}`}
+                <div
+                  key={index}
+                  className={`team-card ${visibleSections.team ? "animate" : ""}`}
                   style={{ animationDelay: `${index * 0.2}s` }}
                 >
-                  <div className="team-avatar">
-                    {member.initial}
-                  </div>
+                  <div className="team-avatar">{member.initial}</div>
                   <h4>{member.name}</h4>
                   <div className="role">{member.role}</div>
                 </div>
@@ -213,21 +234,23 @@ const AboutUs = () => {
           </section>
 
           {/* Mission Section */}
-          <section 
-            id="mission" 
-            className={`mission-section ${visibleSections.mission ? 'visible' : ''}`}
+          <section
+            id="mission"
+            className={`mission-section ${visibleSections.mission ? "visible" : ""}`}
           >
             <div className="mission-content">
               <div className="mission-text">
                 <h2>Our Mission</h2>
                 <p>
-                  To revolutionize the commercial real estate experience by providing 
-                  innovative, client-focused solutions that drive business success and 
-                  create lasting value for all stakeholders.
+                  To revolutionize the commercial real estate experience by
+                  providing innovative, client-focused solutions that drive
+                  business success and create lasting value for all
+                  stakeholders.
                 </p>
                 <p>
-                  We are committed to transparency, excellence, and building long-term 
-                  partnerships that help businesses find their perfect space to grow and thrive.
+                  We are committed to transparency, excellence, and building
+                  long-term partnerships that help businesses find their perfect
+                  space to grow and thrive.
                 </p>
               </div>
               <div className="mission-stats">
@@ -261,7 +284,6 @@ const AboutUs = () => {
               </div>
             </div>
           </section>
-
         </div>
       </div>
     </div>
