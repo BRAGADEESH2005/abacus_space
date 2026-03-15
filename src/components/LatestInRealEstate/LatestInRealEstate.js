@@ -10,7 +10,7 @@ import axios from "axios";
 import "./LatestInRealEstate.css";
 
 const LatestInRealEstate = () => {
-  const [activeTab, setActiveTab] = useState("research");
+  const [activeTab, setActiveTab] = useState("updates");
   const scrollRef = useRef(null);
   const navigate = useNavigate();
   const [isAutoScrolling, setIsAutoScrolling] = useState(true);
@@ -61,7 +61,6 @@ const LatestInRealEstate = () => {
       if (response.data.success) {
         setContentData(response.data.data);
       }
-      console.log("Fetched content:--------", response.data.data);
     } catch (error) {
       console.error("Error fetching content:", error);
       setContentData([]);

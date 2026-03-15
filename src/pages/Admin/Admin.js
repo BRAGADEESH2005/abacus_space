@@ -117,6 +117,7 @@ const Admin = () => {
     price: "",
     propertyCode: "", // Auto-generated preview, editable by admin
     images: [],
+    videoUrls: [],
     features: [""],
     viewsRange: [100, 300],
   });
@@ -166,6 +167,18 @@ const Admin = () => {
     }
     if (!newListing.price.trim()) {
       errors.price = "Price is required";
+    }
+    // Validate video URLs - all must be valid URLs if provided
+    const validVideoUrls = newListing.videoUrls.filter(
+      (url) => url && url.trim() !== "",
+    );
+    if (validVideoUrls.length > 0) {
+      const urlPattern = /^(https?:\/\/)?.+/i;
+      validVideoUrls.forEach((url, index) => {
+        if (!urlPattern.test(url)) {
+          errors[`videoUrl_${index}`] = "Invalid URL format";
+        }
+      });
     }
 
     // Validate propertyCode format if provided by admin
@@ -224,6 +237,18 @@ const Admin = () => {
         errors.propertyCode =
           "Property code must follow format: XXX-X-XXX (e.g., BLR-O-001)";
       }
+    }
+    // Validate video URLs - all must be valid URLs if provided
+    const validVideoUrls = editingListing.videoUrls.filter(
+      (url) => url && url.trim() !== "",
+    );
+    if (validVideoUrls.length > 0) {
+      const urlPattern = /^(https?:\/\/)?.+/i;
+      validVideoUrls.forEach((url, index) => {
+        if (!urlPattern.test(url)) {
+          errors[`videoUrl_${index}`] = "Invalid URL format";
+        }
+      });
     }
 
     // Check features - at least one non-empty feature
@@ -538,66 +563,55 @@ const Admin = () => {
     isNewListing = false,
   ) => {
     if (isNewListing) {
-      setNewListing((prev) => {
-        const newArray = [...prev[field]];
-        newArray[index] = value;
-        return { ...prev, [field]: newArray };
+      const updatedArray = [...newListing[field]];
+      updatedArray[index] = value;
+      setNewListing({
+        ...newListing,
+        [field]: updatedArray,
       });
-    } else if (editingListing) {
-      setEditingListing((prev) => {
-        const newArray = [...prev[field]];
-        newArray[index] = value;
-        return { ...prev, [field]: newArray };
-      });
-    }
-
-    // Clear features validation error when user types
-    if (field === "features" && value.trim() !== "") {
-      setValidationErrors((prev) => {
-        const newErrors = { ...prev };
-        delete newErrors.features;
-        return newErrors;
+    } else {
+      const updatedArray = [...editingListing[field]];
+      updatedArray[index] = value;
+      setEditingListing({
+        ...editingListing,
+        [field]: updatedArray,
       });
     }
   };
-
   const addArrayItem = (field, isNewListing = false) => {
     if (isNewListing) {
-      setNewListing((prev) => ({
-        ...prev,
-        [field]: [...prev[field], ""],
-      }));
-    } else if (editingListing) {
-      setEditingListing((prev) => ({
-        ...prev,
-        [field]: [...prev[field], ""],
-      }));
+      setNewListing({
+        ...newListing,
+        [field]: [...newListing[field], ""],
+      });
+    } else {
+      setEditingListing({
+        ...editingListing,
+        [field]: [...editingListing[field], ""],
+      });
     }
   };
-
   const removeArrayItem = (index, field, isNewListing = false) => {
-    const currentData = isNewListing ? newListing : editingListing;
-    const remainingFeatures = currentData[field]
-      .filter((_, i) => i !== index)
-      .filter((item) => item.trim() !== "");
-
-    if (field === "features" && remainingFeatures.length === 0) {
-      alert(
-        "You must have at least one feature. Please add a feature before removing this one.",
-      );
-      return;
-    }
-
     if (isNewListing) {
-      setNewListing((prev) => ({
-        ...prev,
-        [field]: prev[field].filter((_, i) => i !== index),
-      }));
-    } else if (editingListing) {
-      setEditingListing((prev) => ({
-        ...prev,
-        [field]: prev[field].filter((_, i) => i !== index),
-      }));
+      const updatedArray = newListing[field].filter((_, i) => i !== index);
+      // Ensure at least one item for required fields
+      if (field === "features" && updatedArray.length === 0) {
+        updatedArray.push("");
+      }
+      setNewListing({
+        ...newListing,
+        [field]: updatedArray,
+      });
+    } else {
+      const updatedArray = editingListing[field].filter((_, i) => i !== index);
+      // Ensure at least one item for required fields
+      if (field === "features" && updatedArray.length === 0) {
+        updatedArray.push("");
+      }
+      setEditingListing({
+        ...editingListing,
+        [field]: updatedArray,
+      });
     }
   };
 
@@ -673,65 +687,56 @@ const Admin = () => {
   const handleCreateListing = async (e) => {
     e.preventDefault();
 
-    const errors = validateNewListing();
-    if (Object.keys(errors).length > 0) {
-      setValidationErrors(errors);
-      alert("Please fix the validation errors before submitting.");
+    if (!validateNewListing()) {
+      console.log("Validation failed");
       return;
     }
 
+    setIsLoading(true);
+    setError(null);
+
     try {
-      setIsLoading(true);
-      setError(null);
-      setValidationErrors({});
-
-      let imageUrls = [];
-
-      if (selectedFiles.length > 0) {
-        // Upload images (propertyCode will be added after creation)
-        imageUrls = await uploadImages(selectedFiles);
+      // Upload images
+      let uploadedImageUrls = [];
+      if (selectedFiles && selectedFiles.length > 0) {
+        setUploadingImages(true);
+        uploadedImageUrls = await uploadImages(
+          selectedFiles,
+          newListing.propertyCode || "temp",
+        );
+        setUploadingImages(false);
       }
 
-      // Prepare listing data - include propertyCode if admin provided one
+      // Filter and clean video URLs
+      const cleanVideoUrls = newListing.videoUrls.filter(
+        (url) => url && url.trim() !== "",
+      );
+
+      // Prepare listing data
       const listingData = {
         title: newListing.title.trim(),
         type: newListing.type,
-        location: newListing.location,
+        location: newListing.location.trim(),
         area: newListing.area.trim(),
         price: newListing.price.trim(),
-        images: imageUrls,
-        features: newListing.features.filter(
-          (feature) => feature.trim() !== "",
-        ),
-        viewsRange: [
-          parseInt(newListing.viewsRange[0]),
-          parseInt(newListing.viewsRange[1]),
-        ],
+        propertyCode: newListing.propertyCode?.trim() || "",
+        images: uploadedImageUrls,
+        videoUrls: cleanVideoUrls,
+        features: newListing.features
+          .filter((f) => f && f.trim() !== "")
+          .map((f) => f.trim()),
+        viewsRange: newListing.viewsRange,
       };
 
-      // Only include propertyCode if admin has edited it (not the auto-preview)
-      if (
-        newListing.propertyCode &&
-        newListing.propertyCode.trim() &&
-        !newListing.propertyCode.includes("XXX")
-      ) {
-        listingData.propertyCode = newListing.propertyCode.trim();
-      }
-      console.log(
-        "Creating listing with data:",
-        listingData,
-        listingData.propertyCode,
-      );
+      console.log("Creating listing with data:", listingData);
 
       const response = await api.post("/listings", listingData);
 
       if (response.data.success) {
-        const createdListing = response.data.data;
-        alert(
-          `Listing created successfully!\nProperty Code: ${createdListing.propertyCode}`,
-        );
+        console.log("Listing created successfully:", response.data.data);
+        alert("Listing created successfully!");
 
-        // Reset form - include propertyCode reset
+        // Reset form
         setNewListing({
           title: "",
           type: "Office",
@@ -740,90 +745,118 @@ const Admin = () => {
           price: "",
           propertyCode: "",
           images: [],
+          videoUrls: [],
           features: [""],
           viewsRange: [100, 300],
         });
-
-        imagePreviewUrls.forEach((url) => URL.revokeObjectURL(url));
         setSelectedFiles([]);
         setImagePreviewUrls([]);
-
-        await loadListings();
-        await loadPropertyCodeStats();
+        setValidationErrors({});
         setActiveTab("listings");
-      } else {
-        throw new Error(response.data.message || "Failed to create listing");
+        await loadListings();
       }
     } catch (error) {
       console.error("Error creating listing:", error);
-      setError(error.message || "Failed to create listing");
-      alert(`Error: ${error.message || "Failed to create listing"}`);
+      setError(
+        error.response?.data?.message ||
+          error.message ||
+          "Failed to create listing",
+      );
+      alert(
+        error.response?.data?.message ||
+          error.message ||
+          "Failed to create listing",
+      );
     } finally {
       setIsLoading(false);
+      setUploadingImages(false);
     }
   };
-
   // Updated handleUpdateListing
   const handleUpdateListing = async (e) => {
     e.preventDefault();
 
-    const errors = validateEditListing();
-    if (Object.keys(errors).length > 0) {
-      setValidationErrors(errors);
-      alert("Please fix the validation errors before submitting.");
+    if (!validateEditListing()) {
+      console.log("Validation failed");
       return;
     }
 
+    if (!editingListing?._id) {
+      alert("No listing selected for editing");
+      return;
+    }
+
+    setIsLoading(true);
+    setError(null);
+
     try {
-      setIsLoading(true);
-      setError(null);
-      setValidationErrors({});
+      let uploadedImageUrls = [...editingListing.images];
 
-      let imageUrls = [...(editingListing.images || [])];
-
-      if (editSelectedFiles.length > 0) {
+      // Upload new images if any
+      if (editSelectedFiles && editSelectedFiles.length > 0) {
+        setUploadingImages(true);
         const newImageUrls = await uploadImages(
           editSelectedFiles,
-          editingListing.propertyCode,
+          editingListing.propertyCode || "temp",
         );
-        imageUrls = [...imageUrls, ...newImageUrls];
+        uploadedImageUrls = [...uploadedImageUrls, ...newImageUrls];
+        setUploadingImages(false);
       }
 
-      // Prepare listing data - include editable propertyCode
-      const listingData = {
-        ...editingListing,
-        propertyCode: editingListing.propertyCode.trim(), // Admin can edit this
-        images: imageUrls,
-        features: editingListing.features.filter(
-          (feature) => feature.trim() !== "",
-        ),
+      // Filter and clean video URLs
+      const cleanVideoUrls = editingListing.videoUrls.filter(
+        (url) => url && url.trim() !== "",
+      );
+
+      // Prepare update data
+      const updateData = {
+        title: editingListing.title.trim(),
+        type: editingListing.type,
+        location: editingListing.location.trim(),
+        area: editingListing.area.trim(),
+        price: editingListing.price.trim(),
+        propertyCode: editingListing.propertyCode?.trim(),
+        images: uploadedImageUrls,
+        videoUrls: cleanVideoUrls,
+        features: editingListing.features
+          .filter((f) => f && f.trim() !== "")
+          .map((f) => f.trim()),
+        viewsRange: editingListing.viewsRange,
       };
-      console.log("Updating listing with data:", listingData.propertyCode);
+
+      console.log("Updating listing with data:", updateData);
 
       const response = await api.put(
         `/listings/${editingListing._id}`,
-        listingData,
+        updateData,
       );
 
       if (response.data.success) {
+        console.log("Listing updated successfully:", response.data.data);
         alert("Listing updated successfully!");
 
         setEditingListing(null);
-        editImagePreviewUrls.forEach((url) => URL.revokeObjectURL(url));
         setEditSelectedFiles([]);
         setEditImagePreviewUrls([]);
-
-        await loadListings();
+        setValidationErrors({});
         setActiveTab("listings");
-      } else {
-        throw new Error(response.data.message || "Failed to update listing");
+        await loadListings();
       }
     } catch (error) {
       console.error("Error updating listing:", error);
-      setError(error.message || "Failed to update listing");
-      alert(`Error: ${error.message || "Failed to update listing"}`);
+      setError(
+        error.response?.data?.message ||
+          error.message ||
+          "Failed to update listing",
+      );
+      alert(
+        error.response?.data?.message ||
+          error.message ||
+          "Failed to update listing",
+      );
     } finally {
       setIsLoading(false);
+      setUploadingImages(false);
     }
   };
 
@@ -870,11 +903,17 @@ const Admin = () => {
   };
 
   const startEditListing = (listing) => {
-    setEditingListing({ ...listing });
-    setActiveTab("edit");
+    setEditingListing({
+      ...listing,
+      videoUrls:
+        listing.videoUrls && listing.videoUrls.length > 0
+          ? listing.videoUrls
+          : [],
+    });
     setEditSelectedFiles([]);
     setEditImagePreviewUrls([]);
     setValidationErrors({});
+    setActiveTab("edit");
   };
 
   // Clean up object URLs when component unmounts
@@ -1625,6 +1664,66 @@ const Admin = () => {
                   )}
                 </div>
 
+                {/* Video URLs Section */}
+                <div
+                  className={`admin-form-group ${
+                    validationErrors.videoUrls ? "error" : ""
+                  }`}
+                >
+                  <label>Video URLs (Optional)</label>
+                  {(activeTab === "create"
+                    ? newListing
+                    : editingListing
+                  )?.videoUrls?.map((videoUrl, index) => (
+                    <div key={index} className="admin-array-input">
+                      <input
+                        type="url"
+                        value={videoUrl}
+                        onChange={(e) =>
+                          handleArrayInputChange(
+                            index,
+                            e.target.value,
+                            "videoUrls",
+                            activeTab === "create",
+                          )
+                        }
+                        placeholder={`Video URL ${index + 1} (e.g., https://youtube.com/...)`}
+                      />
+                      {(activeTab === "create" ? newListing : editingListing)
+                        ?.videoUrls?.length > 1 && (
+                        <button
+                          type="button"
+                          onClick={() =>
+                            removeArrayItem(
+                              index,
+                              "videoUrls",
+                              activeTab === "create",
+                            )
+                          }
+                          className="admin-remove-btn"
+                        >
+                          <FaTrash />
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={() =>
+                      addArrayItem("videoUrls", activeTab === "create")
+                    }
+                    className="admin-add-btn"
+                  >
+                    <FaPlus /> Add Video URL
+                  </button>
+                  {validationErrors.videoUrls && (
+                    <div className="admin-validation-error">
+                      <FaExclamationTriangle />
+                      {validationErrors.videoUrls}
+                    </div>
+                  )}
+                </div>
+
                 <button
                   type="submit"
                   className="admin-submit-btn"
@@ -2060,6 +2159,56 @@ const Admin = () => {
                     <div className="admin-validation-error">
                       <FaExclamationTriangle />
                       {validationErrors.features}
+                    </div>
+                  )}
+                </div>
+
+                {/* Video URLs Section */}
+                <div
+                  className={`admin-form-group ${
+                    validationErrors.videoUrls ? "error" : ""
+                  }`}
+                >
+                  <label>Video URLs (Optional)</label>
+                  {editingListing?.videoUrls?.map((videoUrl, index) => (
+                    <div key={index} className="admin-array-input">
+                      <input
+                        type="url"
+                        value={videoUrl}
+                        onChange={(e) =>
+                          handleArrayInputChange(
+                            index,
+                            e.target.value,
+                            "videoUrls",
+                            false,
+                          )
+                        }
+                        placeholder={`Video URL ${index + 1} (e.g., https://youtube.com/...)`}
+                      />
+                      {editingListing?.videoUrls?.length > 1 && (
+                        <button
+                          type="button"
+                          onClick={() =>
+                            removeArrayItem(index, "videoUrls", false)
+                          }
+                          className="admin-remove-btn"
+                        >
+                          <FaTrash />
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={() => addArrayItem("videoUrls", false)}
+                    className="admin-add-btn"
+                  >
+                    <FaPlus /> Add Video URL
+                  </button>
+                  {validationErrors.videoUrls && (
+                    <div className="admin-validation-error">
+                      <FaExclamationTriangle />
+                      {validationErrors.videoUrls}
                     </div>
                   )}
                 </div>

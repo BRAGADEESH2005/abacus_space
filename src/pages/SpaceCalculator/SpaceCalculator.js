@@ -52,6 +52,13 @@ const SpaceCalculator = () => {
       "Content-Type": "application/json",
     },
   });
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "instant",
+    });
+  }, []);
 
   useEffect(() => {
     setTimeout(() => setIsLoaded(true), 300);
@@ -109,13 +116,13 @@ const SpaceCalculator = () => {
           updated[category].area = calculateArea(
             category,
             value,
-            updated[category].persons
+            updated[category].persons,
           );
         } else {
           updated[category].area = calculateArea(
             category,
             value,
-            updated[category].count
+            updated[category].count,
           );
         }
       } else if (field === "persons" || field === "count") {
@@ -124,7 +131,7 @@ const SpaceCalculator = () => {
         updated[category].area = calculateArea(
           category,
           updated[category].type,
-          validValue
+          validValue,
         );
       } else {
         updated[category][field] = value;
@@ -370,7 +377,7 @@ const SpaceCalculator = () => {
                             handleInputChange(
                               "workstations",
                               "persons",
-                              Math.max(0, spaceData.workstations.persons - 1)
+                              Math.max(0, spaceData.workstations.persons - 1),
                             )
                           }
                           className="sc-count-btn"
@@ -384,7 +391,7 @@ const SpaceCalculator = () => {
                             handleInputChange(
                               "workstations",
                               "persons",
-                              e.target.value
+                              e.target.value,
                             )
                           }
                           min="0"
@@ -394,7 +401,7 @@ const SpaceCalculator = () => {
                             handleInputChange(
                               "workstations",
                               "persons",
-                              spaceData.workstations.persons + 1
+                              spaceData.workstations.persons + 1,
                             )
                           }
                           className="sc-count-btn"
@@ -427,7 +434,7 @@ const SpaceCalculator = () => {
                             handleInputChange(
                               "cabins",
                               "count",
-                              Math.max(0, spaceData.cabins.count - 1)
+                              Math.max(0, spaceData.cabins.count - 1),
                             )
                           }
                           className="sc-count-btn"
@@ -447,7 +454,7 @@ const SpaceCalculator = () => {
                             handleInputChange(
                               "cabins",
                               "count",
-                              spaceData.cabins.count + 1
+                              spaceData.cabins.count + 1,
                             )
                           }
                           className="sc-count-btn"
@@ -480,7 +487,7 @@ const SpaceCalculator = () => {
                             handleInputChange(
                               "reception",
                               "count",
-                              Math.max(0, spaceData.reception.count - 1)
+                              Math.max(0, spaceData.reception.count - 1),
                             )
                           }
                           className="sc-count-btn"
@@ -494,7 +501,7 @@ const SpaceCalculator = () => {
                             handleInputChange(
                               "reception",
                               "count",
-                              e.target.value
+                              e.target.value,
                             )
                           }
                           min="0"
@@ -504,7 +511,7 @@ const SpaceCalculator = () => {
                             handleInputChange(
                               "reception",
                               "count",
-                              spaceData.reception.count + 1
+                              spaceData.reception.count + 1,
                             )
                           }
                           className="sc-count-btn"
@@ -559,7 +566,7 @@ const SpaceCalculator = () => {
                             handleInputChange(
                               "pantry",
                               "count",
-                              Math.max(0, spaceData.pantry.count - 1)
+                              Math.max(0, spaceData.pantry.count - 1),
                             )
                           }
                           className="sc-count-btn"
@@ -579,7 +586,7 @@ const SpaceCalculator = () => {
                             handleInputChange(
                               "pantry",
                               "count",
-                              spaceData.pantry.count + 1
+                              spaceData.pantry.count + 1,
                             )
                           }
                           className="sc-count-btn"
@@ -636,7 +643,7 @@ const SpaceCalculator = () => {
                             handleInputChange(
                               "conferenceRoom",
                               "count",
-                              Math.max(0, spaceData.conferenceRoom.count - 1)
+                              Math.max(0, spaceData.conferenceRoom.count - 1),
                             )
                           }
                           className="sc-count-btn"
@@ -650,7 +657,7 @@ const SpaceCalculator = () => {
                             handleInputChange(
                               "conferenceRoom",
                               "count",
-                              e.target.value
+                              e.target.value,
                             )
                           }
                           min="0"
@@ -660,7 +667,7 @@ const SpaceCalculator = () => {
                             handleInputChange(
                               "conferenceRoom",
                               "count",
-                              spaceData.conferenceRoom.count + 1
+                              spaceData.conferenceRoom.count + 1,
                             )
                           }
                           className="sc-count-btn"
@@ -693,7 +700,7 @@ const SpaceCalculator = () => {
                             handleInputChange(
                               "serverRoom",
                               "count",
-                              Math.max(0, spaceData.serverRoom.count - 1)
+                              Math.max(0, spaceData.serverRoom.count - 1),
                             )
                           }
                           className="sc-count-btn"
@@ -707,7 +714,7 @@ const SpaceCalculator = () => {
                             handleInputChange(
                               "serverRoom",
                               "count",
-                              e.target.value
+                              e.target.value,
                             )
                           }
                           min="0"
@@ -717,7 +724,7 @@ const SpaceCalculator = () => {
                             handleInputChange(
                               "serverRoom",
                               "count",
-                              spaceData.serverRoom.count + 1
+                              spaceData.serverRoom.count + 1,
                             )
                           }
                           className="sc-count-btn"

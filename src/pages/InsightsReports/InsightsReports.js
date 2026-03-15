@@ -51,6 +51,14 @@ const InsightsReports = () => {
   }, []);
 
   useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "instant",
+    });
+  }, []);
+
+  useEffect(() => {
     filterContent();
   }, [activeFilter, searchQuery, selectedSector, contentData]);
 
@@ -132,7 +140,6 @@ const InsightsReports = () => {
       {/* Hero Section */}
       <div className="insights-hero">
         <div className="insights-hero-content">
-          
           <h1 className="insights-hero-title">Insights & Reports</h1>
           <p className="insights-hero-subtitle">
             Explore our comprehensive collection of research reports, industry

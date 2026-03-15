@@ -1,45 +1,64 @@
-import React, { useState, useEffect } from 'react';
-import { X } from 'lucide-react';
-import { useLocation } from 'react-router-dom';
-import axios from 'axios';
-import './UserInfoPopup.css';
+import React, { useState, useEffect } from "react";
+import { X } from "lucide-react";
+import { useLocation } from "react-router-dom";
+import axios from "axios";
+import "./UserInfoPopup.css";
 
 const UserInfoPopup = ({ delay = 3000 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionSuccess, setSubmissionSuccess] = useState(false);
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    company: '',
-    designation: ''
+    name: "",
+    email: "",
+    phone: "",
+    company: "",
+    designation: "",
   });
   const [errors, setErrors] = useState({});
-  
+
   const location = useLocation();
 
   // Get base URL from environment variables
-  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000/api';
+  const API_BASE_URL =
+    process.env.REACT_APP_API_BASE_URL || "http://localhost:5000/api";
 
   // Configure axios instance
   const api = axios.create({
     baseURL: `${API_BASE_URL}`,
     timeout: 10000,
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
   });
 
   useEffect(() => {
     // Check if current path is an admin page
-    const isAdminPage = location.pathname.startsWith('/admin');
-    
+    const isAdminPage = location.pathname.startsWith("/admin");
+
     // Check if user has already submitted
-    const hasSubmitted = localStorage.getItem('userInfoSubmitted');
-    
-    // Only show popup if not on admin page and user hasn't submitted
+    const hasSubmitted = localStorage.getItem("userInfoSubmitted");
+
+    // Check when popup was last closed
+    const popupClosedTime = sessionStorage.getItem("popupClosedTime");
+    let shouldShowPopup = false;
+
     if (!hasSubmitted && !isAdminPage) {
+      if (!popupClosedTime) {
+        // Popup hasn't been closed yet, show after delay
+        shouldShowPopup = true;
+      } else {
+        // Check if 5 minutes (300000 ms) have passed
+        const timePassed = Date.now() - parseInt(popupClosedTime);
+        if (timePassed >= 300000) {
+          // 5 minutes have passed, allow popup to show again
+          shouldShowPopup = true;
+          sessionStorage.removeItem("popupClosedTime");
+        }
+      }
+    }
+
+    if (shouldShowPopup) {
       const timer = setTimeout(() => {
         setIsOpen(true);
       }, delay);
@@ -50,15 +69,15 @@ const UserInfoPopup = ({ delay = 3000 }) => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
     // Clear error for this field
     if (errors[name]) {
-      setErrors(prev => ({
+      setErrors((prev) => ({
         ...prev,
-        [name]: ''
+        [name]: "",
       }));
     }
   };
@@ -67,12 +86,15 @@ const UserInfoPopup = ({ delay = 3000 }) => {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!formData.name.trim()) newErrors.name = 'Name is required';
-    if (!formData.company.trim()) newErrors.company = 'Company name is required';
-    if (!formData.designation.trim()) newErrors.designation = 'Designation is required';
-    if (!formData.phone.trim()) newErrors.phone = 'Phone number is required';
-    if (!formData.email.trim()) newErrors.email = 'Email is required';
-    else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'Email is invalid';
+    if (!formData.name.trim()) newErrors.name = "Name is required";
+    if (!formData.company.trim())
+      newErrors.company = "Company name is required";
+    if (!formData.designation.trim())
+      newErrors.designation = "Designation is required";
+    if (!formData.phone.trim()) newErrors.phone = "Phone number is required";
+    if (!formData.email.trim()) newErrors.email = "Email is required";
+    else if (!/\S+@\S+\.\S+/.test(formData.email))
+      newErrors.email = "Email is invalid";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -80,7 +102,7 @@ const UserInfoPopup = ({ delay = 3000 }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!validateForm()) return;
 
     setIsSubmitting(true);
@@ -90,17 +112,17 @@ const UserInfoPopup = ({ delay = 3000 }) => {
       // Prepare data in the format expected by the leads API
       const requestData = {
         userInfo: formData,
-        source: 'home_login',
-        requestType: 'user_registration',
+        source: "home_login",
+        requestType: "user_registration",
       };
 
-      console.log('Submitting user info:', requestData);
+      console.log("Submitting user info:", requestData);
 
-      const response = await api.post('/leads', requestData);
+      const response = await api.post("/leads", requestData);
 
       if (response.data.success) {
-        console.log('User info submitted successfully:', response.data.data);
-        localStorage.setItem('userInfoSubmitted', 'true');
+        console.log("User info submitted successfully:", response.data.data);
+        localStorage.setItem("userInfoSubmitted", "true");
         setSubmissionSuccess(true);
 
         // Auto-close popup after 3 seconds
@@ -109,20 +131,23 @@ const UserInfoPopup = ({ delay = 3000 }) => {
         }, 3000);
       } else {
         setErrors({
-          submit: response.data.message || 'Failed to submit information'
+          submit: response.data.message || "Failed to submit information",
         });
       }
     } catch (error) {
-      console.error('Error submitting user info:', error);
+      console.error("Error submitting user info:", error);
 
-      let errorMessage = 'Unable to connect to server. Please try again later.';
+      let errorMessage = "Unable to connect to server. Please try again later.";
 
       if (error.response) {
-        errorMessage = error.response.data?.message || `Server error: ${error.response.status}`;
+        errorMessage =
+          error.response.data?.message ||
+          `Server error: ${error.response.status}`;
       } else if (error.request) {
-        errorMessage = 'No response from server. Please check your internet connection.';
-      } else if (error.code === 'ECONNABORTED') {
-        errorMessage = 'Request timeout. Please try again.';
+        errorMessage =
+          "No response from server. Please check your internet connection.";
+      } else if (error.code === "ECONNABORTED") {
+        errorMessage = "Request timeout. Please try again.";
       }
 
       setErrors({ submit: errorMessage });
@@ -133,8 +158,9 @@ const UserInfoPopup = ({ delay = 3000 }) => {
 
   const handleClose = () => {
     setIsOpen(false);
-    // Set a flag to not show again in this session
-    sessionStorage.setItem('popupClosed', 'true');
+    // Store the current timestamp when popup is closed
+    // Popup will show again after 5 minutes
+    sessionStorage.setItem("popupClosedTime", Date.now().toString());
   };
 
   if (!isOpen) return null;
@@ -154,12 +180,14 @@ const UserInfoPopup = ({ delay = 3000 }) => {
 
         <div className="userinfopop-header">
           <h2 className="userinfopop-title">
-            {submissionSuccess ? 'Thank You! 🎉' : 'Welcome to Our Platform! 👋'}
+            {submissionSuccess
+              ? "Thank You! 🎉"
+              : "Welcome to Our Platform! 👋"}
           </h2>
           <p className="userinfopop-subtitle">
-            {submissionSuccess 
-              ? 'Your information has been received successfully. We will contact you soon!'
-              : 'Please provide your professional details to access our services and receive personalized updates'}
+            {submissionSuccess
+              ? "Your information has been received successfully. We will contact you soon!"
+              : "Please provide your professional details to access our services and receive personalized updates"}
           </p>
         </div>
 
@@ -184,12 +212,14 @@ const UserInfoPopup = ({ delay = 3000 }) => {
                   required
                   value={formData.name}
                   onChange={handleInputChange}
-                  className={`userinfopop-form-input ${errors.name ? 'error' : ''}`}
+                  className={`userinfopop-form-input ${errors.name ? "error" : ""}`}
                   placeholder="Enter your full name (e.g., Michael Anderson)"
                   disabled={isSubmitting}
                 />
                 {errors.name && (
-                  <span className="userinfopop-error-message">{errors.name}</span>
+                  <span className="userinfopop-error-message">
+                    {errors.name}
+                  </span>
                 )}
               </div>
 
@@ -204,12 +234,14 @@ const UserInfoPopup = ({ delay = 3000 }) => {
                   required
                   value={formData.email}
                   onChange={handleInputChange}
-                  className={`userinfopop-form-input ${errors.email ? 'error' : ''}`}
+                  className={`userinfopop-form-input ${errors.email ? "error" : ""}`}
                   placeholder="Enter your business email (e.g., m.anderson@company.com)"
                   disabled={isSubmitting}
                 />
                 {errors.email && (
-                  <span className="userinfopop-error-message">{errors.email}</span>
+                  <span className="userinfopop-error-message">
+                    {errors.email}
+                  </span>
                 )}
               </div>
 
@@ -224,12 +256,14 @@ const UserInfoPopup = ({ delay = 3000 }) => {
                   required
                   value={formData.phone}
                   onChange={handleInputChange}
-                  className={`userinfopop-form-input ${errors.phone ? 'error' : ''}`}
+                  className={`userinfopop-form-input ${errors.phone ? "error" : ""}`}
                   placeholder="Enter your contact number with country code (e.g., +1-555-123-4567)"
                   disabled={isSubmitting}
                 />
                 {errors.phone && (
-                  <span className="userinfopop-error-message">{errors.phone}</span>
+                  <span className="userinfopop-error-message">
+                    {errors.phone}
+                  </span>
                 )}
               </div>
 
@@ -244,12 +278,14 @@ const UserInfoPopup = ({ delay = 3000 }) => {
                   required
                   value={formData.company}
                   onChange={handleInputChange}
-                  className={`userinfopop-form-input ${errors.company ? 'error' : ''}`}
+                  className={`userinfopop-form-input ${errors.company ? "error" : ""}`}
                   placeholder="Enter your organization name (e.g., Global Enterprises Inc.)"
                   disabled={isSubmitting}
                 />
                 {errors.company && (
-                  <span className="userinfopop-error-message">{errors.company}</span>
+                  <span className="userinfopop-error-message">
+                    {errors.company}
+                  </span>
                 )}
               </div>
 
@@ -264,12 +300,14 @@ const UserInfoPopup = ({ delay = 3000 }) => {
                   required
                   value={formData.designation}
                   onChange={handleInputChange}
-                  className={`userinfopop-form-input ${errors.designation ? 'error' : ''}`}
+                  className={`userinfopop-form-input ${errors.designation ? "error" : ""}`}
                   placeholder="Enter your current position (e.g., Senior Marketing Manager)"
                   disabled={isSubmitting}
                 />
                 {errors.designation && (
-                  <span className="userinfopop-error-message">{errors.designation}</span>
+                  <span className="userinfopop-error-message">
+                    {errors.designation}
+                  </span>
                 )}
               </div>
 
@@ -284,7 +322,7 @@ const UserInfoPopup = ({ delay = 3000 }) => {
                     Processing...
                   </>
                 ) : (
-                  'Submit Information'
+                  "Submit Information"
                 )}
               </button>
             </form>

@@ -14,6 +14,7 @@ import {
   FaCheckCircle,
   FaAngleDoubleLeft,
   FaAngleDoubleRight,
+  FaPlay,
 } from "react-icons/fa";
 import {
   MdSpaceDashboard,
@@ -61,9 +62,15 @@ const Listings = () => {
   });
   const [reportErrors, setReportErrors] = useState({});
 
+  // New states for video popup
+  const [showVideoPopup, setShowVideoPopup] = useState(false);
+  const [selectedVideoListingId, setSelectedVideoListingId] = useState(null);
+  const [selectedVideoIndex, setSelectedVideoIndex] = useState(0);
+
   const sectionRef = useRef(null);
   const imageIntervals = useRef({});
   const popupRef = useRef(null);
+  const videoPopupRef = useRef(null);
   const listingsGridRef = useRef(null);
 
   // Get base URL from environment variables
@@ -145,6 +152,7 @@ const Listings = () => {
         setFilteredListings(listingsData);
         setPagination(response.data.pagination);
         setCurrentPage(page);
+        console.log("Fetched listings:--------", listingsData);
       } else {
         throw new Error(response.data.message || "Failed to fetch listings");
       }
@@ -190,12 +198,15 @@ const Listings = () => {
   // Handle pagination - go to specific page
   const handlePageChange = (newPage) => {
     if (newPage < 1 || newPage > pagination.pages) return;
-    
+
     // Scroll to top of listings grid smoothly
     if (listingsGridRef.current) {
-      listingsGridRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+      listingsGridRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
     }
-    
+
     setVisibleCards([]);
     fetchListings(newPage, getActiveFilters(), true);
   };
@@ -250,15 +261,55 @@ const Listings = () => {
     return priceStr !== "0" && priceStr !== "₹0";
   };
 
+  // Helper function to extract YouTube video ID from various URL formats
+  const extractYouTubeVideoId = (url) => {
+    if (!url) return null;
+
+    // Handle youtube.com/shorts/VIDEO_ID format
+    const shortsMatch = url.match(/youtube\.com\/shorts\/([a-zA-Z0-9_-]+)/);
+    if (shortsMatch) return shortsMatch[1];
+
+    // Handle youtube.com/watch?v=VIDEO_ID format
+    const watchMatch = url.match(/youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/);
+    if (watchMatch) return watchMatch[1];
+
+    // Handle youtu.be/VIDEO_ID format
+    const youtuMatch = url.match(/youtu\.be\/([a-zA-Z0-9_-]+)/);
+    if (youtuMatch) return youtuMatch[1];
+
+    // Handle youtube.com/embed/VIDEO_ID format
+    const embedMatch = url.match(/youtube\.com\/embed\/([a-zA-Z0-9_-]+)/);
+    if (embedMatch) return embedMatch[1];
+
+    return null;
+  };
+
+  // Handle Watch Videos button click
+  const handleWatchVideos = (listing) => {
+    setSelectedVideoListingId(listing._id);
+    setSelectedVideoIndex(0);
+    setShowVideoPopup(true);
+  };
+
+  // Close video popup
+  const closeVideoPopup = () => {
+    setShowVideoPopup(false);
+    setSelectedVideoListingId(null);
+    setSelectedVideoIndex(0);
+  };
+
   // Validate form
   const validateForm = () => {
     const newErrors = {};
     if (!userInfo.name.trim()) newErrors.name = "Name is required";
-    if (!userInfo.company.trim()) newErrors.company = "Company name is required";
-    if (!userInfo.designation.trim()) newErrors.designation = "Designation is required";
+    if (!userInfo.company.trim())
+      newErrors.company = "Company name is required";
+    if (!userInfo.designation.trim())
+      newErrors.designation = "Designation is required";
     if (!userInfo.phone.trim()) newErrors.phone = "Phone number is required";
     if (!userInfo.email.trim()) newErrors.email = "Email is required";
-    else if (!/\S+@\S+\.\S+/.test(userInfo.email)) newErrors.email = "Email is invalid";
+    else if (!/\S+@\S+\.\S+/.test(userInfo.email))
+      newErrors.email = "Email is invalid";
     setReportErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -302,9 +353,12 @@ const Listings = () => {
       console.error("Error submitting report request:", error);
       let errorMessage = "Unable to connect to server. Please try again later.";
       if (error.response) {
-        errorMessage = error.response.data?.message || `Server error: ${error.response.status}`;
+        errorMessage =
+          error.response.data?.message ||
+          `Server error: ${error.response.status}`;
       } else if (error.request) {
-        errorMessage = "No response from server. Please check your internet connection.";
+        errorMessage =
+          "No response from server. Please check your internet connection.";
       } else if (error.code === "ECONNABORTED") {
         errorMessage = "Request timeout. Please try again.";
       }
@@ -332,6 +386,28 @@ const Listings = () => {
       document.body.style.overflow = "unset";
     };
   }, [showReportPopup]);
+
+  // Close video popup when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        videoPopupRef.current &&
+        !videoPopupRef.current.contains(event.target)
+      ) {
+        closeVideoPopup();
+      }
+    };
+
+    if (showVideoPopup) {
+      document.addEventListener("mousedown", handleClickOutside);
+      document.body.style.overflow = "hidden";
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.body.style.overflow = "unset";
+    };
+  }, [showVideoPopup]);
 
   // Initial data fetch
   useEffect(() => {
@@ -768,23 +844,38 @@ const Listings = () => {
               </div>
 
               <div className="listing-content">
-                <h3>{listing.title}</h3>
+                <div className="listing-header-section">
+                  <div className="listing-info">
+                    <h3>{listing.title}</h3>
 
-                <div className="listing-details">
-                  <div className="detail-item">
-                    <FaMapMarkerAlt className="detail-icon" />
-                    <span>{listing.location}</span>
+                    <div className="listing-details">
+                      <div className="detail-item">
+                        <FaMapMarkerAlt className="detail-icon" />
+                        <span>{listing.location}</span>
+                      </div>
+                      <div className="detail-item">
+                        <MdSpaceDashboard className="detail-icon" />
+                        <span>{listing.area}</span>
+                      </div>
+                      <div className="detail-item price">
+                        {isPriceAvailable(listing.price) && (
+                          <FaRupeeSign className="detail-icon" />
+                        )}
+                        <span>{formatPrice(listing.price)}</span>
+                      </div>
+                    </div>
                   </div>
-                  <div className="detail-item">
-                    <MdSpaceDashboard className="detail-icon" />
-                    <span>{listing.area}</span>
-                  </div>
-                  <div className="detail-item price">
-                    {isPriceAvailable(listing.price) && (
-                      <FaRupeeSign className="detail-icon" />
-                    )}
-                    <span>{formatPrice(listing.price)}</span>
-                  </div>
+
+                  {listing.videoUrls && listing.videoUrls.length > 0 && (
+                    <button
+                      className="watch-videos-btn-header"
+                      onClick={() => handleWatchVideos(listing)}
+                      title="Watch property videos"
+                    >
+                      <FaPlay />
+                      Watch Videos
+                    </button>
+                  )}
                 </div>
 
                 <div className="listing-features">
@@ -857,7 +948,10 @@ const Listings = () => {
               <div className="pagination-numbers">
                 {getPageNumbers().map((page, index) =>
                   page === "..." ? (
-                    <span key={`ellipsis-${index}`} className="pagination-ellipsis">
+                    <span
+                      key={`ellipsis-${index}`}
+                      className="pagination-ellipsis"
+                    >
                       ...
                     </span>
                   ) : (
@@ -1167,6 +1261,139 @@ const Listings = () => {
                   </button>
                 </div>
               )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Video Player Popup */}
+      {showVideoPopup && selectedVideoListingId && (
+        <div className="listings-popup-overlay">
+          <div
+            className="listings-popup-container video-popup-container"
+            ref={videoPopupRef}
+          >
+            <div className="listings-popup-header">
+              <h3>
+                <FaPlay style={{ marginRight: "0.5rem", color: "#23c6a4" }} />
+                Watch Property Videos
+              </h3>
+              <button
+                className="listings-popup-close"
+                onClick={closeVideoPopup}
+              >
+                <FaTimes />
+              </button>
+            </div>
+
+            <div className="listings-popup-content video-popup-content">
+              {(() => {
+                const listing = filteredListings.find(
+                  (l) => l._id === selectedVideoListingId,
+                );
+                const videoUrls = listing?.videoUrls || [];
+                const videoId = extractYouTubeVideoId(
+                  videoUrls[selectedVideoIndex],
+                );
+
+                return (
+                  <>
+                    {listing && (
+                      <div className="listings-popup-property-summary">
+                        <h4>{listing.title}</h4>
+                        <p>
+                          <FaMapMarkerAlt style={{ marginRight: "0.3rem" }} />
+                          {listing.location} • {listing.area}
+                        </p>
+                      </div>
+                    )}
+
+                    {videoUrls.length > 0 ? (
+                      <>
+                        {/* Video Player */}
+                        <div className="video-player-container">
+                          {videoId ? (
+                            <iframe
+                              width="100%"
+                              height="500"
+                              src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
+                              title="Property Video"
+                              frameBorder="0"
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                              allowFullScreen
+                            ></iframe>
+                          ) : (
+                            <div className="video-player-error">
+                              <p>Unable to load video. Invalid URL format.</p>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Video Selection Dropdown (if multiple videos) */}
+                        {videoUrls.length > 1 && (
+                          <div className="video-selection">
+                            <label>Select Video:</label>
+                            <select
+                              value={selectedVideoIndex}
+                              onChange={(e) =>
+                                setSelectedVideoIndex(parseInt(e.target.value))
+                              }
+                              className="video-select"
+                            >
+                              {videoUrls.map((url, index) => (
+                                <option key={index} value={index}>
+                                  Video {index + 1}{" "}
+                                  {/* {url && `- ${url.substring(0, 50)}...`} */}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                        )}
+
+                        {/* Video URLs List */}
+                        <div className="video-urls-list">
+                          <h4>
+                            Videos for this Property ({videoUrls.length}):
+                          </h4>
+                          <div className="video-items">
+                            {videoUrls.map((url, index) => (
+                              <button
+                                key={index}
+                                className={`video-item ${
+                                  selectedVideoIndex === index ? "active" : ""
+                                }`}
+                                onClick={() => setSelectedVideoIndex(index)}
+                              >
+                                <FaPlay className="video-item-icon" />
+                                <div className="video-item-info">
+                                  <div className="video-item-title">
+                                    Video {index + 1}
+                                  </div>
+                                  {/* <div className="video-item-url">{url}</div> */}
+                                </div>
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div className="listings-popup-actions">
+                          <button
+                            className="listings-popup-btn-primary"
+                            onClick={closeVideoPopup}
+                          >
+                            Close
+                          </button>
+                        </div>
+                      </>
+                    ) : (
+                      <div className="listings-popup-error-banner">
+                        <span className="listings-popup-error-icon">⚠️</span>
+                        No videos available for this property
+                      </div>
+                    )}
+                  </>
+                );
+              })()}
             </div>
           </div>
         </div>
