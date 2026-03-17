@@ -10,6 +10,7 @@ import Home from "./pages/Home/Home";
 import Listings from "./pages/Listings/Listings";
 import AboutUs from "./pages/AboutUs/AboutUs";
 import Contact from "./pages/Contact/Contact";
+import Careers from "./pages/Careers/Careers";
 import SpaceCalculator from "./pages/SpaceCalculator/SpaceCalculator";
 import Admin from "./pages/Admin/Admin";
 import PrivacyPolicy from "./pages/PrivacyPolicy/PrivacyPolicy";
@@ -32,6 +33,7 @@ function App() {
           <Route path="/listings" element={<Listings />} />
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/careers" element={<Careers />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/content/:slug" element={<DetailedReport />} />
           <Route path="/insights-reports" element={<InsightsReports />} />
@@ -42,8 +44,7 @@ function App() {
             path="/admin/subscriptions"
             element={<SubscriptionsManagement />}
           />
-          <Route path="/admin/content" element={<ContentManagementPage />} />{" "}
-          {/* Add this route */}
+          <Route path="/admin/content" element={<ContentManagementPage />} />
         </Routes>
         <Footer />
       </Router>

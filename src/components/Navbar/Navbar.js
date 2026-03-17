@@ -193,9 +193,9 @@ const Navbar = () => {
               </Link>
 
               <Link
-                to="/insights"
+                to="/insights-reports"
                 className={`navbar-link ${
-                  location.pathname === "/insights" ? "active" : ""
+                  location.pathname === "/insights-reports" ? "active" : ""
                 }`}
               >
                 <span>Insights</span>
@@ -366,9 +366,9 @@ const Navbar = () => {
           </Link>
 
           <Link
-            to="/insights"
+            to="/insights-reports"
             className={`mobile-nav-link ${
-              location.pathname === "/insights" ? "active" : ""
+              location.pathname === "/insights-reports" ? "active" : ""
             }`}
             onClick={closeMobileMenu}
             style={{ animationDelay: "0.8s" }}
