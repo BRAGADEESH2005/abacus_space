@@ -6,7 +6,7 @@
 
 /* Hero Section - REDUCED */
 .insights-hero {
-  background: linear-gradient(135deg, #23c6a4 0%, #1a2f5c 100%);
+  background: linear-gradient(135deg, #7f1416 0%, #d94c4c 100%);
   padding: 4.5rem 2rem 3rem;
   position: relative;
   overflow: hidden;
@@ -19,7 +19,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><rect width="2" height="2" fill="rgba(255,255,255,0.05)"/></svg>');
+  background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><rect width="2" height="2" fill="rgba(127, 20, 22, 0.05)"/></svg>');
   background-size: 50px 50px;
   opacity: 0.3;
 }
@@ -32,8 +32,8 @@
 }
 
 .back-button {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(127, 20, 22, 0.1);
+  border: 1px solid rgba(127, 20, 22, 0.2);
   color: white;
   padding: 0.5rem 1.2rem;
   border-radius: 50px;
@@ -49,7 +49,7 @@
 }
 
 .back-button:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(127, 20, 22, 0.2);
   transform: translateX(-5px);
 }
 
@@ -111,9 +111,9 @@
 
 .insights-search-input:focus {
   outline: none;
-  border-color: #23c6a4;
+  border-color: #7f1416;
   background: white;
-  box-shadow: 0 0 0 3px rgba(35, 198, 164, 0.1);
+  box-shadow: 0 0 0 3px rgba(127, 20, 22, 0.1);
 }
 
 .clear-search-btn {
@@ -200,16 +200,16 @@
 }
 
 .filter-chip:hover {
-  border-color: #23c6a4;
-  color: #23c6a4;
+  border-color: #7f1416;
+  color: #7f1416;
   transform: translateY(-1px);
 }
 
 .filter-chip.active {
-  background: linear-gradient(135deg, #23c6a4 0%, #1a2f5c 100%);
-  border-color: #23c6a4;
+  background: linear-gradient(135deg, #7f1416 0%, #d94c4c 100%);
+  border-color: #7f1416;
   color: white;
-  box-shadow: 0 2px 8px rgba(35, 198, 164, 0.3);
+  box-shadow: 0 2px 8px rgba(127, 20, 22, 0.3);
 }
 
 .clear-filters-btn {
@@ -270,7 +270,7 @@
 
 .insights-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 10px 25px rgba(164, 43, 43, 0.12);
 }
 
 .insights-card-image {
@@ -299,8 +299,9 @@
   bottom: 0;
   background: linear-gradient(
     135deg,
-    rgba(26, 47, 92, 0.9) 0%,
-    rgba(35, 198, 164, 0.9) 100%
+    rgba(127, 20, 22, 0.8) 0%,
+    rgba(127, 20, 22, 0.6) 50%,
+    rgba(127, 20, 22, 0.8) 100%
   );
   display: flex;
   align-items: center;
@@ -427,7 +428,7 @@
   width: 45px;
   height: 45px;
   border: 4px solid #e2e8f0;
-  border-top-color: #23c6a4;
+  border-top-color: #7f1416;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -465,7 +466,7 @@
 
 .reset-btn {
   padding: 0.75rem 2rem;
-  background: linear-gradient(135deg, #23c6a4 0%, #1a2f5c 100%);
+  background: linear-gradient(135deg, #7f1416 0%, #d94c4c 100%);
   border: none;
   border-radius: 50px;
   color: white;

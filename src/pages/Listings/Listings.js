@@ -898,7 +898,7 @@ const Listings = () => {
                   </div>
                   <div className="listing-actions">
                     <button
-                      className="btn-primary get-report-btn"
+                      className="listings-btn-primary get-report-btn"
                       onClick={() => handleGetReport(listing)}
                     >
                       <FaFileAlt />

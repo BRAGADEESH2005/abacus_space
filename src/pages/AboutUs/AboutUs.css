@@ -12,7 +12,7 @@
 
 /* Header Section */
 .about-header {
-  background: linear-gradient(135deg, #23c6a4 0%, #1a2f5c 100%);
+  background: linear-gradient(45deg, #7f1416, #d94c4c);
   color: white;
   padding: 4rem 0;
   text-align: center;
@@ -31,17 +31,22 @@
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.1) 0%,
+    transparent 70%
+  );
   animation: headerGlow 8s ease-in-out infinite;
 }
 
 @keyframes headerGlow {
-  0%, 100% { 
-    transform: rotate(0deg) scale(1); 
+  0%,
+  100% {
+    transform: rotate(0deg) scale(1);
     opacity: 0.5;
   }
-  50% { 
-    transform: rotate(180deg) scale(1.1); 
+  50% {
+    transform: rotate(180deg) scale(1.1);
     opacity: 0.8;
   }
 }
@@ -137,7 +142,7 @@
   left: 0;
   width: 60px;
   height: 4px;
-  background: linear-gradient(135deg, #23c6a4, #1a2f5c);
+  background: linear-gradient(45deg, #7f1416, #d94c4c);
   border-radius: 2px;
 }
 
@@ -191,7 +196,11 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, rgba(35, 198, 164, 0.1), rgba(26, 47, 92, 0.1));
+  background: linear-gradient(
+    135deg,
+    rgba(35, 198, 164, 0.1),
+    rgba(26, 47, 92, 0.1)
+  );
   z-index: 1;
   opacity: 0;
   transition: opacity 0.3s ease;
@@ -240,16 +249,21 @@
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle, rgba(35, 198, 164, 0.02) 0%, transparent 70%);
+  background: radial-gradient(
+    circle,
+    rgba(35, 198, 164, 0.02) 0%,
+    transparent 70%
+  );
   animation: goalGlow 10s ease-in-out infinite;
 }
 
 @keyframes goalGlow {
-  0%, 100% { 
-    transform: rotate(0deg) scale(1); 
+  0%,
+  100% {
+    transform: rotate(0deg) scale(1);
   }
-  50% { 
-    transform: rotate(180deg) scale(1.1); 
+  50% {
+    transform: rotate(180deg) scale(1.1);
   }
 }
 
@@ -267,7 +281,7 @@
   width: 80px;
   height: 80px;
   margin: 0 auto 2rem;
-  background: linear-gradient(135deg, #23c6a4, #1a2f5c);
+  background: linear-gradient(45deg, #7f1416, #d94c4c);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -299,7 +313,7 @@
   transform: translateX(-50%);
   width: 80px;
   height: 4px;
-  background: linear-gradient(135deg, #23c6a4, #1a2f5c);
+  background: linear-gradient(45deg, #7f1416, #d94c4c);
   border-radius: 2px;
 }
 
@@ -342,7 +356,7 @@
   transform: translateX(-50%);
   width: 80px;
   height: 4px;
-  background: linear-gradient(135deg, #23c6a4, #1a2f5c);
+  background: linear-gradient(45deg, #7f1416, #d94c4c);
   border-radius: 2px;
 }
 
@@ -383,7 +397,12 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(35, 198, 164, 0.1), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(35, 198, 164, 0.1),
+    transparent
+  );
   transition: left 0.6s ease;
 }
 
@@ -412,7 +431,7 @@
   width: 70px;
   height: 70px;
   margin: 0 auto 1.5rem;
-  background: linear-gradient(135deg, #23c6a4, #1a2f5c);
+  background: linear-gradient(45deg, #7f1416, #d94c4c);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -426,8 +445,8 @@
 
 .value-card:hover .value-icon {
   transform: scale(1.1) rotate(10deg);
-  background: linear-gradient(135deg, #1a2f5c, #23c6a4);
-  box-shadow: 0 10px 25px rgba(35, 198, 164, 0.3);
+  background: linear-gradient(45deg, #7f1416, #d94c4c);
+  box-shadow: 0 10px 25px rgba(127, 20, 22, 0.3);
 }
 
 .value-card h3 {
@@ -449,7 +468,7 @@
 
 /* Philosophy Section */
 .philosophy-section {
-  background: linear-gradient(135deg, #23c6a4 0%, #1a2f5c 100%);
+  background: linear-gradient(45deg, #7f1416, #d94c4c);
   color: white;
   padding: 4rem 2rem;
   border-radius: 16px;
@@ -468,16 +487,21 @@
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.05) 0%,
+    transparent 70%
+  );
   animation: philosophyGlow 12s ease-in-out infinite;
 }
 
 @keyframes philosophyGlow {
-  0%, 100% { 
-    transform: rotate(0deg) scale(1); 
+  0%,
+  100% {
+    transform: rotate(0deg) scale(1);
   }
-  50% { 
-    transform: rotate(180deg) scale(1.1); 
+  50% {
+    transform: rotate(180deg) scale(1.1);
   }
 }
 
@@ -557,7 +581,7 @@
   transform: translateX(-50%);
   width: 80px;
   height: 4px;
-  background: linear-gradient(135deg, #23c6a4, #1a2f5c);
+  background: linear-gradient(45deg, #7f1416, #d94c4c);
   border-radius: 2px;
 }
 
@@ -575,7 +599,6 @@
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 2rem;
   margin-top: 2rem;
-  
 }
 
 .team-card {
@@ -599,7 +622,12 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(35, 198, 164, 0.05), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(35, 198, 164, 0.05),
+    transparent
+  );
   transition: left 0.6s ease;
 }
 
@@ -628,7 +656,7 @@
   width: 80px;
   height: 80px;
   margin: 0 auto 1.5rem;
-  background: linear-gradient(135deg, #23c6a4, #1a2f5c);
+  background: linear-gradient(45deg, #7f1416, #d94c4c);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -643,8 +671,8 @@
 
 .team-card:hover .team-avatar {
   transform: scale(1.1);
-  background: linear-gradient(135deg, #1a2f5c, #23c6a4);
-  box-shadow: 0 8px 20px rgba(35, 198, 164, 0.3);
+  background: linear-gradient(45deg, #7f1416, #d94c4c);
+  box-shadow: 0 8px 20px rgba(127, 20, 22, 0.3);
 }
 
 .team-card h4 {
@@ -657,7 +685,7 @@
 }
 
 .team-card .role {
-  color: #23c6a4;
+  color: #7f1416;
   font-weight: 500;
   margin-bottom: 1rem;
   font-size: 0.95rem;
@@ -686,16 +714,21 @@
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle, rgba(35, 198, 164, 0.02) 0%, transparent 70%);
+  background: radial-gradient(
+    circle,
+    rgba(35, 198, 164, 0.02) 0%,
+    transparent 70%
+  );
   animation: missionGlow 10s ease-in-out infinite;
 }
 
 @keyframes missionGlow {
-  0%, 100% { 
-    transform: rotate(0deg) scale(1); 
+  0%,
+  100% {
+    transform: rotate(0deg) scale(1);
   }
-  50% { 
-    transform: rotate(180deg) scale(1.1); 
+  50% {
+    transform: rotate(180deg) scale(1.1);
   }
 }
 
@@ -728,7 +761,7 @@
   left: 0;
   width: 60px;
   height: 4px;
-  background: linear-gradient(135deg, #23c6a4, #1a2f5c);
+  background: linear-gradient(45deg, #7f1416, #d94c4c);
   border-radius: 2px;
 }
 
@@ -752,7 +785,7 @@
   padding: 1.5rem;
   background: #f8fafc;
   border-radius: 12px;
-  border-left: 4px solid #23c6a4;
+  border-left: 4px solid #7f1416;
   transition: all 0.3s ease;
   opacity: 0;
   transform: translateX(30px);
@@ -768,7 +801,12 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(35, 198, 164, 0.08), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(35, 198, 164, 0.08),
+    transparent
+  );
   transition: left 0.6s ease;
 }
 
@@ -804,7 +842,7 @@
 
 .mission-icon {
   font-size: 1.5rem;
-  color: #23c6a4;
+  color: #7f1416;
   margin-top: 0.2rem;
   flex-shrink: 0;
   transition: all 0.3s ease;
@@ -840,35 +878,35 @@
   .about-page {
     padding-top: 70px;
   }
-  
+
   .about-container {
     padding: 0 1rem;
   }
-  
+
   .about-header {
     padding: 2.5rem 0;
     margin-bottom: 2rem;
   }
-  
+
   .about-header h1 {
     font-size: 2.2rem;
   }
-  
+
   .about-header p {
     font-size: 1.1rem;
   }
-  
+
   .about-content {
     gap: 2rem;
     margin-bottom: 2rem;
   }
-  
+
   .story-section,
   .mission-content {
     grid-template-columns: 1fr;
     gap: 2rem;
   }
-  
+
   .story-text h2,
   .values-section h2,
   .team-section h2,
@@ -877,7 +915,7 @@
   .philosophy-content h2 {
     font-size: 1.8rem;
   }
-  
+
   .story-text p,
   .values-section > p,
   .team-section > p,
@@ -885,34 +923,34 @@
   .goal-content p {
     font-size: 1rem;
   }
-  
+
   .philosophy-text p {
     font-size: 1.1rem;
   }
-  
+
   .philosophy-text p:last-child {
     font-size: 1.2rem;
   }
-  
+
   .story-image img {
     height: 300px;
   }
-  
+
   .values-grid {
     grid-template-columns: 1fr;
     gap: 1.5rem;
   }
-  
+
   .team-grid {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 1.5rem;
   }
-  
+
   .value-card,
   .team-card {
     padding: 2rem 1.5rem;
   }
-  
+
   .mission-section,
   .goal-section,
   .philosophy-section {
@@ -935,7 +973,7 @@
   .about-header h1 {
     font-size: 1.9rem;
   }
-  
+
   .story-text h2,
   .values-section h2,
   .team-section h2,
@@ -943,33 +981,33 @@
   .goal-content h2 {
     font-size: 1.6rem;
   }
-  
+
   .philosophy-content h2 {
     font-size: 1.8rem;
   }
-  
+
   .story-image img {
     height: 250px;
   }
-  
+
   .value-icon {
     width: 60px;
     height: 60px;
     font-size: 1.5rem;
   }
-  
+
   .goal-icon {
     width: 70px;
     height: 70px;
     font-size: 2rem;
   }
-  
+
   .team-avatar {
     width: 70px;
     height: 70px;
     font-size: 1.8rem;
   }
-  
+
   .mission-stat {
     flex-direction: column;
     text-align: center;
@@ -1002,7 +1040,7 @@
     transition: none;
     animation: none;
   }
-  
+
   .story-text p,
   .story-image {
     animation: none;

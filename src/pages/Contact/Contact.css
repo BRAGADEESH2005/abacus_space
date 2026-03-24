@@ -75,8 +75,8 @@
   bottom: 0;
   background: linear-gradient(
     135deg,
-    rgba(35, 198, 164, 0.3) 0%,
-    rgba(26, 47, 92, 0.4) 100%
+    rgba(127, 20, 22, 0.3) 0%,
+    rgba(210, 4, 4, 0.4) 100%
   );
   z-index: 2;
 }
@@ -181,7 +181,7 @@
   height: 200%;
   background: radial-gradient(
     circle,
-    rgba(35, 198, 164, 0.08) 0%,
+    rgba(127, 20, 22, 0.08) 0%,
     transparent 70%
   );
   animation: ctaGlow 6s ease-in-out infinite;
@@ -205,7 +205,7 @@
 
 .cta-icon {
   font-size: 2.5rem;
-  color: #23c6a4;
+  color: #7f1416;
   margin-bottom: 1rem;
   display: flex;
   align-items: center;
@@ -215,10 +215,10 @@
   border-radius: 50%;
   background: linear-gradient(
     135deg,
-    rgba(35, 198, 164, 0.1),
+    rgba(127, 20, 22, 0.1),
     rgba(26, 47, 92, 0.05)
   );
-  border: 2px solid rgba(35, 198, 164, 0.2);
+  border: 2px solid rgba(127, 20, 22, 0.2);
   transition: all 0.3s ease;
 }
 
@@ -226,10 +226,10 @@
   transform: scale(1.1) rotate(10deg);
   background: linear-gradient(
     135deg,
-    rgba(35, 198, 164, 0.2),
+    rgba(127, 20, 22, 0.2),
     rgba(26, 47, 92, 0.1)
   );
-  border-color: rgba(35, 198, 164, 0.4);
+  border-color: rgba(127, 20, 22, 0.4);
   color: #1a2f5c;
 }
 
@@ -238,7 +238,8 @@
   font-weight: 700;
   color: #1a2f5c;
   margin: 0 0 0.7rem 0;
-  background: linear-gradient(135deg, #23c6a4, #1a2f5c);
+  background: linear-gradient(45deg, #7f1416, #d94c4c);
+
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -259,7 +260,7 @@
 }
 
 .enquire-btn {
-  background: linear-gradient(135deg, #23c6a4, #1a8870);
+  background: linear-gradient(45deg, #7f1416, #d94c4c);
   color: white;
   border: none;
   padding: 0.75rem 1.8rem;
@@ -296,7 +297,7 @@
 
 .enquire-btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 10px 30px rgba(35, 198, 164, 0.3);
+  box-shadow: 0 10px 30px rgba(127, 20, 22, 0.3);
 }
 
 .enquire-btn:active {
@@ -305,19 +306,19 @@
 
 .cta-box:hover {
   transform: translateY(-8px);
-  box-shadow: 0 25px 60px rgba(35, 198, 164, 0.2);
-  border-color: rgba(35, 198, 164, 0.3);
+  box-shadow: 0 25px 60px rgba(127, 20, 22, 0.2);
+  border-color: rgba(127, 20, 22, 0.3);
 }
 
 /* Tech Box Styling */
 .tech-box {
   background: linear-gradient(135deg, #f0f9ff, #ecfdf5);
-  border: 2px solid rgba(35, 198, 164, 0.15);
+  border: 2px solid rgba(127, 20, 22, 0.15);
 }
 
 .tech-box:hover {
   background: linear-gradient(135deg, #ecfdf5, #d1fae5);
-  border-color: rgba(35, 198, 164, 0.4);
+  border-color: rgba(127, 20, 22, 0.4);
 }
 
 /* Contact Main Section */
@@ -356,7 +357,7 @@
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(35, 198, 164, 0.05),
+    rgba(127, 20, 22, 0.05),
     transparent
   );
   transition: left 0.6s ease;
@@ -388,7 +389,7 @@
   left: 0;
   width: 60px;
   height: 4px;
-  background: linear-gradient(135deg, #23c6a4, #1a2f5c);
+  background: linear-gradient(45deg, #7f1416, #d94c4c);
   border-radius: 2px;
 }
 
@@ -448,9 +449,9 @@
 .contact-form input:focus,
 .contact-form textarea:focus {
   outline: none;
-  border-color: #23c6a4;
+  border-color: #7f1416;
   background: white;
-  box-shadow: 0 0 0 3px rgba(35, 198, 164, 0.1);
+  box-shadow: 0 0 0 3px rgba(127, 20, 22, 0.1);
   transform: translateY(-2px);
 }
 
@@ -461,7 +462,7 @@
 }
 
 .submit-btn {
-  background: linear-gradient(135deg, #23c6a4 0%, #1a2f5c 100%);
+  background: linear-gradient(45deg, #7f1416, #d94c4c);
   color: white;
   border: none;
   padding: 1rem 1.5rem;
@@ -514,7 +515,7 @@
 
 .submit-btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(35, 198, 164, 0.4);
+  box-shadow: 0 8px 25px rgba(127, 20, 22, 0.4);
 }
 
 .submit-btn:disabled {
@@ -600,7 +601,7 @@
   left: 0;
   width: 60px;
   height: 4px;
-  background: linear-gradient(135deg, #23c6a4, #1a2f5c);
+  background: linear-gradient(45deg, #7f1416, #d94c4c);
   border-radius: 2px;
 }
 
@@ -640,7 +641,7 @@
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(35, 198, 164, 0.08),
+    rgba(127, 20, 22, 0.08),
     transparent
   );
   transition: left 0.6s ease;
@@ -663,14 +664,14 @@
 
 .info-card:hover {
   transform: translateY(-5px) scale(1.02);
-  box-shadow: 0 15px 50px rgba(35, 198, 164, 0.15);
-  border-color: rgba(35, 198, 164, 0.2);
+  box-shadow: 0 15px 50px rgba(127, 20, 22, 0.15);
+  border-color: rgba(127, 20, 22, 0.2);
 }
 
 .info-icon {
   width: 50px;
   height: 50px;
-  background: linear-gradient(135deg, #23c6a4, #1a2f5c);
+  background: linear-gradient(45deg, #7f1416, #d94c4c);
   color: white;
   border-radius: 50%;
   display: flex;
@@ -685,8 +686,8 @@
 
 .info-card:hover .info-icon {
   transform: scale(1.1) rotate(10deg);
-  background: linear-gradient(135deg, #1a2f5c, #23c6a4);
-  box-shadow: 0 8px 20px rgba(35, 198, 164, 0.3);
+  background: linear-gradient(45deg, #7f1416, #d94c4c);
+  box-shadow: 0 8px 20px rgba(127, 20, 22, 0.3);
 }
 
 .info-content {
@@ -710,7 +711,7 @@
 }
 
 .info-card:hover .info-content h3 {
-  color: #23c6a4;
+  color: #7f1416;
 }
 
 .info-card:hover .info-content p {
@@ -955,7 +956,7 @@
 .contact-form textarea:focus,
 .submit-btn:focus,
 .enquire-btn:focus {
-  outline: 2px solid #23c6a4;
+  outline: 2px solid #7f1416;
   outline-offset: 2px;
 }
 
@@ -1010,7 +1011,7 @@
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(35, 198, 164, 0.05),
+    rgba(127, 20, 22, 0.05),
     transparent
   );
   transition: left 0.6s ease;
@@ -1042,7 +1043,7 @@
   left: 0;
   width: 60px;
   height: 4px;
-  background: linear-gradient(135deg, #23c6a4, #1a2f5c);
+  background: linear-gradient(45deg, #7f1416, #d94c4c);
   border-radius: 2px;
 }
 
@@ -1102,9 +1103,9 @@
 .contact-form input:focus,
 .contact-form textarea:focus {
   outline: none;
-  border-color: #23c6a4;
+  border-color: #7f1416;
   background: white;
-  box-shadow: 0 0 0 3px rgba(35, 198, 164, 0.1);
+  box-shadow: 0 0 0 3px rgba(127, 20, 22, 0.1);
   transform: translateY(-2px);
 }
 
@@ -1115,7 +1116,7 @@
 }
 
 .submit-btn {
-  background: linear-gradient(135deg, #23c6a4 0%, #1a2f5c 100%);
+  background: linear-gradient(45deg, #7f1416, #d94c4c);
   color: white;
   border: none;
   padding: 1rem 1.5rem;
@@ -1145,7 +1146,7 @@
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(255, 255, 255, 0.2),
+    rgba(127, 20, 22, 0.2),
     transparent
   );
   transition: left 0.5s ease;
@@ -1168,7 +1169,7 @@
 
 .submit-btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(35, 198, 164, 0.4);
+  box-shadow: 0 8px 25px rgba(127, 20, 22, 0.4);
 }
 
 .submit-btn:disabled {
@@ -1183,8 +1184,8 @@
 .submit-spinner {
   width: 18px;
   height: 18px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-top: 2px solid white;
+  border: 2px solid rgba(127, 20, 22, 0.3);
+  border-top: 2px solid #7f1416;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -1254,7 +1255,7 @@
   left: 0;
   width: 60px;
   height: 4px;
-  background: linear-gradient(135deg, #23c6a4, #1a2f5c);
+  background: linear-gradient(45deg, #7f1416, #d94c4c);
   border-radius: 2px;
 }
 
@@ -1294,7 +1295,7 @@
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(35, 198, 164, 0.08),
+    rgba(127, 20, 22, 0.08),
     transparent
   );
   transition: left 0.6s ease;
@@ -1317,14 +1318,14 @@
 
 .info-card:hover {
   transform: translateY(-5px) scale(1.02);
-  box-shadow: 0 15px 50px rgba(35, 198, 164, 0.15);
-  border-color: rgba(35, 198, 164, 0.2);
+  box-shadow: 0 15px 50px rgba(127, 20, 22, 0.15);
+  border-color: rgba(127, 20, 22, 0.2);
 }
 
 .info-icon {
   width: 50px;
   height: 50px;
-  background: linear-gradient(135deg, #23c6a4, #1a2f5c);
+  background: linear-gradient(135deg, #7f1416, #d94c4c);
   color: white;
   border-radius: 50%;
   display: flex;
@@ -1339,8 +1340,8 @@
 
 .info-card:hover .info-icon {
   transform: scale(1.1) rotate(10deg);
-  background: linear-gradient(135deg, #1a2f5c, #23c6a4);
-  box-shadow: 0 8px 20px rgba(35, 198, 164, 0.3);
+  background: linear-gradient(135deg, #7f1416, #d94c4c);
+  box-shadow: 0 8px 20px rgba(127, 20, 22, 0.3);
 }
 
 .info-content {
@@ -1364,7 +1365,7 @@
 }
 
 .info-card:hover .info-content h3 {
-  color: #23c6a4;
+  color: #7f1416;
 }
 
 .info-card:hover .info-content p {
@@ -1427,7 +1428,7 @@
 /* Add a special map/location card */
 .location-card {
   background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
-  border: 2px solid rgba(35, 198, 164, 0.2);
+  border: 2px solid rgba(127, 20, 22, 0.2);
   position: relative;
   overflow: hidden;
 }
@@ -1436,22 +1437,22 @@
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(35, 198, 164, 0.1),
+    rgba(127, 20, 22, 0.1),
     transparent
   );
 }
 
 .location-card:hover {
-  border-color: rgba(35, 198, 164, 0.4);
+  border-color: rgba(127, 20, 22, 0.4);
   background: linear-gradient(135deg, #ecfdf5, #d1fae5);
 }
 
 .location-card .info-icon {
-  background: linear-gradient(135deg, #059669, #047857);
+  background: linear-gradient(135deg, #d94c4c, #f56565);
 }
 
 .location-card:hover .info-icon {
-  background: linear-gradient(135deg, #047857, #059669);
+  background: linear-gradient(135deg, #7f1416, #d94c4c);
 }
 
 /* Mobile Responsive */
@@ -1608,7 +1609,7 @@
 .contact-form input:focus,
 .contact-form textarea:focus,
 .submit-btn:focus {
-  outline: 2px solid #23c6a4;
+  outline: 2px solid #7f1416;
   outline-offset: 2px;
 }
 
