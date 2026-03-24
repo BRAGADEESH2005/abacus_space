@@ -2,7 +2,7 @@
   position: relative;
   width: 100%;
   height: 500px;
-  background-image: url('../../assets/browse_page_bg.jpg');
+  background-image: url("../../assets/browse_page_bg.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -70,12 +70,12 @@
   font-size: 1.1rem;
   font-weight: 600;
   color: #ffffff;
-  background: linear-gradient(135deg, #23c6a4 0%, #1fa388 100%);
+  background: linear-gradient(135deg, #7f1416 0%, #5a0d10 100%);
   border: none;
   border-radius: 50px;
   cursor: pointer;
   transition: all 0.4s ease;
-  box-shadow: 0 8px 25px rgba(35, 198, 164, 0.4);
+  box-shadow: 0 8px 25px rgba(127, 20, 22, 0.4);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   animation: fadeInUp 1s ease-out 0.6s both;
@@ -105,13 +105,13 @@
 
 .residential-banner-btn:hover {
   transform: translateY(-5px);
-  box-shadow: 0 12px 35px rgba(35, 198, 164, 0.6);
-  background: linear-gradient(135deg, #1fa388 0%, #23c6a4 100%);
+  box-shadow: 0 12px 35px rgba(127, 20, 22, 0.6);
+  background: linear-gradient(135deg, #7f1416 0%, #5a0d10 100%);
 }
 
 .residential-banner-btn:active {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(35, 198, 164, 0.5);
+  box-shadow: 0 6px 20px rgba(127, 20, 22, 0.5);
 }
 
 /* Animations */

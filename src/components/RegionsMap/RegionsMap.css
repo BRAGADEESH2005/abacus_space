@@ -64,10 +64,10 @@
   border-radius: 25px;
   padding: 0.5rem 1rem;
   margin-bottom: 1rem;
-  color: #23c6a4;
+  color: #7f1416;
   font-weight: 600;
   font-size: 0.85rem;
-  box-shadow: 0 4px 15px rgba(35, 198, 164, 0.08);
+  box-shadow: 0 4px 15px rgba(127, 20, 22, 0.08);
 }
 
 .regions-badge-icon {
@@ -78,7 +78,7 @@
   font-size: 2.5rem;
   font-weight: 800;
   margin-bottom: 0.5rem;
-  background: linear-gradient(135deg, #2d3748 0%, #23c6a4 50%, #1a2f5c 100%);
+  background: linear-gradient(135deg, #2d3748 0%, #7f1416 50%, #5a0d10 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -120,13 +120,13 @@
 .regions-stat-item:hover {
   transform: translateY(-3px);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-  border-color: rgba(35, 198, 164, 0.2);
+  border-color: rgba(127, 20, 22, 0.2);
 }
 
 .regions-stat-icon {
   width: 40px;
   height: 40px;
-  background: linear-gradient(135deg, #23c6a4, #1a2f5c);
+  background: linear-gradient(135deg, #7f1416, #5a0d10);
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -258,8 +258,8 @@
 }
 
 .regions-custom-popup .leaflet-popup-close-button:hover {
-  background: rgba(35, 198, 164, 0.1);
-  color: #23c6a4;
+  background: rgba(127, 20, 22, 0.1);
+  color: #7f1416;
   transform: scale(1.1);
 }
 
@@ -312,7 +312,7 @@
 
 .regions-popup-price {
   font-size: 0.85rem;
-  color: #23c6a4;
+  color: #7f1416;
   font-weight: 600;
 }
 
@@ -364,7 +364,7 @@
 }
 
 .regions-cards-list::-webkit-scrollbar-thumb {
-  background: #23c6a4;
+  background: #7f1416;
   border-radius: 3px;
 }
 
@@ -431,7 +431,7 @@
 }
 
 .regions-card-growth {
-  background: linear-gradient(135deg, #23c6a4, #1a2f5c);
+  background: linear-gradient(135deg, #7f1416, #5a0d10);
   color: white;
   padding: 0.25rem 0.5rem;
   border-radius: 15px;
@@ -512,13 +512,13 @@
 }
 
 .regions-city-tag {
-  background: rgba(35, 198, 164, 0.1);
-  color: #23c6a4;
+  background: rgba(127, 20, 22, 0.1);
+  color: #7f1416;
   padding: 0.2rem 0.5rem;
   border-radius: 10px;
   font-size: 0.7rem;
   font-weight: 500;
-  border: 1px solid rgba(35, 198, 164, 0.2);
+  border: 1px solid rgba(127, 20, 22, 0.2);
 }
 
 .regions-contact {
@@ -561,8 +561,8 @@
 
 /* Region Color Variables */
 .regions-card:nth-child(1) {
-  --region-color: #23c6a4;
-  --region-color-rgb: 35, 198, 164;
+  --region-color: #7f1416;
+  --region-color-rgb: 127, 20, 22;
 }
 
 .regions-card:nth-child(2) {

@@ -31,7 +31,7 @@
   transform: translateX(-50%);
   width: 100px;
   height: 4px;
-  background: linear-gradient(90deg, #23c6a4, #1a2f5c);
+  background: linear-gradient(90deg, #7f1416, #555471);
   border-radius: 2px;
 }
 
@@ -41,7 +41,7 @@
   justify-content: flex start;
   gap: 1rem;
   margin-bottom: 0.5rem;
-  border-bottom: 2px solid rgba(35, 198, 164, 0.2);
+  border-bottom: 2px solid rgba(127, 20, 22, 0.2);
   padding-bottom: 0;
 }
 
@@ -65,17 +65,17 @@
   left: 0;
   right: 0;
   height: 3px;
-  background: #23c6a4;
+  background: #7f1416;
   transform: scaleX(0);
   transition: transform 0.3s ease;
 }
 
 .estate-tab:hover {
-  color: #23c6a4;
+  color: #7f1416;
 }
 
 .estate-tab.active {
-  color: #23c6a4;
+  color: #7f1416;
 }
 
 .estate-tab.active::after {
@@ -97,7 +97,7 @@
   height: 50px;
   border: none;
   background: white;
-  color: #23c6a4;
+  color: #7f1416;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -118,10 +118,10 @@
 }
 
 .estate-scroll-btn:hover {
-  background: #23c6a4;
+  background: #7f1416;
   color: white;
   transform: translateY(-50%) scale(1.1);
-  box-shadow: 0 6px 20px rgba(35, 198, 164, 0.4);
+  box-shadow: 0 6px 20px rgba(127, 20, 22, 0.4);
 }
 
 .estate-scroll-btn:active {
@@ -156,7 +156,7 @@
 
 .estate-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 12px 40px rgba(35, 198, 164, 0.2);
+  box-shadow: 0 12px 40px rgba(127, 20, 22, 0.2);
 }
 
 .estate-card-image {
@@ -200,7 +200,7 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.75rem 1.5rem;
-  background: #23c6a4;
+  background: #7f1416;
   color: white;
   border: none;
   border-radius: 25px;
@@ -209,13 +209,13 @@
   cursor: pointer;
   text-decoration: none;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(35, 198, 164, 0.3);
+  box-shadow: 0 4px 15px rgba(127, 20, 22, 0.3);
 }
 
 .download-btn:hover {
-  background: #1da589;
+  background: #7f1416;
   transform: scale(1.05);
-  box-shadow: 0 6px 20px rgba(35, 198, 164, 0.4);
+  box-shadow: 0 6px 20px rgba(127, 20, 22, 0.4);
 }
 
 .download-btn svg {
@@ -245,7 +245,7 @@
 }
 
 .estate-card-category {
-  color: #23c6a4;
+  color: #7f1416;
   font-weight: 600;
   text-transform: uppercase;
   font-size: 0.75rem;
@@ -279,7 +279,7 @@
   align-items: center;
   gap: 0.75rem;
   padding: 1rem 2.5rem;
-  background: linear-gradient(135deg, #23c6a4 0%, #1a9d85 100%);
+  background: linear-gradient(135deg, #7f1416 0%, #5a0d10 100%);
   color: white;
   border: none;
   border-radius: 50px;
@@ -287,7 +287,7 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 20px rgba(35, 198, 164, 0.3);
+  box-shadow: 0 4px 20px rgba(127, 20, 22, 0.3);
   position: relative;
   overflow: hidden;
 }
@@ -299,7 +299,12 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
   transition: left 0.5s ease;
 }
 
@@ -309,7 +314,7 @@
 
 .estate-view-all-btn:hover {
   transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 8px 30px rgba(35, 198, 164, 0.5);
+  box-shadow: 0 8px 30px rgba(127, 20, 22, 0.5);
 }
 
 .estate-view-all-btn:active {
@@ -351,7 +356,7 @@
 
   .estate-main-title {
     font-size: 2rem;
-    margin-bottom: .5rem;
+    margin-bottom: 0.5rem;
   }
 
   .estate-tabs {

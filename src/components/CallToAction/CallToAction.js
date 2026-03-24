@@ -67,16 +67,16 @@ const CallToAction = () => {
         {/* Main Content */}
         <div className={`cta-content ${isVisible ? "cta-visible" : ""}`}>
           {/* Badge */}
-          <div className="cta-badge">
+          {/* <div className="cta-badge">
             <FaHandshake />
             <span>Get Started?</span>
-          </div>
+          </div> */}
 
           {/* Main Headline */}
           <h1 className="cta-headline">Looking to Expand Your Business?</h1>
 
           {/* Supporting Text */}
-          <p className="cta-description">
+          <p className="cta-description-text">
             Connect with our Team, to find you the Space that caters to your
             Business
           </p>

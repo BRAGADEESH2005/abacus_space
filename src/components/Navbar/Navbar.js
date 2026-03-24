@@ -162,14 +162,14 @@ const Navbar = () => {
           {/* Right Section */}
           <div className="navbar-right">
             <div className="navbar-right-row">
-              <form className="search-bar" onSubmit={handleSearch}>
+              <form className="nav-search-bar" onSubmit={handleSearch}>
                 <span className="search-label">Looking for</span>
                 <input
                   type="text"
                   placeholder="office, commercial, hospitality"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="search-input"
+                  className="nav-search-input"
                 />
                 <button
                   type="submit"

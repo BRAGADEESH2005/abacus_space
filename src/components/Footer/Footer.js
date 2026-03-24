@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { FaLinkedin, FaInstagram, FaTwitter, FaCheckCircle, FaTimes } from "react-icons/fa";
+import {
+  FaLinkedin,
+  FaInstagram,
+  FaCheckCircle,
+  FaTimes,
+} from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 import axios from "axios";
 import "./Footer.css";
 
@@ -50,7 +56,7 @@ const Footer = () => {
       if (response.data.success) {
         setPopupMessage(
           response.data.message ||
-            "Thank you for subscribing! You'll receive our latest updates soon."
+            "Thank you for subscribing! You'll receive our latest updates soon.",
         );
         setPopupType("success");
         setShowPopup(true);
@@ -68,9 +74,11 @@ const Footer = () => {
 
       if (error.response) {
         errorMessage =
-          error.response.data?.message || `Server error: ${error.response.status}`;
+          error.response.data?.message ||
+          `Server error: ${error.response.status}`;
       } else if (error.request) {
-        errorMessage = "No response from server. Please check your internet connection.";
+        errorMessage =
+          "No response from server. Please check your internet connection.";
       } else if (error.code === "ECONNABORTED") {
         errorMessage = "Request timeout. Please try again.";
       }
@@ -151,7 +159,7 @@ const Footer = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <FaTwitter />
+                  <FaXTwitter />
                 </a>
               </div>
 
@@ -267,8 +275,8 @@ const Footer = () => {
             <p>
               We value diversity within Abacus Spaces and are committed to
               offering equal opportunities in employment. We do not discriminate
-              against any team member or applicant for employment on the basis of
-              nationality, race, colour, religion, caste, gender
+              against any team member or applicant for employment on the basis
+              of nationality, race, colour, religion, caste, gender
               identity/expression, sexual orientation, disability, social origin
               and status, indigenous status, political opinion, age, marital
               status or any other personal characteristics or status. Abacus

@@ -51,7 +51,7 @@
 .services-underline-animated {
   width: 0;
   height: 100%;
-  background: linear-gradient(90deg, #23c6a4, #4fd1c7);
+  background: linear-gradient(90deg, #7f1416, #5a0d10);
   animation: underlineGrow 1s ease-out 0.5s forwards;
 }
 
@@ -102,7 +102,7 @@
   height: 200%;
   background: radial-gradient(
     circle,
-    var(--service-color, #23c6a4) 0%,
+    var(--service-color, #7f1416) 0%,
     transparent 70%
   );
   opacity: 0;
@@ -248,8 +248,8 @@
   align-items: center;
   gap: 0.6rem;
   padding: 0.5rem 0.9rem;
-  background: rgba(35, 198, 164, 0.1);
-  color: var(--service-color, #23c6a4);
+  background: rgba(127, 20, 22, 0.1);
+  color: var(--service-color, #7f1416);
   border-radius: 8px;
   font-size: 0.8rem;
   font-weight: 600;
@@ -281,8 +281,8 @@
   width: 0;
   background: linear-gradient(
     90deg,
-    var(--service-color, #23c6a4),
-    rgba(35, 198, 164, 0.6)
+    var(--service-color, #7f1416),
+    rgba(127, 20, 22, 0.6)
   );
   transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 1;
@@ -292,8 +292,8 @@
 .services-card:hover .services-feature-tag {
   animation: featurePopIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
   animation-delay: calc(var(--feature-index) * 0.1s + 0.2s);
-  border-color: var(--service-color, #23c6a4);
-  box-shadow: 0 4px 15px rgba(35, 198, 164, 0.2);
+  border-color: var(--service-color, #7f1416);
+  box-shadow: 0 4px 15px rgba(127, 20, 22, 0.2);
 }
 
 @keyframes featurePopIn {
@@ -344,7 +344,7 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.75rem 1.5rem;
-  background: var(--service-color, #23c6a4);
+  background: var(--service-color, #7f1416);
   color: white;
   border: none;
   border-radius: 30px;
@@ -352,12 +352,12 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(35, 198, 164, 0.3);
+  box-shadow: 0 4px 15px rgba(127, 20, 22, 0.3);
 }
 
 .services-learn-more-btn:hover {
   transform: translateX(5px);
-  box-shadow: 0 6px 20px rgba(35, 198, 164, 0.4);
+  box-shadow: 0 6px 20px rgba(127, 20, 22, 0.4);
 }
 
 .services-arrow-icon {
@@ -375,7 +375,7 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: var(--service-color, #23c6a4);
+  background: var(--service-color, #7f1416);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);

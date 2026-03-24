@@ -16,7 +16,7 @@
   background:
     radial-gradient(
       circle at 25% 25%,
-      rgba(35, 198, 164, 0.05) 0%,
+      rgba(127, 20, 22 , 0.05) 0%,
       transparent 50%
     ),
     radial-gradient(
@@ -88,9 +88,9 @@
   width: 40px;
   height: 40px;
   background: white;
-  border: 2px solid rgba(35, 198, 164, 0.3);
+  border: 2px solid rgba(127, 20, 22, 0.3);
   border-radius: 50%;
-  color: #23c6a4;
+  color: #7f1416;
   font-size: 1.1rem;
   transition: all 0.3s ease;
   text-decoration: none;
@@ -98,11 +98,11 @@
 }
 
 .footer-social-link:hover {
-  background: #23c6a4;
+  background: #7f1416;
   color: white;
   transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(35, 198, 164, 0.4);
-  border-color: #23c6a4;
+  box-shadow: 0 6px 20px rgba(127, 20, 22, 0.4);
+  border-color: #7f1416;
 }
 
 /* Subscribe Section */
@@ -127,7 +127,7 @@
 
 .footer-subscribe-input {
   padding: 0.75rem 1rem;
-  border: 2px solid rgba(35, 198, 164, 0.3);
+  border: 2px solid rgba(127, 20, 22, 0.3);
   border-radius: 8px;
   background: white;
   color: #1a2f5c;
@@ -142,13 +142,13 @@
 }
 
 .footer-subscribe-input:focus {
-  border-color: #23c6a4;
-  box-shadow: 0 4px 12px rgba(35, 198, 164, 0.15);
+  border-color: #7f1416;
+  box-shadow: 0 4px 12px rgba(127, 20, 22, 0.15);
 }
 
 .footer-subscribe-btn {
   padding: 0.75rem 1.5rem;
-  background: #23c6a4;
+  background: #7f1416;
   color: white;
   border: none;
   border-radius: 8px;
@@ -156,13 +156,13 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(35, 198, 164, 0.25);
+  box-shadow: 0 4px 12px rgba(127, 20, 22, 0.25);
 }
 
 .footer-subscribe-btn:hover {
-  background: #1fa388;
+  background: #7f1416;
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(35, 198, 164, 0.35);
+  box-shadow: 0 6px 20px rgba(127, 20, 22, 0.35);
 }
 
 /* Column Titles */
@@ -206,12 +206,12 @@
   left: 0;
   width: 0;
   height: 2px;
-  background: #23c6a4;
+  background: #7f1416;
   transition: width 0.3s ease;
 }
 
 .footer-links a:hover {
-  color: #23c6a4;
+  color: #7f1416;
   transform: translateX(5px);
 }
 
@@ -267,7 +267,7 @@
 }
 
 .footer-legal a:hover {
-  color: #23c6a4;
+  color: #7f1416;
 }
 
 .footer-separator {
@@ -544,7 +544,7 @@
 }
 
 .subscription-popup-icon.success-icon {
-  color: #23c6a4;
+  color: #7f1416;
 }
 
 .subscription-popup-icon.error-icon {
@@ -568,7 +568,7 @@
 }
 
 .subscription-popup.success .subscription-popup-title {
-  color: #23c6a4;
+  color: #7f1416;
 }
 
 .subscription-popup.error .subscription-popup-title {
