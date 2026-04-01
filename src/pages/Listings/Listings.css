@@ -315,15 +315,38 @@
 
 /* Simplified Header */
 .listings-header {
-  background: linear-gradient(135deg, #7f1416 0%, #d94c4c 100%);
   color: white;
-  padding: 3rem 0 2rem;
+  padding: 3rem 0 0.5rem;
   text-align: center;
   position: relative;
   overflow: hidden;
   opacity: 0;
   transform: translateY(-30px);
   transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.listings-header-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+
+.listings-header-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 2;
 }
 
 .listings-header.visible {
@@ -332,18 +355,7 @@
 }
 
 .listings-header::before {
-  content: "";
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(
-    circle,
-    rgba(255, 255, 255, 0.1) 0%,
-    transparent 70%
-  );
-  animation: headerGlow 6s ease-in-out infinite;
+  display: none;
 }
 
 @keyframes headerGlow {
@@ -358,7 +370,7 @@
 
 .header-content {
   position: relative;
-  z-index: 2;
+  z-index: 3;
 }
 
 .listings-header h1 {
@@ -387,7 +399,7 @@
   padding: 1.5rem;
   border-radius: 15px;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-  margin: -2rem 0 2rem;
+  margin: -7rem 0 2rem;
   position: relative;
   z-index: 10;
   border: 1px solid rgba(255, 255, 255, 0.8);
@@ -1019,7 +1031,7 @@
 
   .listings-filters {
     padding: 1.2rem;
-    margin: -1.5rem 0 1.5rem;
+    margin: -7rem 0 1.5rem;
   }
 
   .filter-controls {
@@ -1099,7 +1111,7 @@
 
   .listings-filters {
     padding: 1rem;
-    margin: -1.2rem 0 1.2rem;
+    margin: -7rem 0 1.2rem;
   }
 
   .search-bar input {

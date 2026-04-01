@@ -14,23 +14,19 @@ import { MdBusiness, MdTrendingUp, MdSecurity } from "react-icons/md";
 const AboutUs = () => {
   const [visibleSections, setVisibleSections] = useState({});
 
-
-
   // Scroll to top when component mounts
-    useEffect(() => {
-      window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: "instant",
-      });
-    }, []);
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "instant",
+    });
+  }, []);
   useEffect(() => {
     const observerOptions = {
       threshold: 0.1,
       rootMargin: "0px 0px -50px 0px",
     };
-
-
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
@@ -109,6 +105,11 @@ const AboutUs = () => {
         id="header"
         className={`about-header ${visibleSections.header ? "visible" : ""}`}
       >
+        <video className="about-header-video" autoPlay muted loop playsInline>
+          <source src="/aboutus_vid.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <div className="about-header-overlay"></div>
         <div className="about-container">
           <h1>About Abacus Spaces</h1>
           <p>
@@ -150,7 +151,7 @@ const AboutUs = () => {
             </div>
             <div className="story-image">
               <img
-                src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=600&h=400&fit=crop&auto=format&q=80"
+                src="/aboutus_content.png"
                 alt="Modern office building representing Abacus Spaces"
               />
             </div>

@@ -25,9 +25,7 @@ const Services = () => {
         icon: <FaStore />,
         color: "#1a2f5c",
         delay: 0,
-        image:
-          "https://i.pinimg.com/1200x/94/52/14/94521417be896fbd8b5ed984da3ad244.jpg",
-
+        image: "/whatwedo/retail_space.jpeg",
         features: [
           "Malls",
           "High Street Stores",
@@ -44,9 +42,7 @@ const Services = () => {
         color: "#1a2f5c",
         delay: 200,
 
-        image:
-          "https://i.pinimg.com/736x/1d/ea/bf/1deabf56ead86762ab1293481096adc8.jpg",
-
+        image: "/whatwedo/office_space.webp",
         features: [
           "GCC",
           "Co-Working & Flex Spaces",

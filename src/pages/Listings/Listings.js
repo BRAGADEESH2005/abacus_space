@@ -623,6 +623,17 @@ const Listings = () => {
           headerVisible ? "visible" : ""
         }`}
       >
+        <video
+          className="listings-header-video"
+          autoPlay
+          muted
+          loop
+          playsInline
+        >
+          <source src="/listings_vid.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <div className="listings-header-overlay"></div>
         <div className="listings-container">
           <div className="header-content">
             <h1>Find Your Perfect Workspace</h1>
@@ -736,7 +747,7 @@ const Listings = () => {
         <div className="results-info" ref={listingsGridRef}>
           <div className="results-count">
             {/* <span className="count-number"> */}
-              {/* {pagination.total > 0 ? (
+            {/* {pagination.total > 0 ? (
                 <>
                   Showing {(currentPage - 1) * 50 + 1}-
                   {Math.min(currentPage * 50, pagination.total)} of{" "}

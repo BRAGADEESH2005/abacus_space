@@ -52,6 +52,14 @@
   letter-spacing: -0.5px;
 }
 
+.why-subtext {
+  font-size: 1rem;
+  color: #ffb347;
+  margin: 0.5rem 0 0 0;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+}
+
 /* Root Lines from Heading */
 .root-lines {
   position: absolute;
@@ -119,7 +127,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 140px;
+  width: 130px;
 }
 
 /* CAPITAL (Top decorative part) */
@@ -316,7 +324,7 @@
 
 /* Connecting Lines */
 .connecting-line {
-  flex: 0 0 80px;
+  flex: 0 0 60px;
   height: 3px;
   position: relative;
   align-self: center;
@@ -373,7 +381,7 @@
 /* Responsive Design */
 @media (max-width: 1200px) {
   .pillar-structure {
-    width: 130px;
+    width: 120px;
   }
 
   .pillar-shaft {
@@ -382,19 +390,47 @@
   }
 
   .connecting-line {
-    flex: 0 0 60px;
+    flex: 0 0 50px;
   }
 
   .pillar-icon {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
   }
 
   .pillar-title {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
   }
 
   .pillar-description {
-    font-size: 0.68rem;
+    font-size: 0.65rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .pillar-structure {
+    width: 110px;
+  }
+
+  .connecting-line {
+    flex: 0 0 40px;
+  }
+
+  .pillar-shaft {
+    min-height: 200px;
+    padding: 1.2rem 0.8rem;
+  }
+
+  .pillar-icon {
+    font-size: 1.4rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .pillar-title {
+    font-size: 0.75rem;
+  }
+
+  .pillar-description {
+    font-size: 0.62rem;
   }
 }
 

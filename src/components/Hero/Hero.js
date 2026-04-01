@@ -14,38 +14,28 @@ const Hero = () => {
       title: "Raising standards in Real Estate",
       description:
         "We listen, understand & deliver spaces aligned to your business.",
-      // image: "/hero/slide90.png",
       image: "/hero/slide1.jpeg",
-
-      backgroundColor: "#1E3A5F",
-      textColor: "#FFFFFF",
+      backgroundColor: "#ffb347",
     },
     {
       title: "Clarity & Trust in every property",
       description:
         "Creating credibility, nurturing relationships & empowering clients.",
-      // image: "/hero/fslide2.png",
       image: "/hero/slide2.jpeg",
-      backgroundColor: "#C58B2A",
-      textColor: "#FFFFFF",
+      backgroundColor: "#ffd700",
     },
     {
       title: "Innovate, Transform & Grow",
       description: "Innovating the future for Indian Real Estate.",
-      // image: "/hero/jammu.png",
       image: "/hero/slide3.jpeg",
-      backgroundColor: "#f2983f",
-      textColor: "#FFFFFF",
+      backgroundColor: "#ffb347",
     },
     {
       title: "From data to smart decisions",
       description:
         "Track trends, identify opportunities & make smarter decisions.",
-      // image: "/hero/aidaa.png",
       image: "/hero/slide4.jpeg",
-
-      backgroundColor: "#070328",
-      textColor: "#FFFFFF",
+      backgroundColor: "#ffd700",
     },
   ];
 
@@ -93,41 +83,23 @@ const Hero = () => {
         <div
           key={index}
           className={`hero-slide ${index === currentSlide ? "active" : ""}`}
-          style={{ backgroundColor: slide.backgroundColor }}
+          style={{
+            backgroundImage: `url(${slide.image})`,
+            backgroundColor: slide.backgroundColor,
+          }}
         >
           <div className="hero-slide-container">
-            {/* Left Side - Text Content */}
+            {/* Text Content - Centered */}
             <div className="hero-text-section">
               <div className="hero-text-content">
-                <h1
-                  className="hero-slide-title"
-                  style={{ color: slide.textColor }}
-                >
-                  {slide.title}
-                </h1>
-                <p
-                  className="hero-slide-description"
-                  style={{ color: slide.textColor }}
-                >
-                  {slide.description}
-                </p>
+                <h1 className="hero-slide-title">{slide.title}</h1>
+                <p className="hero-slide-description">{slide.description}</p>
                 <button
                   className="hero-cta-button"
                   onClick={() => navigate("/listings")}
                 >
                   Explore Properties
                 </button>
-              </div>
-            </div>
-
-            {/* Right Side - Image */}
-            <div className="hero-image-section">
-              <div className="hero-image-wrapper">
-                <img
-                  src={slide.image}
-                  alt={slide.title}
-                  className="hero-slide-image"
-                />
               </div>
             </div>
           </div>

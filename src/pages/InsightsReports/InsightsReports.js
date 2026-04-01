@@ -139,6 +139,11 @@ const InsightsReports = () => {
     <div className="insights-reports-page">
       {/* Hero Section */}
       <div className="insights-hero">
+        <video className="insights-hero-video" autoPlay muted loop playsInline>
+          <source src="/blogpage_vid.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <div className="insights-hero-overlay"></div>
         <div className="insights-hero-content">
           <h1 className="insights-hero-title">Insights & Reports</h1>
           <p className="insights-hero-subtitle">

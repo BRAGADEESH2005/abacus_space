@@ -1,10 +1,12 @@
 import React, { useEffect, useState, useRef } from "react";
 import { BsLightningChargeFill } from "react-icons/bs";
 import {
-  FaMapMarkerAlt,
+  FaGlobeAmericas,
+  FaUsers,
+  FaNetworkWired,
+  FaDatabase,
+  FaCheckCircle,
   FaHandshake,
-  FaHeart,
-  FaChartLine,
 } from "react-icons/fa";
 import "./WhyAbacus.css";
 
@@ -16,29 +18,34 @@ const WhyAbacus = () => {
 
   const features = [
     {
-      title: "Fast Closures",
-      description: "Quick & efficient transactions",
-      icon: <BsLightningChargeFill />,
-    },
-    {
-      title: "Local Insights",
-      description: "Deep market knowledge",
-      icon: <FaMapMarkerAlt />,
-    },
-    {
-      title: "Trusted Partners",
-      description: "Building relationships",
-      icon: <FaHandshake />,
+      title: "Market Insights",
+      description: "Local & national outlook",
+      icon: <FaGlobeAmericas />,
     },
     {
       title: "Client-Centric",
-      description: "Your success matters",
-      icon: <FaHeart />,
+      description: "Occupier-focused approach",
+      icon: <FaUsers />,
     },
     {
-      title: "Market Excellence",
-      description: "Leading performance",
-      icon: <FaChartLine />,
+      title: "Strong Network",
+      description: "Developer & landlord network",
+      icon: <FaNetworkWired />,
+    },
+    {
+      title: "Data Driven",
+      description: "Data-backed decision making",
+      icon: <FaDatabase />,
+    },
+    {
+      title: "Full Execution",
+      description: "End-to-end execution capability",
+      icon: <FaCheckCircle />,
+    },
+    {
+      title: "Trusted Partnerships",
+      description: "Trust, transparency & long-term partnerships",
+      icon: <FaHandshake />,
     },
   ];
 
@@ -51,7 +58,7 @@ const WhyAbacus = () => {
           }
         });
       },
-      { threshold: 0.2 }
+      { threshold: 0.2 },
     );
 
     if (sectionRef.current) {
@@ -98,7 +105,8 @@ const WhyAbacus = () => {
             Excellence in Real Estate
           </span>
           <h2>Why Choose Abacus Spaces</h2>
-          
+          <p className="why-subtext">Six Pillars of Our Excellence</p>
+
           {/* Root lines from heading */}
           <div className={`root-lines ${showRoots ? "show" : ""}`}>
             <div className="root-line root-center"></div>
@@ -127,12 +135,14 @@ const WhyAbacus = () => {
                     <div className="shaft-flute shaft-flute-1"></div>
                     <div className="shaft-flute shaft-flute-2"></div>
                     <div className="shaft-flute shaft-flute-3"></div>
-                    
+
                     {/* Content in center */}
                     <div className="pillar-content">
                       <div className="pillar-icon">{feature.icon}</div>
                       <h3 className="pillar-title">{feature.title}</h3>
-                      <p className="pillar-description">{feature.description}</p>
+                      <p className="pillar-description">
+                        {feature.description}
+                      </p>
                     </div>
                   </div>
 

@@ -149,6 +149,10 @@ const Contact = () => {
         data-section="hero"
         ref={(el) => (sectionRefs.current.hero = el)}
       >
+        <video className="contact-hero-video" autoPlay muted loop playsInline>
+          <source src="/contactus_vid.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
         <div className="hero-overlay"></div>
         <div className="hero-content">
           <h1>Get in Touch</h1>

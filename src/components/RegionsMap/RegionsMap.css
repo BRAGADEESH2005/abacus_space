@@ -205,28 +205,28 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #7f1416 0%, #5a0d10 100%);
   transition: left 0.3s ease;
   z-index: -1;
 }
 
 .regions-filter-btn:hover {
-  border-color: #667eea;
-  color: #667eea;
+  border-color: #7f1416;
+  color: #5a0d10;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
 }
 
 .regions-filter-btn.regions-active {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #7f1416 0%, #5a0d10 100%);
   color: white;
-  border-color: #667eea;
+  border-color: #5a0d10;
   box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
 }
 
 .regions-filter-btn.regions-active:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 6px 20px rgba(146, 34, 34, 0.4);
 }
 
 /* Responsive Filter Section - Tablet */

@@ -211,7 +211,7 @@ const RegionsMap = () => {
           <h1>Our presence across Southern India</h1>
         </div>
 
-        {/* Compact Stats */}
+        {/* Compact Stats
         <div
           className={`regions-stats-compact ${
             isVisible ? "regions-visible" : ""
@@ -264,7 +264,7 @@ const RegionsMap = () => {
               <span className="regions-stat-label">Cities</span>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* Data Type Filter */}
         <div
