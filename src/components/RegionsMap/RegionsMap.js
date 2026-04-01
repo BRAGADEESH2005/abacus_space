@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import axios from "axios";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import {
@@ -25,91 +26,105 @@ L.Icon.Default.mergeOptions({
 });
 
 const RegionsMap = () => {
-  const [activeRegion, setActiveRegion] = useState(null);
+  const [dataType, setDataType] = useState("rental"); // 'rental', 'supply', 'demand'
+  const [heatmapData, setHeatmapData] = useState([]);
+  const [selectedPlace, setSelectedPlace] = useState(null);
+  const [placesInCity, setPlacesInCity] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [animatedStats, setAnimatedStats] = useState({});
   const sectionRef = useRef(null);
 
-  const regions = [
-    {
-      id: "tamil-nadu",
-      name: "Tamil Nadu",
-      capital: "Chennai",
-      properties: 150,
-      offices: 85,
-      retail: 65,
-      color: "#667eea",
-      position: [13.0827, 80.2707],
-      description:
-        "Leading commercial hub with major IT parks and world-class retail centers",
-      cities: ["Chennai", "Coimbatore", "Madurai", "Salem"],
-      growth: "+25%",
-      avgPrice: "₹8,500/sq ft",
-      totalArea: "2.5M sq ft",
-      phone: "+91 44 1234 5678",
-      email: "chennai@abacusspaces.com",
-    },
-    {
-      id: "kerala",
-      name: "Kerala",
-      capital: "Thiruvananthapuram",
-      properties: 95,
-      offices: 50,
-      retail: 45,
-      color: "#f093fb",
-      position: [10.8505, 76.2711],
-      description:
-        "Emerging business ecosystem with sustainable commercial developments",
-      cities: ["Kochi", "Thiruvananthapuram", "Kozhikode", "Thrissur"],
-      growth: "+18%",
-      avgPrice: "₹6,200/sq ft",
-      totalArea: "1.8M sq ft",
-      phone: "+91 484 9876 5432",
-      email: "kerala@abacusspaces.com",
-    },
-    {
-      id: "karnataka",
-      name: "Karnataka",
-      capital: "Bangalore",
-      properties: 200,
-      offices: 120,
-      retail: 80,
-      color: "#4facfe",
-      position: [12.9716, 77.5946],
-      description:
-        "Silicon Valley of India with premium office spaces and luxury retail",
-      cities: ["Bangalore", "Mysore", "Mangalore", "Hubli"],
-      growth: "+32%",
-      avgPrice: "₹12,800/sq ft",
-      totalArea: "4.2M sq ft",
-      phone: "+91 80 5555 7777",
-      email: "bangalore@abacusspaces.com",
-    },
-    {
-      id: "andhra-pradesh",
-      name: "Andhra Pradesh",
-      capital: "Amaravati",
-      properties: 120,
-      offices: 70,
-      retail: 50,
-      color: "#43e97b",
-      position: [15.9129, 79.74],
-      description:
-        "Rapidly expanding commercial infrastructure with government support",
-      cities: ["Visakhapatnam", "Vijayawada", "Tirupati", "Guntur"],
-      growth: "+22%",
-      avgPrice: "₹5,800/sq ft",
-      totalArea: "2.1M sq ft",
-      phone: "+91 891 3333 4444",
-      email: "andhra@abacusspaces.com",
-    },
-  ];
+  // API configuration
+  const API_BASE_URL =
+    process.env.REACT_APP_API_BASE_URL || "http://localhost:5000/api";
 
+  const api = axios.create({
+    baseURL: API_BASE_URL,
+    timeout: 30000,
+  });
+
+  // Fetch heatmap data
+  const fetchHeatmapData = async () => {
+    try {
+      setLoading(true);
+      let endpoint = "/heatmap";
+
+      if (dataType === "rental") {
+        endpoint = "/heatmap/type/rental";
+      } else if (dataType === "supply" || dataType === "demand") {
+        endpoint = "/heatmap/type/demand-supply";
+      }
+
+      const response = await api.get(endpoint);
+
+      if (response.data.success) {
+        const data = response.data.data;
+        setHeatmapData(data);
+        console.log("Fetched heatmap data:", data);
+
+        // Auto-select first place on load to show initial details
+        if (data.length > 0) {
+          handlePlaceClick(data[0]);
+        } else {
+          // Clear selection if no data
+          setSelectedPlace(null);
+          setPlacesInCity([]);
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching heatmap data:", error);
+      setHeatmapData([]);
+      setSelectedPlace(null);
+      setPlacesInCity([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchHeatmapData();
+  }, [dataType]);
+
+  // Get places in same city
+  const handlePlaceClick = (place) => {
+    setSelectedPlace(place);
+    const sameCityPlaces = heatmapData.filter(
+      (item) =>
+        item.cityName === place.cityName &&
+        item._id !== place._id &&
+        ((dataType === "rental" && item.type === "rental") ||
+          ((dataType === "supply" || dataType === "demand") &&
+            item.type === "demand_supply")),
+    );
+    setPlacesInCity(sameCityPlaces);
+  };
+
+  // Format value based on data type
+  const formatValue = (place) => {
+    if (dataType === "rental") {
+      return `₹${(place.avgRent || 0).toLocaleString()}`;
+    } else if (dataType === "supply") {
+      return place.supply || "N/A";
+    } else if (dataType === "demand") {
+      return place.demand || "N/A";
+    }
+    return "N/A";
+  };
+
+  const getValueLabel = () => {
+    if (dataType === "rental") return "Avg Rent";
+    if (dataType === "supply") return "Supply";
+    if (dataType === "demand") return "Demand";
+    return "Value";
+  };
+
+  // Calculate total statistics
   const totalStats = {
-    properties: regions.reduce((sum, region) => sum + region.properties, 0),
-    offices: regions.reduce((sum, region) => sum + region.offices, 0),
-    retail: regions.reduce((sum, region) => sum + region.retail, 0),
-    cities: regions.length,
+    properties: heatmapData.length,
+    offices: heatmapData.length,
+    retail: heatmapData.length,
+    cities: new Set(heatmapData.map((item) => item.cityName)).size,
   };
 
   // Create custom building icon for markers
@@ -210,7 +225,7 @@ const RegionsMap = () => {
               <span className="regions-stat-number">
                 {animatedStats.properties || 0}+
               </span>
-              <span className="regions-stat-label">Retail Spaces</span>
+              <span className="regions-stat-label">Total Properties</span>
             </div>
           </div>
 
@@ -222,7 +237,7 @@ const RegionsMap = () => {
               <span className="regions-stat-number">
                 {animatedStats.offices || 0}+
               </span>
-              <span className="regions-stat-label">Office Spaces</span>
+              <span className="regions-stat-label">Listings</span>
             </div>
           </div>
 
@@ -234,9 +249,7 @@ const RegionsMap = () => {
               <span className="regions-stat-number">
                 {animatedStats.retail || 0}+
               </span>
-              <span className="regions-stat-label">
-                Hospitality & Healthcare Spaces
-              </span>
+              <span className="regions-stat-label">Data Points</span>
             </div>
           </div>
 
@@ -248,8 +261,43 @@ const RegionsMap = () => {
               <span className="regions-stat-number">
                 {animatedStats.cities || 0}
               </span>
-              <span className="regions-stat-label">States</span>
+              <span className="regions-stat-label">Cities</span>
             </div>
+          </div>
+        </div>
+
+        {/* Data Type Filter */}
+        <div
+          className={`regions-filter-section ${
+            isVisible ? "regions-visible" : ""
+          }`}
+        >
+          {/* <h3>Select Data Type:</h3> */}
+          <div className="regions-filter-buttons">
+            <button
+              className={`regions-filter-btn ${
+                dataType === "rental" ? "regions-active" : ""
+              }`}
+              onClick={() => setDataType("rental")}
+            >
+              Rental
+            </button>
+            <button
+              className={`regions-filter-btn ${
+                dataType === "supply" ? "regions-active" : ""
+              }`}
+              onClick={() => setDataType("supply")}
+            >
+              Supply
+            </button>
+            <button
+              className={`regions-filter-btn ${
+                dataType === "demand" ? "regions-active" : ""
+              }`}
+              onClick={() => setDataType("demand")}
+            >
+              Demand
+            </button>
           </div>
         </div>
 
@@ -262,156 +310,127 @@ const RegionsMap = () => {
           {/* Interactive Map */}
           <div className="regions-map-container">
             <div className="regions-map-header">
-              <h3>Interactive Map</h3>
-              <div className="regions-map-legend">
-                {regions.map((region) => (
-                  <div key={region.id} className="regions-legend-item">
-                    <div
-                      className="regions-legend-dot"
-                      style={{ background: region.color }}
-                    ></div>
-                    <span>{region.name}</span>
-                  </div>
-                ))}
+              <h3>Interactive Map ({heatmapData.length} locations)</h3>
+            </div>
+
+            {loading ? (
+              <div className="regions-loading-state">Loading data...</div>
+            ) : (
+              <div className="regions-map-wrapper">
+                <MapContainer
+                  center={[12.5, 78]}
+                  zoom={6}
+                  className="regions-leaflet-map"
+                  scrollWheelZoom={true}
+                  attributionControl={false}
+                  zoomControl={true}
+                >
+                  <TileLayer
+                    url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+                    attribution=""
+                  />
+
+                  {heatmapData.map(
+                    (place) =>
+                      place.latitude &&
+                      place.longitude && (
+                        <Marker
+                          key={place._id}
+                          position={[place.latitude, place.longitude]}
+                          icon={createCustomIcon("#667eea")}
+                          eventHandlers={{
+                            click: () => handlePlaceClick(place),
+                          }}
+                        >
+                          <Popup className="regions-custom-popup">
+                            <div className="regions-popup-content">
+                              <h4>{place.area}</h4>
+                              <p>
+                                {place.cityName}, {place.stateName}
+                              </p>
+                              <div className="regions-popup-price">
+                                <strong>
+                                  {getValueLabel()}: {formatValue(place)}
+                                </strong>
+                              </div>
+                            </div>
+                          </Popup>
+                        </Marker>
+                      ),
+                  )}
+                </MapContainer>
               </div>
-            </div>
-
-            <div className="regions-map-wrapper">
-              <MapContainer
-                center={[12.5, 78]}
-                zoom={6}
-                className="regions-leaflet-map"
-                scrollWheelZoom={true}
-                attributionControl={false}
-                zoomControl={true}
-              >
-                <TileLayer
-                  url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
-                  attribution=""
-                />
-
-                {regions.map((region) => (
-                  <Marker
-                    key={region.id}
-                    position={region.position}
-                    icon={createCustomIcon(region.color)}
-                    eventHandlers={{
-                      click: () => setActiveRegion(region.id),
-                    }}
-                  >
-                    <Popup className="regions-custom-popup">
-                      <div className="regions-popup-content">
-                        <h4 style={{ color: region.color }}>{region.name}</h4>
-                        <p>{region.capital}</p>
-                        <div className="regions-popup-stats">
-                          <span>
-                            <FaBuilding /> {region.offices} Offices
-                          </span>
-                          <span>
-                            <BsShop /> {region.retail} Retail
-                          </span>
-                        </div>
-                        <div className="regions-popup-price">
-                          <strong>{region.avgPrice}</strong>
-                        </div>
-                      </div>
-                    </Popup>
-                  </Marker>
-                ))}
-              </MapContainer>
-            </div>
+            )}
           </div>
 
-          {/* Region Cards */}
+          {/* Place Details Panel */}
           <div className="regions-cards-container">
-            <h3>Region Details</h3>
-            <div className="regions-cards-list">
-              {regions.map((region, index) => (
-                <div
-                  key={region.id}
-                  className={`regions-card ${
-                    activeRegion === region.id ? "regions-active" : ""
-                  }`}
-                  style={{
-                    "--region-color": region.color,
-                    animationDelay: `${index * 0.1}s`,
-                  }}
-                  onClick={() =>
-                    setActiveRegion(
-                      activeRegion === region.id ? null : region.id,
-                    )
-                  }
-                >
-                  <div className="regions-card-header">
-                    <div className="regions-card-icon">
-                      <MdLocationOn />
-                    </div>
-                    <div className="regions-card-info">
-                      <h4>{region.name}</h4>
-                      <p>{region.capital}</p>
-                    </div>
-                    <div className="regions-card-growth">
-                      <span>{region.growth}</span>
-                    </div>
+            {selectedPlace ? (
+              <>
+                {/* Selected Place Details */}
+                <div className="regions-card-details">
+                  <h3>{selectedPlace.area}</h3>
+                  <p className="regions-card-location">
+                    {selectedPlace.cityName}, {selectedPlace.stateName}
+                  </p>
+
+                  <div className="regions-card-info-box">
+                    <p>
+                      <strong>{getValueLabel()}:</strong>{" "}
+                      {formatValue(selectedPlace)}
+                    </p>
+                    <p>
+                      <strong>Year:</strong> {selectedPlace.year}
+                    </p>
+                    {selectedPlace.phoneNumber && (
+                      <p className="regions-card-contact">
+                        <FaPhone /> <strong>{selectedPlace.phoneNumber}</strong>
+                      </p>
+                    )}
+                    {selectedPlace.email && (
+                      <p className="regions-card-contact">
+                        <FaEnvelope /> <strong>{selectedPlace.email}</strong>
+                      </p>
+                    )}
                   </div>
-
-                  <div className="regions-card-stats">
-                    <div className="regions-card-stat">
-                      <FaBuilding />
-                      <span>{region.offices} Offices</span>
-                    </div>
-                    <div className="regions-card-stat">
-                      <BsShop />
-                      <span>{region.retail} Retail</span>
-                    </div>
-                  </div>
-
-                  <div className="regions-card-price">
-                    <span>
-                      Avg: <strong>{region.avgPrice}</strong>
-                    </span>
-                    <span>
-                      Area: <strong>{region.totalArea}</strong>
-                    </span>
-                  </div>
-
-                  {activeRegion === region.id && (
-                    <div className="regions-card-expanded">
-                      <p>{region.description}</p>
-
-                      <div className="regions-cities">
-                        <span className="regions-cities-label">
-                          Major Cities:
-                        </span>
-                        <div className="regions-cities-tags">
-                          {region.cities.map((city, idx) => (
-                            <span key={idx} className="regions-city-tag">
-                              {city}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-
-                      <div className="regions-contact">
-                        <div className="regions-contact-item">
-                          <FaPhone />
-                          <span>{region.phone}</span>
-                        </div>
-                        <div className="regions-contact-item">
-                          <FaEnvelope />
-                          <span>{region.email}</span>
-                        </div>
-                      </div>
-
-                      <button className="regions-view-btn">
-                        <span>View Properties</span>
-                        <FaArrowRight />
-                      </button>
-                    </div>
-                  )}
                 </div>
-              ))}
-            </div>
+
+                {/* Places in Same City */}
+                {placesInCity.length > 0 && (
+                  <div className="regions-other-properties">
+                    <h4>Other Properties in {selectedPlace.cityName}</h4>
+                    <div className="regions-cards-list">
+                      {placesInCity.map((place) => (
+                        <div
+                          key={place._id}
+                          className="regions-place-item"
+                          onClick={() => handlePlaceClick(place)}
+                        >
+                          <p className="regions-place-name">{place.area}</p>
+                          <p className="regions-place-stat">
+                            {getValueLabel()}:{" "}
+                            <strong>{formatValue(place)}</strong>
+                          </p>
+                          <p className="regions-place-stat">
+                            Year: {place.year}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {placesInCity.length === 0 && (
+                  <p className="regions-empty-state">
+                    No other properties found in this city
+                  </p>
+                )}
+              </>
+            ) : (
+              <div className="regions-placeholder-state">
+                <p>Click on a marker on the map to see property details</p>
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -14,7 +14,9 @@ const Hero = () => {
       title: "Raising standards in Real Estate",
       description:
         "We listen, understand & deliver spaces aligned to your business.",
-      image: "/hero/slide90.png",
+      // image: "/hero/slide90.png",
+      image: "/hero/slide1.jpeg",
+
       backgroundColor: "#1E3A5F",
       textColor: "#FFFFFF",
     },
@@ -22,14 +24,16 @@ const Hero = () => {
       title: "Clarity & Trust in every property",
       description:
         "Creating credibility, nurturing relationships & empowering clients.",
-      image: "/hero/fslide2.png",
+      // image: "/hero/fslide2.png",
+      image: "/hero/slide2.jpeg",
       backgroundColor: "#C58B2A",
       textColor: "#FFFFFF",
     },
     {
       title: "Innovate, Transform & Grow",
       description: "Innovating the future for Indian Real Estate.",
-      image: "/hero/jammu.png",
+      // image: "/hero/jammu.png",
+      image: "/hero/slide3.jpeg",
       backgroundColor: "#f2983f",
       textColor: "#FFFFFF",
     },
@@ -37,7 +41,9 @@ const Hero = () => {
       title: "From data to smart decisions",
       description:
         "Track trends, identify opportunities & make smarter decisions.",
-      image: "/hero/aidaa.png",
+      // image: "/hero/aidaa.png",
+      image: "/hero/slide4.jpeg",
+
       backgroundColor: "#070328",
       textColor: "#FFFFFF",
     },

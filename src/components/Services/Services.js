@@ -23,7 +23,7 @@ const Services = () => {
           "Strategic commercial spaces designed to enhance brand visibility and drive customer engagement across diverse retail environments.",
 
         icon: <FaStore />,
-        color: "#7f1416",
+        color: "#1a2f5c",
         delay: 0,
         image:
           "https://i.pinimg.com/1200x/94/52/14/94521417be896fbd8b5ed984da3ad244.jpg",
@@ -61,7 +61,7 @@ const Services = () => {
           "Purpose-built facilities combining comfort, wellness, and care to create nurturing environments for living and healing.",
 
         icon: <FaHospital />,
-        color: "#7f1416",
+        color: "#1a2f5c",
         delay: 400,
         image:
           "https://plus.unsplash.com/premium_photo-1681995326134-cdc947934015?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8aG9zcGl0YWxpdHklMjBhbmQlMjBoZWFsdGhjYXJlJTIwcmVhbCUyMGVzdGF0ZXxlbnwwfHwwfHx8MA%3D%3D",

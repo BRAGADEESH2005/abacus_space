@@ -735,8 +735,8 @@ const Listings = () => {
         {/* Results Info with Pagination Stats */}
         <div className="results-info" ref={listingsGridRef}>
           <div className="results-count">
-            <span className="count-number">
-              {pagination.total > 0 ? (
+            {/* <span className="count-number"> */}
+              {/* {pagination.total > 0 ? (
                 <>
                   Showing {(currentPage - 1) * 50 + 1}-
                   {Math.min(currentPage * 50, pagination.total)} of{" "}
@@ -744,12 +744,12 @@ const Listings = () => {
                 </>
               ) : (
                 "0"
-              )}
-            </span>
+              )} */}
+            {/* </span>
             <span className="count-text">
               {" "}
               {pagination.total === 1 ? "property" : "properties"}
-            </span>
+            </span> */}
           </div>
           <div className="sort-options">
             <span>Sort by:</span>

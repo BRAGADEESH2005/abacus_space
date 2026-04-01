@@ -14,11 +14,23 @@ import { MdBusiness, MdTrendingUp, MdSecurity } from "react-icons/md";
 const AboutUs = () => {
   const [visibleSections, setVisibleSections] = useState({});
 
+
+
+  // Scroll to top when component mounts
+    useEffect(() => {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: "instant",
+      });
+    }, []);
   useEffect(() => {
     const observerOptions = {
       threshold: 0.1,
       rootMargin: "0px 0px -50px 0px",
     };
+
+
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {

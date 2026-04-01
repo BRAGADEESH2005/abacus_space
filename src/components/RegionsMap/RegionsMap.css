@@ -16,7 +16,8 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: radial-gradient(
+  background:
+    radial-gradient(
       circle at 25% 25%,
       rgba(35, 198, 164, 0.03) 0%,
       transparent 50%
@@ -148,6 +149,130 @@
   font-size: 0.8rem;
   color: #64748b;
   font-weight: 500;
+}
+
+/* Data Type Filter Section */
+.regions-filter-section {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  text-align: center;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease-out 0.3s;
+}
+
+.regions-filter-section.regions-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.regions-filter-section h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1.1rem;
+  color: #1a2f5c;
+  font-weight: 700;
+}
+
+.regions-filter-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.regions-filter-btn {
+  padding: 0.75rem 1.5rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: white;
+  color: #64748b;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.regions-filter-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  transition: left 0.3s ease;
+  z-index: -1;
+}
+
+.regions-filter-btn:hover {
+  border-color: #667eea;
+  color: #667eea;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+}
+
+.regions-filter-btn.regions-active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-color: #667eea;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.regions-filter-btn.regions-active:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+/* Responsive Filter Section - Tablet */
+@media (max-width: 768px) {
+  .regions-filter-section {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+  }
+
+  .regions-filter-section h3 {
+    font-size: 0.95rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .regions-filter-buttons {
+    gap: 0.75rem;
+  }
+
+  .regions-filter-btn {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* Responsive Filter Section - Mobile */
+@media (max-width: 480px) {
+  .regions-filter-section {
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .regions-filter-section h3 {
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .regions-filter-buttons {
+    gap: 0.5rem;
+  }
+
+  .regions-filter-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.75rem;
+    flex: 1;
+    min-width: calc(33.333% - 0.33rem);
+  }
 }
 
 /* Main Content */
@@ -537,7 +662,11 @@
 }
 
 .regions-view-btn {
-  background: linear-gradient(135deg, var(--region-color), rgba(var(--region-color-rgb, 35, 198, 164), 0.8));
+  background: linear-gradient(
+    135deg,
+    var(--region-color),
+    rgba(var(--region-color-rgb, 35, 198, 164), 0.8)
+  );
   color: white;
   border: none;
   border-radius: 8px;
@@ -745,5 +874,172 @@
 
   .regions-map-wrapper {
     min-height: 200px;
+  }
+}
+
+/* Selected Place Details */
+.regions-card-details {
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.regions-card-details h3 {
+  margin: 0 0 0.5rem 0;
+  color: #1a2f5c;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.regions-card-location {
+  margin: 0 0 1rem 0;
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.regions-card-info-box {
+  background-color: #f8fafc;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.regions-card-info-box p {
+  margin: 0.5rem 0;
+  font-size: 0.95rem;
+  color: #2d3748;
+}
+
+.regions-card-contact {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem !important;
+}
+
+.regions-card-contact svg {
+  color: #667eea;
+}
+
+/* Other Properties Section */
+.regions-other-properties {
+  display: flex;
+  flex-direction: column;
+}
+
+.regions-other-properties h4 {
+  margin: 0 0 1rem 0;
+  color: #1a2f5c;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+/* Place Items List */
+.regions-place-item {
+  background-color: #f8fafc;
+  padding: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  border-left: 4px solid #667eea;
+  transition: all 0.3s ease;
+}
+
+.regions-place-item:hover {
+  background-color: white;
+  border-color: #667eea;
+  transform: translateX(4px);
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.15);
+}
+
+.regions-place-name {
+  margin: 0 0 0.5rem 0;
+  font-weight: 600;
+  color: #1a2f5c;
+  font-size: 0.95rem;
+}
+
+.regions-place-stat {
+  margin: 0.25rem 0;
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+.regions-place-stat strong {
+  color: #2d3748;
+  font-weight: 600;
+}
+
+/* Empty and Placeholder States */
+.regions-empty-state {
+  text-align: center;
+  color: #94a3b8;
+  padding: 2rem 0;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.regions-placeholder-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #94a3b8;
+  text-align: center;
+  padding: 2rem;
+}
+
+.regions-placeholder-state p {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+/* Loading State */
+.regions-loading-state {
+  padding: 2rem;
+  text-align: center;
+  color: #666;
+  font-size: 0.95rem;
+}
+
+/* Responsive Cards Container - Tablet */
+@media (max-width: 768px) {
+  .regions-card-details {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .regions-other-properties h4 {
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .regions-place-item {
+    padding: 0.75rem;
+  }
+}
+
+/* Responsive Cards Container - Mobile */
+@media (max-width: 480px) {
+  .regions-card-details {
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .regions-place-item {
+    padding: 0.5rem;
+  }
+
+  .regions-place-name {
+    font-size: 0.85rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .regions-placeholder-state {
+    padding: 1rem;
+  }
+
+  .regions-placeholder-state p {
+    font-size: 0.8rem;
   }
 }

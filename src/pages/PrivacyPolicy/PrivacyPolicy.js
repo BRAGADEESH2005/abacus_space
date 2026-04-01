@@ -1,7 +1,16 @@
 import React from "react";
+import { useEffect } from "react";
 import "./PrivacyPolicy.css";
 
 const PrivacyPolicy = () => {
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "instant",
+    });
+  }, []);
   return (
     <div className="privacy-policy">
       <div className="privacy-policy-container">
@@ -10,9 +19,7 @@ const PrivacyPolicy = () => {
 
         <section className="policy-section">
           <h2>1. Information We Collect</h2>
-          <p>
-            We collect information you provide directly to us, including:
-          </p>
+          <p>We collect information you provide directly to us, including:</p>
           <ul>
             <li>Name, email address, and phone number</li>
             <li>Property preferences and search criteria</li>

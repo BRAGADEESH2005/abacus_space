@@ -25,10 +25,12 @@ import {
   FaExclamationTriangle,
   FaCode,
   FaInfoCircle,
+  FaThermometerHalf,
 } from "react-icons/fa";
 import { MdSpaceDashboard, MdLocationCity } from "react-icons/md";
 import { BiFilterAlt } from "react-icons/bi";
 import "./Admin.css";
+import HeatmapManagement from "./HeatmapManagement/HeatmapManagement";
 
 const Admin = () => {
   const navigate = useNavigate();
@@ -128,6 +130,14 @@ const Admin = () => {
   const [imagePreviewUrls, setImagePreviewUrls] = useState([]);
   const [editImagePreviewUrls, setEditImagePreviewUrls] = useState([]);
 
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "instant",
+    });
+  }, []);
   // Get base URL from environment variables
   const API_BASE_URL =
     process.env.REACT_APP_API_BASE_URL || "http://localhost:5000/api";
@@ -1028,6 +1038,13 @@ const Admin = () => {
               <MdEmail />
               Manage Subscriptions
             </button>
+            <button
+              className="admin-logout-btn"
+              onClick={() => setActiveTab("heatmap")}
+            >
+              <FaThermometerHalf />
+              Heatmap Data
+            </button>
             <button onClick={handleLogout} className="admin-logout-btn">
               <FaSignOutAlt />
               Logout
@@ -1099,6 +1116,16 @@ const Admin = () => {
           >
             <FaCode />
             Property Codes
+          </button>
+          {/* Heatmap Management Tab */}
+          <button
+            className={`admin-tab-btn ${
+              activeTab === "heatmap" ? "admin-tab-active" : ""
+            }`}
+            onClick={() => setActiveTab("heatmap")}
+          >
+            <FaThermometerHalf />
+            Heatmap Data
           </button>
         </div>
 
@@ -2414,6 +2441,9 @@ const Admin = () => {
               )}
             </div>
           )}
+
+          {/* Heatmap Management Tab */}
+          {activeTab === "heatmap" && <HeatmapManagement />}
         </div>
       </div>
     </div>
