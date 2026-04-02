@@ -194,12 +194,10 @@ const SpaceCalculator = () => {
         totalArea: getTotalArea(),
       };
 
-      console.log("Submitting lead data:", requestData);
 
       const response = await api.post("/leads", requestData);
 
       if (response.data.success) {
-        console.log("Lead saved successfully:", response.data.data);
         setSubmissionSuccess(true);
         return true;
       } else {

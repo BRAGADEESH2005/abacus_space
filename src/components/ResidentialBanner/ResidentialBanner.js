@@ -14,13 +14,13 @@ const ResidentialBanner = () => {
       <div className="residential-banner-overlay"></div>
       <div className="residential-banner-content">
         <h2 className="residential-banner-title">
-          Searching for your perfect home?
+          Looking to Expand your Business?
         </h2>
         <p className="residential-banner-subtitle">
           Discover our exclusive residential projects.
         </p>
-        <button 
-          className="residential-banner-btn" 
+        <button
+          className="residential-banner-btn"
           onClick={handleBrowse}
           aria-label="Browse Properties"
         >

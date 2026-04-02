@@ -393,7 +393,6 @@ const HeatmapManagement = () => {
 
       if (response.data && response.data.length > 0) {
         const { lat, lon } = response.data[0];
-        console.log("Fetched coordinates for", place, ":", lat, lon);
         return {
           latitude: parseFloat(lat),
           longitude: parseFloat(lon),

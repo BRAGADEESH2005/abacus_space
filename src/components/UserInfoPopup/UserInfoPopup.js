@@ -116,12 +116,10 @@ const UserInfoPopup = ({ delay = 3000 }) => {
         requestType: "user_registration",
       };
 
-      console.log("Submitting user info:", requestData);
 
       const response = await api.post("/leads", requestData);
 
       if (response.data.success) {
-        console.log("User info submitted successfully:", response.data.data);
         localStorage.setItem("userInfoSubmitted", "true");
         setSubmissionSuccess(true);
 

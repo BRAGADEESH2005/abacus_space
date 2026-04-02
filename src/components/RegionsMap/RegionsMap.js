@@ -61,7 +61,6 @@ const RegionsMap = () => {
       if (response.data.success) {
         const data = response.data.data;
         setHeatmapData(data);
-        console.log("Fetched heatmap data:", data);
 
         // Auto-select first place on load to show initial details
         if (data.length > 0) {

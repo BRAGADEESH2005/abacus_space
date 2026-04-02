@@ -152,7 +152,6 @@ const Listings = () => {
         setFilteredListings(listingsData);
         setPagination(response.data.pagination);
         setCurrentPage(page);
-        console.log("Fetched listings:--------", listingsData);
       } else {
         throw new Error(response.data.message || "Failed to fetch listings");
       }

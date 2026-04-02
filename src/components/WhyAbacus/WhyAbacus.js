@@ -100,10 +100,10 @@ const WhyAbacus = () => {
     <section className="why-abacus" ref={sectionRef}>
       <div className="why-container">
         <div className="why-header">
-          <span className="why-badge">
+          {/* <span className="why-badge">
             <BsLightningChargeFill />
             Excellence in Real Estate
-          </span>
+          </span> */}
           <h2>Why Choose Abacus Spaces</h2>
           <p className="why-subtext">Six Pillars of Our Excellence</p>
 
