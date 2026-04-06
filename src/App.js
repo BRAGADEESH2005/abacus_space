@@ -25,7 +25,7 @@ function App() {
   return (
     <div className="App">
       <Router>
-        <UserInfoPopup delay={10000} />
+        {/* <UserInfoPopup delay={10000} /> */}
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
