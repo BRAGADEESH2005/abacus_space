@@ -18,7 +18,8 @@
     visibility 0.8s ease-in-out;
   background-size: cover;
   background-position: center;
-  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
 }
 
 .hero-slide.active {

@@ -15,7 +15,16 @@ const RERARegistration = () => {
   return (
     <div className="rera-container">
       <div className="rera-content">
-        <h1>Legal Note on RERA Applicability</h1>
+        <div className="rera-heading-with-logo">
+          <Link to="/">
+            <img
+              src="/logo_abacus.png"
+              alt="Abacus Spaces Logo"
+              className="rera-logo"
+            />
+          </Link>
+          <h1>Legal Note on RERA Applicability</h1>
+        </div>
 
         <p>
           At <strong>Abacus Spaces</strong>, we specialize in the leasing of

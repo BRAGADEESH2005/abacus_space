@@ -13,29 +13,41 @@ const Hero = () => {
     {
       title: "Raising standards in Real Estate",
       description:
-        "We listen, understand & deliver spaces aligned to your business.",
+        "We listen, understand & deliver spaces aligned to your business",
       image: "/hero/slide1.jpeg",
       backgroundColor: "#ffb347",
+      buttonText: "Explore Properties",
+      actionType: "navigate",
+      actionValue: "/listings",
     },
     {
-      title: "Clarity & Trust in every property",
+      title: "Clarity and Trust in every property",
       description:
-        "Creating credibility, nurturing relationships & empowering clients.",
+        "Creating credibility, nurturing relationships & empowering clients",
       image: "/hero/slide2.jpeg",
       backgroundColor: "#ffd700",
+      buttonText: "Explore Rentals in Your City",
+      actionType: "scroll",
+      actionValue: "regions-section",
     },
     {
       title: "Innovate, Transform & Grow",
-      description: "Innovating the future for Indian Real Estate.",
+      description: "Innovating the future for Indian Real Estate",
       image: "/hero/slide3.jpeg",
       backgroundColor: "#ffb347",
+      buttonText: "Explore Properties",
+      actionType: "navigate",
+      actionValue: "/listings",
     },
     {
       title: "From data to smart decisions",
       description:
-        "Track trends, identify opportunities & make smarter decisions.",
+        "Track trends, identify opportunities & make smarter decisions",
       image: "/hero/slide4.jpeg",
       backgroundColor: "#ffd700",
+      buttonText: "Track New Update",
+      actionType: "navigate",
+      actionValue: "/insights-reports",
     },
   ];
 
@@ -77,6 +89,17 @@ const Hero = () => {
     }
   };
 
+  const handleButtonClick = (slide) => {
+    if (slide.actionType === "navigate") {
+      navigate(slide.actionValue);
+    } else if (slide.actionType === "scroll") {
+      const element = document.getElementById(slide.actionValue);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  };
+
   return (
     <section className="hero-slider">
       {slides.map((slide, index) => (
@@ -96,9 +119,9 @@ const Hero = () => {
                 <p className="hero-slide-description">{slide.description}</p>
                 <button
                   className="hero-cta-button"
-                  onClick={() => navigate("/listings")}
+                  onClick={() => handleButtonClick(slide)}
                 >
-                  Explore Properties
+                  {slide.buttonText}
                 </button>
               </div>
             </div>

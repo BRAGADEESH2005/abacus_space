@@ -112,10 +112,10 @@ const AboutUs = () => {
         <div className="about-header-overlay"></div>
         <div className="about-container">
           <h1>About Abacus Spaces</h1>
-          <p>
+          {/* <p>
             Commercial real estate consulting company, specializing exclusively
             into leasing office and retail spaces
-          </p>
+          </p> */}
         </div>
       </div>
 

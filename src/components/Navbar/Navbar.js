@@ -134,7 +134,7 @@ const Navbar = () => {
                   location.pathname === "/listings" ? "active" : ""
                 }`}
               >
-                <span>Projects</span>
+                <span>Properties</span>
                 <div className="link-underline"></div>
               </Link>
 
@@ -335,7 +335,7 @@ const Navbar = () => {
             style={{ animationDelay: "0.5s" }}
           >
             <MdViewList className="mobile-link-icon" />
-            <span className="mobile-link-text">Projects</span>
+            <span className="mobile-link-text">Properties</span>
             <FaChevronRight className="mobile-link-arrow" />
           </Link>
 

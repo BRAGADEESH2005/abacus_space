@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import "./PrivacyPolicy.css";
 
@@ -14,7 +15,16 @@ const PrivacyPolicy = () => {
   return (
     <div className="privacy-policy">
       <div className="privacy-policy-container">
-        <h1>Privacy Policy</h1>
+        <div className="privacy-heading-with-logo">
+          <Link to="/">
+            <img
+              src="/logo_abacus.png"
+              alt="Abacus Spaces Logo"
+              className="privacy-logo"
+            />
+          </Link>
+          <h1>Privacy Policy</h1>
+        </div>
         <p className="last-updated">Last Updated: March 9, 2026</p>
 
         <section className="policy-section">

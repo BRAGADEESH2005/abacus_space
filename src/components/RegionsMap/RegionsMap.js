@@ -203,7 +203,7 @@ const RegionsMap = () => {
   const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
 
   return (
-    <section className="regions-section" ref={sectionRef}>
+    <section className="regions-section" id="regions-section" ref={sectionRef}>
       <div className="regions-container">
         {/* Compact Header */}
         <div className={`regions-header ${isVisible ? "regions-visible" : ""}`}>

@@ -14,7 +14,7 @@ const ResidentialBanner = () => {
       <div className="residential-banner-overlay"></div>
       <div className="residential-banner-content">
         <h2 className="residential-banner-title">
-          Looking to Expand your Business?
+          Discover managed office spaces designed for effortless scale
         </h2>
         <p className="residential-banner-subtitle">
           Discover our exclusive residential projects.
