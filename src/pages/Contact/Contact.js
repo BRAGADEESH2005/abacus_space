@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { Helmet } from "react-helmet-async";
 import axios from "axios";
 import {
   FaPhone,
@@ -142,245 +143,274 @@ const Contact = () => {
   ];
 
   return (
-    <div className="contact-page">
-      {/* Hero Section with Background Image */}
-      <div
-        className={`contact-hero ${visibleSections.hero ? "visible" : ""}`}
-        data-section="hero"
-        ref={(el) => (sectionRefs.current.hero = el)}
-      >
-        <video className="contact-hero-video" autoPlay muted loop playsInline>
-          <source src="/contactus_vid.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-        <div className="hero-overlay"></div>
-        <div className="hero-content">
-          <h1>Get in Touch</h1>
-          <p>Have a question? Reach out to us</p>
-        </div>
-      </div>
+    <>
+      <Helmet>
+        <title>Contact Abacus Spaces | Get in Touch</title>
+        <meta
+          name="description"
+          content="Contact Abacus Spaces for your commercial real estate needs. We're here to help you find the perfect office or retail space."
+        />
+        <meta
+          name="keywords"
+          content="contact us, abacus spaces contact, real estate inquiry, office space inquiry"
+        />
+        <link rel="canonical" href="https://abacuspaces.com/contact" />
 
-      {/* CTA Boxes Section */}
-      <div
-        className={`cta-boxes-container ${
-          visibleSections.ctaBoxes ? "visible" : ""
-        }`}
-        data-section="ctaBoxes"
-        ref={(el) => (sectionRefs.current.ctaBoxes = el)}
-      >
-        <div className="contact-container">
-          <div className="cta-boxes-grid">
-            {/* Services Box */}
-            <div
-              className={`cta-box services-box ${
-                visibleSections.ctaBoxes ? "animate-box" : ""
-              }`}
-              style={{ animationDelay: "0.2s" }}
-            >
-              <div className="cta-icon">
-                <FaTools />
-              </div>
-              <h3>For Services</h3>
-              <p className="cta-subtitle">We're here to help.</p>
-              <p className="cta-description">
-                Contact us for Business Solutions.
-              </p>
-              <button
-                className="enquire-btn"
-                onClick={() => handleEnquireClick("services")}
-              >
-                Enquire Now
-              </button>
-            </div>
+        {/* Open Graph */}
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Contact Abacus Spaces" />
+        <meta
+          property="og:description"
+          content="Get in touch with our expert commercial real estate team"
+        />
+        <meta property="og:url" content="https://abacuspaces.com/contact" />
 
-            {/* Technology Box */}
-            <div
-              className={`cta-box tech-box ${
-                visibleSections.ctaBoxes ? "animate-box" : ""
-              }`}
-              style={{ animationDelay: "0.3s" }}
-            >
-              <div className="cta-icon">
-                <FaLaptopCode />
-              </div>
-              <h3>For TECH</h3>
-              <p className="cta-subtitle">Ready to take the next step?</p>
-              <p className="cta-description">
-                Reach out to us for Technology Products.
-              </p>
-              <button
-                className="enquire-btn"
-                onClick={() => handleEnquireClick("tech")}
-              >
-                Enquire Now
-              </button>
-            </div>
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content="Contact Us" />
+        <meta name="twitter:description" content="Reach out to Abacus Spaces" />
+      </Helmet>
+
+      <div className="contact-page">
+        {/* Hero Section with Background Image */}
+        <div
+          className={`contact-hero ${visibleSections.hero ? "visible" : ""}`}
+          data-section="hero"
+          ref={(el) => (sectionRefs.current.hero = el)}
+        >
+          <video className="contact-hero-video" autoPlay muted loop playsInline>
+            <source src="/contactus_vid.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+          <div className="hero-overlay"></div>
+          <div className="hero-content">
+            <h1>Get in Touch</h1>
+            <p>Have a question? Reach out to us</p>
           </div>
         </div>
-      </div>
 
-      {/* Contact Form and Info Section */}
-      <div className="contact-container contact-main">
-        <div className="contact-content">
-          {/* Contact Form */}
-          <div
-            className={`contact-form-section ${
-              visibleSections.form ? "visible" : ""
-            }`}
-            data-section="form"
-            ref={(el) => (sectionRefs.current.form = el)}
-          >
-            <h2>Send us a Message</h2>
-
-            <form className="contact-form" onSubmit={handleSubmit}>
-              <div className="form-row">
-                <div
-                  className={`form-group ${
-                    visibleSections.form ? "animate" : ""
-                  }`}
-                  style={{ animationDelay: "0.3s" }}
-                >
-                  <input
-                    type="text"
-                    name="name"
-                    placeholder="Your Name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </div>
-                <div
-                  className={`form-group ${
-                    visibleSections.form ? "animate" : ""
-                  }`}
-                  style={{ animationDelay: "0.4s" }}
-                >
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder="Your Email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="form-row">
-                <div
-                  className={`form-group ${
-                    visibleSections.form ? "animate" : ""
-                  }`}
-                  style={{ animationDelay: "0.5s" }}
-                >
-                  <input
-                    type="tel"
-                    name="phone"
-                    placeholder="Your Phone"
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <div
-                  className={`form-group ${
-                    visibleSections.form ? "animate" : ""
-                  }`}
-                  style={{ animationDelay: "0.6s" }}
-                >
-                  <input
-                    type="text"
-                    name="subject"
-                    placeholder="Subject"
-                    value={formData.subject}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </div>
-              </div>
-
+        {/* CTA Boxes Section */}
+        <div
+          className={`cta-boxes-container ${
+            visibleSections.ctaBoxes ? "visible" : ""
+          }`}
+          data-section="ctaBoxes"
+          ref={(el) => (sectionRefs.current.ctaBoxes = el)}
+        >
+          <div className="contact-container">
+            <div className="cta-boxes-grid">
+              {/* Services Box */}
               <div
-                className={`form-group ${
-                  visibleSections.form ? "animate" : ""
+                className={`cta-box services-box ${
+                  visibleSections.ctaBoxes ? "animate-box" : ""
                 }`}
-                style={{ animationDelay: "0.7s" }}
+                style={{ animationDelay: "0.2s" }}
               >
-                <textarea
-                  name="message"
-                  placeholder="Your Message"
-                  rows="5"
-                  value={formData.message}
-                  onChange={handleInputChange}
-                  required
-                ></textarea>
+                <div className="cta-icon">
+                  <FaTools />
+                </div>
+                <h3>For Services</h3>
+                <p className="cta-subtitle">We're here to help.</p>
+                <p className="cta-description">
+                  Contact us for Business Solutions.
+                </p>
+                <button
+                  className="enquire-btn"
+                  onClick={() => handleEnquireClick("services")}
+                >
+                  Enquire Now
+                </button>
               </div>
 
-              <button
-                type="submit"
-                className={`submit-btn ${isSubmitting ? "submitting" : ""} ${
-                  visibleSections.form ? "animate-btn" : ""
+              {/* Technology Box */}
+              <div
+                className={`cta-box tech-box ${
+                  visibleSections.ctaBoxes ? "animate-box" : ""
                 }`}
-                disabled={isSubmitting}
+                style={{ animationDelay: "0.3s" }}
               >
-                {isSubmitting ? (
-                  <>
-                    <div className="submit-spinner"></div>
-                    Sending...
-                  </>
-                ) : (
-                  <>
-                    <FaPaperPlane />
-                    Send Message
-                  </>
-                )}
-              </button>
-
-              {submitStatus === "success" && (
-                <div className="success-message animate-success">
-                  ✓ Message sent successfully! We'll get back to you soon.
+                <div className="cta-icon">
+                  <FaLaptopCode />
                 </div>
-              )}
-
-              {submitStatus === "error" && (
-                <div className="error-message-display">
-                  ✗ Failed to send message. Please try again later.
-                </div>
-              )}
-            </form>
-          </div>
-
-          {/* Contact Info */}
-          <div
-            className={`contact-info-section ${
-              visibleSections.info ? "visible" : ""
-            }`}
-            data-section="info"
-            ref={(el) => (sectionRefs.current.info = el)}
-          >
-            <h2 className={visibleSections.info ? "animate-title" : ""}>
-              Connect With Us
-            </h2>
-
-            <div className="contact-info-grid">
-              {contactInfo.map((info, index) => (
-                <div
-                  key={index}
-                  className={`info-card ${
-                    visibleSections.info ? "animate" : ""
-                  }`}
-                  style={{ animationDelay: `${0.2 + index * 0.1}s` }}
+                <h3>For TECH</h3>
+                <p className="cta-subtitle">Ready to take the next step?</p>
+                <p className="cta-description">
+                  Reach out to us for Technology Products.
+                </p>
+                <button
+                  className="enquire-btn"
+                  onClick={() => handleEnquireClick("tech")}
                 >
-                  <div className="info-icon">{info.icon}</div>
-                  <div className="info-content">
-                    <h3>{info.title}</h3>
-                    <p>{info.details}</p>
+                  Enquire Now
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Contact Form and Info Section */}
+        <div className="contact-container contact-main">
+          <div className="contact-content">
+            {/* Contact Form */}
+            <div
+              className={`contact-form-section ${
+                visibleSections.form ? "visible" : ""
+              }`}
+              data-section="form"
+              ref={(el) => (sectionRefs.current.form = el)}
+            >
+              <h2>Send us a Message</h2>
+
+              <form className="contact-form" onSubmit={handleSubmit}>
+                <div className="form-row">
+                  <div
+                    className={`form-group ${
+                      visibleSections.form ? "animate" : ""
+                    }`}
+                    style={{ animationDelay: "0.3s" }}
+                  >
+                    <input
+                      type="text"
+                      name="name"
+                      placeholder="Your Name"
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+                  <div
+                    className={`form-group ${
+                      visibleSections.form ? "animate" : ""
+                    }`}
+                    style={{ animationDelay: "0.4s" }}
+                  >
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder="Your Email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      required
+                    />
                   </div>
                 </div>
-              ))}
+
+                <div className="form-row">
+                  <div
+                    className={`form-group ${
+                      visibleSections.form ? "animate" : ""
+                    }`}
+                    style={{ animationDelay: "0.5s" }}
+                  >
+                    <input
+                      type="tel"
+                      name="phone"
+                      placeholder="Your Phone"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                  <div
+                    className={`form-group ${
+                      visibleSections.form ? "animate" : ""
+                    }`}
+                    style={{ animationDelay: "0.6s" }}
+                  >
+                    <input
+                      type="text"
+                      name="subject"
+                      placeholder="Subject"
+                      value={formData.subject}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div
+                  className={`form-group ${
+                    visibleSections.form ? "animate" : ""
+                  }`}
+                  style={{ animationDelay: "0.7s" }}
+                >
+                  <textarea
+                    name="message"
+                    placeholder="Your Message"
+                    rows="5"
+                    value={formData.message}
+                    onChange={handleInputChange}
+                    required
+                  ></textarea>
+                </div>
+
+                <button
+                  type="submit"
+                  className={`submit-btn ${isSubmitting ? "submitting" : ""} ${
+                    visibleSections.form ? "animate-btn" : ""
+                  }`}
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? (
+                    <>
+                      <div className="submit-spinner"></div>
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      <FaPaperPlane />
+                      Send Message
+                    </>
+                  )}
+                </button>
+
+                {submitStatus === "success" && (
+                  <div className="success-message animate-success">
+                    ✓ Message sent successfully! We'll get back to you soon.
+                  </div>
+                )}
+
+                {submitStatus === "error" && (
+                  <div className="error-message-display">
+                    ✗ Failed to send message. Please try again later.
+                  </div>
+                )}
+              </form>
+            </div>
+
+            {/* Contact Info */}
+            <div
+              className={`contact-info-section ${
+                visibleSections.info ? "visible" : ""
+              }`}
+              data-section="info"
+              ref={(el) => (sectionRefs.current.info = el)}
+            >
+              <h2 className={visibleSections.info ? "animate-title" : ""}>
+                Connect With Us
+              </h2>
+
+              <div className="contact-info-grid">
+                {contactInfo.map((info, index) => (
+                  <div
+                    key={index}
+                    className={`info-card ${
+                      visibleSections.info ? "animate" : ""
+                    }`}
+                    style={{ animationDelay: `${0.2 + index * 0.1}s` }}
+                  >
+                    <div className="info-icon">{info.icon}</div>
+                    <div className="info-content">
+                      <h3>{info.title}</h3>
+                      <p>{info.details}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

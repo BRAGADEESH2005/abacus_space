@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import axios from "axios";
 import {
@@ -28,29 +29,102 @@ import {
 } from "react-icons/md";
 import { BiFilterAlt } from "react-icons/bi";
 import { FaBuilding } from "react-icons/fa";
-import { generateBreadcrumbSchema } from "../../utils/seoConfig";
-import "./Listings.css";
+import {
+  generateLocalBusinessSchema,
+  generateBreadcrumbSchema,
+} from "../../utils/seoConfig";
+import "../Listings/Listings.css"; // Using same CSS as Listings page
 
-const Listings = () => {
+// City metadata for SEO
+const CITIES_SEO_DATA = {
+  bangalore: {
+    name: "Bangalore",
+    state: "Karnataka",
+    seoTitle: "Office & Retail Spaces in Bangalore | Commercial Real Estate",
+    seoDescription:
+      "Find premium office spaces and retail properties in Bangalore. Flexible coworking solutions and commercial leasing for startups and enterprises.",
+    keywords:
+      "office space bangalore, retail space bangalore, coworking bangalore, commercial real estate bangalore, office lease bangalore",
+  },
+  delhi: {
+    name: "Delhi",
+    state: "Delhi",
+    seoTitle: "Commercial Office Spaces in Delhi NCR | Abacus Spaces",
+    seoDescription:
+      "Premium office and retail spaces in Delhi NCR. Find flexible workspaces, coworking, and commercial leasing solutions for businesses of all sizes.",
+    keywords:
+      "office space delhi, retail space delhi ncr, commercial real estate delhi, office lease delhi, coworking delhi",
+  },
+  mumbai: {
+    name: "Mumbai",
+    state: "Maharashtra",
+    seoTitle: "Premium Office & Retail Spaces in Mumbai | Commercial Leasing",
+    seoDescription:
+      "Discover premium office spaces and retail properties in Mumbai. Flexible commercial real estate solutions for growing businesses across all regions.",
+    keywords:
+      "office space mumbai, retail space mumbai, commercial real estate mumbai, office lease mumbai, coworking mumbai",
+  },
+  coimbatore: {
+    name: "Coimbatore",
+    state: "Tamil Nadu",
+    seoTitle: "Office & Retail Spaces in Coimbatore | Commercial Real Estate",
+    seoDescription:
+      "Rent premium office spaces and retail properties in Coimbatore. Affordable commercial real estate solutions for businesses seeking growth opportunities.",
+    keywords:
+      "office space coimbatore, rental office coimbatore, retail space coimbatore, commercial real estate coimbatore, business space coimbatore",
+  },
+  hyderabad: {
+    name: "Hyderabad",
+    state: "Telangana",
+    seoTitle: "Commercial Office Spaces in Hyderabad | Premium Retail Leasing",
+    seoDescription:
+      "Explore flexible office spaces and retail properties in Hyderabad. Enterprise-grade commercial solutions for businesses of all sizes.",
+    keywords:
+      "office space hyderabad, retail space hyderabad, commercial real estate hyderabad, office lease hyderabad, coworking hyderabad",
+  },
+  pune: {
+    name: "Pune",
+    state: "Maharashtra",
+    seoTitle:
+      "Office & Retail Space in Pune | Commercial Real Estate Solutions",
+    seoDescription:
+      "Dynamic office spaces and retail properties in Pune. Find flexible commercial leasing options for startups and established businesses.",
+    keywords:
+      "office space pune, retail space pune, commercial real estate pune, office lease pune, coworking pune",
+  },
+  chennai: {
+    name: "Chennai",
+    state: "Tamil Nadu",
+    seoTitle: "Commercial Office Spaces in Chennai | Retail & Business Leasing",
+    seoDescription:
+      "Premium office and retail spaces in Chennai. Flexible commercial real estate solutions for businesses across all industries.",
+    keywords:
+      "office space chennai, retail space chennai, commercial real estate chennai, office lease chennai, business space chennai",
+  },
+};
+
+const CityListings = () => {
+  const { city } = useParams();
+  const cityData = CITIES_SEO_DATA[city?.toLowerCase()];
+
+  // States
   const [listings, setListings] = useState([]);
   const [filteredListings, setFilteredListings] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedType, setSelectedType] = useState("all");
-  const [selectedLocation, setSelectedLocation] = useState("all");
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [visibleCards, setVisibleCards] = useState([]);
   const [headerVisible, setHeaderVisible] = useState(false);
   const [filtersVisible, setFiltersVisible] = useState(false);
   const [currentImageIndexes, setCurrentImageIndexes] = useState({});
-  const [availableLocations, setAvailableLocations] = useState([]);
   const [availableTypes, setAvailableTypes] = useState([]);
   const [pagination, setPagination] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
   const [listingViews, setListingViews] = useState({});
   const [isFiltering, setIsFiltering] = useState(false);
 
-  // New states for report popup
+  // Report popup states
   const [showReportPopup, setShowReportPopup] = useState(false);
   const [selectedListing, setSelectedListing] = useState(null);
   const [isSubmittingReport, setIsSubmittingReport] = useState(false);
@@ -64,7 +138,7 @@ const Listings = () => {
   });
   const [reportErrors, setReportErrors] = useState({});
 
-  // New states for video popup
+  // Video popup states
   const [showVideoPopup, setShowVideoPopup] = useState(false);
   const [selectedVideoListingId, setSelectedVideoListingId] = useState(null);
   const [selectedVideoIndex, setSelectedVideoIndex] = useState(0);
@@ -75,11 +149,9 @@ const Listings = () => {
   const videoPopupRef = useRef(null);
   const listingsGridRef = useRef(null);
 
-  // Get base URL from environment variables
   const API_BASE_URL =
     process.env.REACT_APP_API_BASE_URL || "http://localhost:5000/api";
 
-  // Configure axios instance
   const api = axios.create({
     baseURL: `${API_BASE_URL}`,
     timeout: 10000,
@@ -88,7 +160,7 @@ const Listings = () => {
     },
   });
 
-  // Generate random views from viewsRange
+  // Generate random views
   const generateRandomViews = (viewsRange) => {
     if (!viewsRange || viewsRange.length !== 2) {
       return Math.floor(Math.random() * 200) + 100;
@@ -97,16 +169,16 @@ const Listings = () => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   };
 
-  // Helper function to get current active filters
+  // Get active filters
   const getActiveFilters = () => {
     const filters = {};
     if (searchTerm) filters.search = searchTerm;
     if (selectedType !== "all") filters.type = selectedType;
-    if (selectedLocation !== "all") filters.location = selectedLocation;
+    if (cityData?.name) filters.location = cityData.name;
     return filters;
   };
 
-  // Fetch listings from backend
+  // Fetch listings for city
   const fetchListings = async (
     page = 1,
     filters = {},
@@ -123,10 +195,10 @@ const Listings = () => {
       const params = {
         page,
         limit: 50,
+        location: cityData?.name,
         ...filters,
       };
 
-      // Remove empty filters
       Object.keys(params).forEach((key) => {
         if (params[key] === "" || params[key] === "all") {
           delete params[key];
@@ -138,7 +210,6 @@ const Listings = () => {
       if (response.data.success) {
         const listingsData = response.data.data;
 
-        // Initialize image indexes and random views for new listings
         const initialIndexes = {};
         const initialViews = {};
 
@@ -172,18 +243,6 @@ const Listings = () => {
     }
   };
 
-  // Fetch available locations
-  const fetchLocations = async () => {
-    try {
-      const response = await api.get("/listings/locations");
-      if (response.data.success) {
-        setAvailableLocations(response.data.data);
-      }
-    } catch (error) {
-      console.error("Error fetching locations:", error);
-    }
-  };
-
   // Fetch available property types
   const fetchPropertyTypes = async () => {
     try {
@@ -196,11 +255,10 @@ const Listings = () => {
     }
   };
 
-  // Handle pagination - go to specific page
+  // Handle pagination
   const handlePageChange = (newPage) => {
     if (newPage < 1 || newPage > pagination.pages) return;
 
-    // Scroll to top of listings grid smoothly
     if (listingsGridRef.current) {
       listingsGridRef.current.scrollIntoView({
         behavior: "smooth",
@@ -212,7 +270,7 @@ const Listings = () => {
     fetchListings(newPage, getActiveFilters(), true);
   };
 
-  // Handle Get Report button click
+  // Handle Get Report
   const handleGetReport = (listing) => {
     setSelectedListing(listing);
     setShowReportPopup(true);
@@ -227,7 +285,7 @@ const Listings = () => {
     });
   };
 
-  // Close popup
+  // Close report popup
   const closeReportPopup = () => {
     setShowReportPopup(false);
     setSelectedListing(null);
@@ -242,7 +300,7 @@ const Listings = () => {
     });
   };
 
-  // Format price helper
+  // Format price
   const formatPrice = (price) => {
     if (!price) return price;
     const priceStr = price.toString().trim();
@@ -255,37 +313,33 @@ const Listings = () => {
     return price;
   };
 
-  // Helper to check if price is available
+  // Check if price is available
   const isPriceAvailable = (price) => {
     if (!price) return false;
     const priceStr = price.toString().trim();
     return priceStr !== "0" && priceStr !== "₹0";
   };
 
-  // Helper function to extract YouTube video ID from various URL formats
+  // Extract YouTube video ID
   const extractYouTubeVideoId = (url) => {
     if (!url) return null;
 
-    // Handle youtube.com/shorts/VIDEO_ID format
     const shortsMatch = url.match(/youtube\.com\/shorts\/([a-zA-Z0-9_-]+)/);
     if (shortsMatch) return shortsMatch[1];
 
-    // Handle youtube.com/watch?v=VIDEO_ID format
     const watchMatch = url.match(/youtube\.com\/watch\?v=([a-zA-Z0-9_-]+)/);
     if (watchMatch) return watchMatch[1];
 
-    // Handle youtu.be/VIDEO_ID format
     const youtuMatch = url.match(/youtu\.be\/([a-zA-Z0-9_-]+)/);
     if (youtuMatch) return youtuMatch[1];
 
-    // Handle youtube.com/embed/VIDEO_ID format
     const embedMatch = url.match(/youtube\.com\/embed\/([a-zA-Z0-9_-]+)/);
     if (embedMatch) return embedMatch[1];
 
     return null;
   };
 
-  // Handle Watch Videos button click
+  // Handle Watch Videos
   const handleWatchVideos = (listing) => {
     setSelectedVideoListingId(listing._id);
     setSelectedVideoIndex(0);
@@ -412,17 +466,13 @@ const Listings = () => {
 
   // Initial data fetch
   useEffect(() => {
-    const initializeData = async () => {
-      await Promise.all([
-        fetchListings(),
-        fetchLocations(),
-        fetchPropertyTypes(),
-      ]);
-    };
-    initializeData();
-  }, []);
+    if (cityData?.name) {
+      fetchListings();
+      fetchPropertyTypes();
+    }
+  }, [cityData]);
 
-  // Scroll to top when component mounts
+  // Scroll to top
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -493,6 +543,7 @@ const Listings = () => {
     }, 5000);
   };
 
+  // Intersection observer for animations
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -529,7 +580,7 @@ const Listings = () => {
     return () => observer.disconnect();
   }, [filteredListings]);
 
-  // Handle filters - refetch from backend
+  // Handle filters
   useEffect(() => {
     const debounceTimer = setTimeout(() => {
       fetchListings(1, getActiveFilters(), true);
@@ -537,7 +588,7 @@ const Listings = () => {
     }, 500);
 
     return () => clearTimeout(debounceTimer);
-  }, [searchTerm, selectedType, selectedLocation]);
+  }, [searchTerm, selectedType]);
 
   // Handle view listing
   const handleViewListing = async (listingId) => {
@@ -552,7 +603,7 @@ const Listings = () => {
     }
   };
 
-  // Generate page numbers for pagination
+  // Generate page numbers
   const getPageNumbers = () => {
     const pages = [];
     const totalPages = pagination.pages || 1;
@@ -582,49 +633,54 @@ const Listings = () => {
     return pages;
   };
 
+  if (!cityData) {
+    return (
+      <div className="listings-page">
+        <Helmet>
+          <title>City Not Found | Abacus Spaces</title>
+          <meta name="description" content="The requested city was not found" />
+          <meta name="robots" content="noindex, follow" />
+        </Helmet>
+        <div className="listings-container">
+          <div style={{ textAlign: "center", padding: "60px 20px" }}>
+            <h1>City Not Found</h1>
+            <p>The city you're looking for is not available.</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   const breadcrumbs = [
     { name: "Home", url: "/" },
     { name: "Listings", url: "/listings" },
+    { name: cityData.name, url: `/locations/${city}` },
   ];
 
   return (
     <>
       <Helmet>
-        <title>
-          Office & Retail Space Listings | Premium Commercial Real Estate |
-          Abacus Spaces
-        </title>
-        <meta
-          name="description"
-          content="Browse premium office spaces, retail properties, and commercial real estate listings. Find flexible coworking and leasing solutions for your business."
-        />
-        <meta
-          name="keywords"
-          content="office space listings, commercial property, retail space, office lease, coworking space, business space for rent"
-        />
-        <link rel="canonical" href="https://abacuspaces.com/listings" />
-
-        {/* Open Graph */}
+        <title>{cityData.seoTitle}</title>
+        <meta name="description" content={cityData.seoDescription} />
+        <meta name="keywords" content={cityData.keywords} />
+        <meta property="og:title" content={cityData.seoTitle} />
+        <meta property="og:description" content={cityData.seoDescription} />
         <meta property="og:type" content="website" />
         <meta
-          property="og:title"
-          content="Commercial Space Listings | Abacus Spaces"
+          property="og:url"
+          content={`https://abacuspaces.com/locations/${city}`}
         />
-        <meta
-          property="og:description"
-          content="Find premium office spaces and retail properties - browse listings now"
-        />
-        <meta property="og:url" content="https://abacuspaces.com/listings" />
-
-        {/* Twitter Card */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Office & Retail Space Listings" />
-        <meta
-          name="twitter:description"
-          content="Discover premium commercial spaces for rent"
+        <link
+          rel="canonical"
+          href={`https://abacuspaces.com/locations/${city}`}
         />
 
         {/* Schema Markup */}
+        <script type="application/ld+json">
+          {JSON.stringify(
+            generateLocalBusinessSchema(cityData.name, cityData.state),
+          )}
+        </script>
         <script type="application/ld+json">
           {JSON.stringify(generateBreadcrumbSchema(breadcrumbs))}
         </script>
@@ -684,9 +740,9 @@ const Listings = () => {
           <div className="listings-header-overlay"></div>
           <div className="listings-container">
             <div className="header-content">
-              <h1>Find Your Perfect Workspace</h1>
+              <h1>Premium Spaces in {cityData.name}</h1>
               <p>
-                Discover premium commercial spaces tailored to your business
+                Discover flexible commercial spaces tailored to your business
                 needs
               </p>
             </div>
@@ -735,27 +791,6 @@ const Listings = () => {
 
             <div className="filter-controls">
               <div className="filter-group">
-                <label htmlFor="location-filter">
-                  <FaMapMarkerAlt className="filter-icon" />
-                  Location
-                </label>
-                <div className="select-wrapper">
-                  <select
-                    id="location-filter"
-                    value={selectedLocation}
-                    onChange={(e) => setSelectedLocation(e.target.value)}
-                  >
-                    <option value="all">All Locations</option>
-                    {availableLocations.map((location) => (
-                      <option key={location} value={location}>
-                        {location}
-                      </option>
-                    ))}
-                  </select>
-                  <MdKeyboardArrowDown className="select-arrow" />
-                </div>
-              </div>
-              <div className="filter-group">
                 <label htmlFor="type-filter">
                   <FaFilter className="filter-icon" />
                   Property Type
@@ -784,7 +819,6 @@ const Listings = () => {
                 onClick={() => {
                   setSearchTerm("");
                   setSelectedType("all");
-                  setSelectedLocation("all");
                 }}
               >
                 Reset Filters
@@ -794,23 +828,7 @@ const Listings = () => {
 
           {/* Results Info with Pagination Stats */}
           <div className="results-info" ref={listingsGridRef}>
-            <div className="results-count">
-              {/* <span className="count-number"> */}
-              {/* {pagination.total > 0 ? (
-                <>
-                  Showing {(currentPage - 1) * 50 + 1}-
-                  {Math.min(currentPage * 50, pagination.total)} of{" "}
-                  {pagination.total}
-                </>
-              ) : (
-                "0"
-              )} */}
-              {/* </span>
-            <span className="count-text">
-              {" "}
-              {pagination.total === 1 ? "property" : "properties"}
-            </span> */}
-            </div>
+            <div className="results-count" />
             <div className="sort-options">
               <span>Sort by:</span>
               <select className="sort-select">
@@ -822,7 +840,7 @@ const Listings = () => {
             </div>
           </div>
 
-          {/* Filter Loading Overlay for Grid */}
+          {/* Filter Loading Overlay */}
           {isFiltering && (
             <div className="grid-loading-overlay">
               <div className="grid-loading-content">
@@ -985,7 +1003,6 @@ const Listings = () => {
                 </p>
               </div>
               <div className="pagination-controls">
-                {/* First Page Button */}
                 <button
                   className="pagination-btn pagination-btn-first"
                   onClick={() => handlePageChange(1)}
@@ -995,7 +1012,6 @@ const Listings = () => {
                   <FaAngleDoubleLeft />
                 </button>
 
-                {/* Previous Button */}
                 <button
                   className="pagination-btn pagination-btn-prev"
                   onClick={() => handlePageChange(currentPage - 1)}
@@ -1006,7 +1022,6 @@ const Listings = () => {
                   <span className="pagination-btn-text">Previous</span>
                 </button>
 
-                {/* Page Numbers */}
                 <div className="pagination-numbers">
                   {getPageNumbers().map((page, index) =>
                     page === "..." ? (
@@ -1031,7 +1046,6 @@ const Listings = () => {
                   )}
                 </div>
 
-                {/* Next Button */}
                 <button
                   className="pagination-btn pagination-btn-next"
                   onClick={() => handlePageChange(currentPage + 1)}
@@ -1042,7 +1056,6 @@ const Listings = () => {
                   <FaChevronRight />
                 </button>
 
-                {/* Last Page Button */}
                 <button
                   className="pagination-btn pagination-btn-last"
                   onClick={() => handlePageChange(pagination.pages)}
@@ -1073,7 +1086,6 @@ const Listings = () => {
                   onClick={() => {
                     setSearchTerm("");
                     setSelectedType("all");
-                    setSelectedLocation("all");
                   }}
                 >
                   Show All Properties
@@ -1082,7 +1094,7 @@ const Listings = () => {
             )}
         </div>
 
-        {/* Report Request Popup - keeping the existing popup code */}
+        {/* Report Request Popup */}
         {showReportPopup && (
           <div className="listings-popup-overlay">
             <div className="listings-popup-container" ref={popupRef}>
@@ -1376,7 +1388,6 @@ const Listings = () => {
 
                       {videoUrls.length > 0 ? (
                         <>
-                          {/* Video Player */}
                           <div className="video-player-container">
                             {videoId ? (
                               <iframe
@@ -1395,7 +1406,6 @@ const Listings = () => {
                             )}
                           </div>
 
-                          {/* Video Selection Dropdown (if multiple videos) */}
                           {videoUrls.length > 1 && (
                             <div className="video-selection">
                               <label>Select Video:</label>
@@ -1410,15 +1420,13 @@ const Listings = () => {
                               >
                                 {videoUrls.map((url, index) => (
                                   <option key={index} value={index}>
-                                    Video {index + 1}{" "}
-                                    {/* {url && `- ${url.substring(0, 50)}...`} */}
+                                    Video {index + 1}
                                   </option>
                                 ))}
                               </select>
                             </div>
                           )}
 
-                          {/* Video URLs List */}
                           <div className="video-urls-list">
                             <h4>
                               Videos for this Property ({videoUrls.length}):
@@ -1437,7 +1445,6 @@ const Listings = () => {
                                     <div className="video-item-title">
                                       Video {index + 1}
                                     </div>
-                                    {/* <div className="video-item-url">{url}</div> */}
                                   </div>
                                 </button>
                               ))}
@@ -1471,4 +1478,4 @@ const Listings = () => {
   );
 };
 
-export default Listings;
+export default CityListings;
