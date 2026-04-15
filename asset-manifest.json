@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.css": "/static/css/main.ad7e0bb8.css",
+    "main.js": "/static/js/main.5c8cd3e5.js",
+    "static/js/453.fa88c9c5.chunk.js": "/static/js/453.fa88c9c5.chunk.js",
+    "static/media/browse_page_bg.jpg": "/static/media/browse_page_bg.bfe89d2b2008a98f213b.jpg",
+    "static/media/space_calc_bg.jpeg": "/static/media/space_calc_bg.95946295e395d0f26fa1.jpeg",
+    "static/media/aboutus_philosophy_bg.jpeg": "/static/media/aboutus_philosophy_bg.6ded84ea75b4a8968e99.jpeg",
+    "static/media/career_header.jpeg": "/static/media/career_header.7e27916cd283b8807c11.jpeg",
+    "index.html": "/index.html",
+    "main.ad7e0bb8.css.map": "/static/css/main.ad7e0bb8.css.map",
+    "main.5c8cd3e5.js.map": "/static/js/main.5c8cd3e5.js.map",
+    "453.fa88c9c5.chunk.js.map": "/static/js/453.fa88c9c5.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.ad7e0bb8.css",
+    "static/js/main.5c8cd3e5.js"
+  ]
+}
