@@ -340,15 +340,15 @@ const Navbar = () => {
           </Link>
 
           <Link
-            to="/technology"
+            to="/space-calculator"
             className={`mobile-nav-link ${
-              location.pathname === "/technology" ? "active" : ""
+              location.pathname === "/space-calculator" ? "active" : ""
             }`}
             onClick={closeMobileMenu}
             style={{ animationDelay: "0.6s" }}
           >
             <FaCalculator className="mobile-link-icon" />
-            <span className="mobile-link-text">Technology</span>
+            <span className="mobile-link-text">Space Calculator</span>
             <FaChevronRight className="mobile-link-arrow" />
           </Link>
 
