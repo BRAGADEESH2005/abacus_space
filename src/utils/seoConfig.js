@@ -31,6 +31,44 @@ const siteConfig = {
   },
 };
 
+const slugifyPathSegment = (value) =>
+  value
+    .toLowerCase()
+    .trim()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+const CITY_LISTING_TYPE_LABELS = {
+  office: "Office",
+  retail: "Retail",
+  "hospitality-and-healthcare": "Hospitality & Healthcare",
+};
+
+export const buildCityListingPath = (propertyType, city) => {
+  const typeSlug = slugifyPathSegment(propertyType);
+  const citySlug = slugifyPathSegment(city);
+
+  return `/${typeSlug}-space-for-rent-in-${citySlug}`;
+};
+
+export const parseCityListingPath = (pathSegment) => {
+  if (!pathSegment) return null;
+
+  const normalized = slugifyPathSegment(pathSegment);
+  const match = normalized.match(
+    /^(office|retail|hospitality-and-healthcare)-space-for-rent-in-([a-z0-9-]+)$/,
+  );
+
+  if (!match) return null;
+
+  return {
+    propertyTypeSlug: match[1],
+    propertyType: CITY_LISTING_TYPE_LABELS[match[1]],
+    citySlug: match[2],
+  };
+};
+
 // Organization Schema
 export const organizationSchema = {
   "@context": "https://schema.org/",
@@ -84,12 +122,16 @@ export const generateRealEstateListingSchema = (listing) => ({
 });
 
 // Local Business Schema for City-Specific SEO
-export const generateLocalBusinessSchema = (city, state) => ({
+export const generateLocalBusinessSchema = (city, state, urlPath = null) => ({
   "@context": "https://schema.org/",
   "@type": "LocalBusiness",
   name: `Abacus Spaces - ${city}`,
   description: `Commercial real estate solutions in ${city}, ${state}`,
-  url: `https://abacuspaces.com/locations/${city.toLowerCase().replace(/\s+/g, "-")}`,
+  url: urlPath
+    ? `${siteConfig.siteUrl}${urlPath}`
+    : `${siteConfig.siteUrl}/locations/${city
+        .toLowerCase()
+        .replace(/\s+/g, "-")}`,
   address: {
     "@type": "PostalAddress",
     addressLocality: city,

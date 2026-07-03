@@ -14,11 +14,11 @@ const ResidentialBanner = () => {
       <div className="residential-banner-overlay"></div>
       <div className="residential-banner-content">
         <h2 className="residential-banner-title">
-          Discover managed office spaces designed for effortless scale
+          Discover managed Flex Spaces 
         </h2>
-        <p className="residential-banner-subtitle">
+        {/* <p className="residential-banner-subtitle">
           Discover our exclusive residential projects.
-        </p>
+        </p> */}
         <button
           className="residential-banner-btn"
           onClick={handleBrowse}

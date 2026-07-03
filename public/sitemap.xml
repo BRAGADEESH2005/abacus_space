@@ -68,7 +68,19 @@
   <!-- City-Specific Pages for Local SEO -->
   <!-- Bangalore -->
   <url>
-    <loc>https://abacuspaces.com/locations/bangalore</loc>
+    <loc>https://abacuspaces.com/office-space-for-rent-in-bangalore</loc>
+    <lastmod>2026-04-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://abacuspaces.com/retail-space-for-rent-in-bangalore</loc>
+    <lastmod>2026-04-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://abacuspaces.com/hospitality-and-healthcare-space-for-rent-in-bangalore</loc>
     <lastmod>2026-04-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
@@ -76,7 +88,19 @@
 
   <!-- Delhi -->
   <url>
-    <loc>https://abacuspaces.com/locations/delhi</loc>
+    <loc>https://abacuspaces.com/office-space-for-rent-in-delhi</loc>
+    <lastmod>2026-04-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://abacuspaces.com/retail-space-for-rent-in-delhi</loc>
+    <lastmod>2026-04-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://abacuspaces.com/hospitality-and-healthcare-space-for-rent-in-delhi</loc>
     <lastmod>2026-04-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
@@ -84,7 +108,19 @@
 
   <!-- Mumbai -->
   <url>
-    <loc>https://abacuspaces.com/locations/mumbai</loc>
+    <loc>https://abacuspaces.com/office-space-for-rent-in-mumbai</loc>
+    <lastmod>2026-04-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://abacuspaces.com/retail-space-for-rent-in-mumbai</loc>
+    <lastmod>2026-04-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://abacuspaces.com/hospitality-and-healthcare-space-for-rent-in-mumbai</loc>
     <lastmod>2026-04-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
@@ -92,7 +128,19 @@
 
   <!-- Coimbatore -->
   <url>
-    <loc>https://abacuspaces.com/locations/coimbatore</loc>
+    <loc>https://abacuspaces.com/office-space-for-rent-in-coimbatore</loc>
+    <lastmod>2026-04-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://abacuspaces.com/retail-space-for-rent-in-coimbatore</loc>
+    <lastmod>2026-04-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://abacuspaces.com/hospitality-and-healthcare-space-for-rent-in-coimbatore</loc>
     <lastmod>2026-04-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
@@ -100,7 +148,19 @@
 
   <!-- Hyderabad -->
   <url>
-    <loc>https://abacuspaces.com/locations/hyderabad</loc>
+    <loc>https://abacuspaces.com/office-space-for-rent-in-hyderabad</loc>
+    <lastmod>2026-04-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://abacuspaces.com/retail-space-for-rent-in-hyderabad</loc>
+    <lastmod>2026-04-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://abacuspaces.com/hospitality-and-healthcare-space-for-rent-in-hyderabad</loc>
     <lastmod>2026-04-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
@@ -108,7 +168,19 @@
 
   <!-- Pune -->
   <url>
-    <loc>https://abacuspaces.com/locations/pune</loc>
+    <loc>https://abacuspaces.com/office-space-for-rent-in-pune</loc>
+    <lastmod>2026-04-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://abacuspaces.com/retail-space-for-rent-in-pune</loc>
+    <lastmod>2026-04-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://abacuspaces.com/hospitality-and-healthcare-space-for-rent-in-pune</loc>
     <lastmod>2026-04-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
@@ -116,19 +188,21 @@
 
   <!-- Chennai -->
   <url>
-    <loc>https://abacuspaces.com/locations/chennai</loc>
+    <loc>https://abacuspaces.com/office-space-for-rent-in-chennai</loc>
     <lastmod>2026-04-07</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.85</priority>
   </url>
-
-  <!-- Note: Add individual listing URLs dynamically from your database -->
-  <!-- Example listing entry (generate these dynamically):
   <url>
-    <loc>https://abacuspaces.com/listings/office-space-123</loc>
+    <loc>https://abacuspaces.com/retail-space-for-rent-in-chennai</loc>
     <lastmod>2026-04-07</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.75</priority>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
   </url>
-  -->
+  <url>
+    <loc>https://abacuspaces.com/hospitality-and-healthcare-space-for-rent-in-chennai</loc>
+    <lastmod>2026-04-07</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
+  </url>
 </urlset>

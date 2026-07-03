@@ -32,6 +32,8 @@ import { FaBuilding } from "react-icons/fa";
 import {
   generateLocalBusinessSchema,
   generateBreadcrumbSchema,
+  buildCityListingPath,
+  parseCityListingPath,
 } from "../../utils/seoConfig";
 import "../Listings/Listings.css"; // Using same CSS as Listings page
 
@@ -40,78 +42,75 @@ const CITIES_SEO_DATA = {
   bangalore: {
     name: "Bangalore",
     state: "Karnataka",
-    seoTitle: "Office & Retail Spaces in Bangalore | Commercial Real Estate",
+    seoTitle:
+      "Office Space for Rent in Bangalore | Coworking & Commercial Offices | Abacus Spaces",
     seoDescription:
-      "Find premium office spaces and retail properties in Bangalore. Flexible coworking solutions and commercial leasing for startups and enterprises.",
+      "Find premium office spaces for rent in Bangalore. Explore coworking spaces, managed offices, and commercial office spaces in prime business locations with Abacus Spaces.",
     keywords:
-      "office space bangalore, retail space bangalore, coworking bangalore, commercial real estate bangalore, office lease bangalore",
+      "office space for rent in bangalore, commercial office space bangalore, coworking space bangalore, managed office bangalore, office lease bangalore",
   },
-  delhi: {
-    name: "Delhi",
-    state: "Delhi",
-    seoTitle: "Commercial Office Spaces in Delhi NCR | Abacus Spaces",
-    seoDescription:
-      "Premium office and retail spaces in Delhi NCR. Find flexible workspaces, coworking, and commercial leasing solutions for businesses of all sizes.",
-    keywords:
-      "office space delhi, retail space delhi ncr, commercial real estate delhi, office lease delhi, coworking delhi",
-  },
-  mumbai: {
-    name: "Mumbai",
-    state: "Maharashtra",
-    seoTitle: "Premium Office & Retail Spaces in Mumbai | Commercial Leasing",
-    seoDescription:
-      "Discover premium office spaces and retail properties in Mumbai. Flexible commercial real estate solutions for growing businesses across all regions.",
-    keywords:
-      "office space mumbai, retail space mumbai, commercial real estate mumbai, office lease mumbai, coworking mumbai",
-  },
+
   coimbatore: {
     name: "Coimbatore",
     state: "Tamil Nadu",
-    seoTitle: "Office & Retail Spaces in Coimbatore | Commercial Real Estate",
+    seoTitle:
+      "Office Space for Rent in Coimbatore | Commercial Offices | Abacus Spaces",
     seoDescription:
-      "Rent premium office spaces and retail properties in Coimbatore. Affordable commercial real estate solutions for businesses seeking growth opportunities.",
+      "Find affordable office spaces for rent in Coimbatore. Explore managed offices, coworking spaces, and commercial office spaces for startups and enterprises.",
     keywords:
-      "office space coimbatore, rental office coimbatore, retail space coimbatore, commercial real estate coimbatore, business space coimbatore",
+      "office space for rent in coimbatore, commercial office space coimbatore, coworking space coimbatore, managed office coimbatore, office lease coimbatore",
   },
+
   hyderabad: {
     name: "Hyderabad",
     state: "Telangana",
-    seoTitle: "Commercial Office Spaces in Hyderabad | Premium Retail Leasing",
-    seoDescription:
-      "Explore flexible office spaces and retail properties in Hyderabad. Enterprise-grade commercial solutions for businesses of all sizes.",
-    keywords:
-      "office space hyderabad, retail space hyderabad, commercial real estate hyderabad, office lease hyderabad, coworking hyderabad",
-  },
-  pune: {
-    name: "Pune",
-    state: "Maharashtra",
     seoTitle:
-      "Office & Retail Space in Pune | Commercial Real Estate Solutions",
+      "Office Space for Rent in Hyderabad | Commercial Offices | Abacus Spaces",
     seoDescription:
-      "Dynamic office spaces and retail properties in Pune. Find flexible commercial leasing options for startups and established businesses.",
+      "Explore premium office spaces for rent in Hyderabad. Compare coworking spaces, managed offices, and commercial office spaces in leading business hubs.",
     keywords:
-      "office space pune, retail space pune, commercial real estate pune, office lease pune, coworking pune",
+      "office space for rent in hyderabad, commercial office space hyderabad, coworking space hyderabad, managed office hyderabad, office lease hyderabad",
   },
+
   chennai: {
     name: "Chennai",
     state: "Tamil Nadu",
-    seoTitle: "Commercial Office Spaces in Chennai | Retail & Business Leasing",
+    seoTitle:
+      "Office Space for Rent in Chennai | Coworking & Commercial Offices | Abacus Spaces",
     seoDescription:
-      "Premium office and retail spaces in Chennai. Flexible commercial real estate solutions for businesses across all industries.",
+      "Find premium office spaces for rent in Chennai. Compare managed offices, coworking spaces, and commercial office spaces in prime business locations with Abacus Spaces.",
     keywords:
-      "office space chennai, retail space chennai, commercial real estate chennai, office lease chennai, business space chennai",
+      "office space for rent in chennai, commercial office space chennai, coworking space chennai, managed office chennai, office lease chennai",
   },
 };
 
+const slugifyPathSegment = (value) =>
+  value
+    .toLowerCase()
+    .trim()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
 const CityListings = () => {
-  const { city } = useParams();
-  const cityData = CITIES_SEO_DATA[city?.toLowerCase()];
+  const { city, listingSlug } = useParams();
+  const routeSegment = listingSlug || city;
+  const routeDetails = parseCityListingPath(routeSegment);
+  const citySlug =
+    routeDetails?.citySlug || slugifyPathSegment(routeSegment || "");
+  const cityData = CITIES_SEO_DATA[citySlug];
+  const selectedTypeFromRoute = routeDetails?.propertyType || "all";
+  const listingPath = cityData
+    ? selectedTypeFromRoute === "all"
+      ? `/locations/${citySlug}`
+      : buildCityListingPath(selectedTypeFromRoute, cityData.name)
+    : "/listings";
 
   // States
   const [listings, setListings] = useState([]);
   const [filteredListings, setFilteredListings] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedType, setSelectedType] = useState("all");
+  const [selectedType, setSelectedType] = useState(selectedTypeFromRoute);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [visibleCards, setVisibleCards] = useState([]);
@@ -148,6 +147,7 @@ const CityListings = () => {
   const popupRef = useRef(null);
   const videoPopupRef = useRef(null);
   const listingsGridRef = useRef(null);
+  const isRouteSyncingRef = useRef(false);
 
   const API_BASE_URL =
     process.env.REACT_APP_API_BASE_URL || "http://localhost:5000/api";
@@ -464,13 +464,38 @@ const CityListings = () => {
     };
   }, [showVideoPopup]);
 
-  // Initial data fetch
+  // Sync the route slug with the active filters and fetch the matching city data
   useEffect(() => {
-    if (cityData?.name) {
-      fetchListings();
-      fetchPropertyTypes();
-    }
-  }, [cityData]);
+    if (!cityData?.name) return;
+
+    const loadRouteData = async () => {
+      isRouteSyncingRef.current = true;
+
+      try {
+        setSelectedType(selectedTypeFromRoute);
+        setSearchTerm("");
+        setCurrentPage(1);
+        setVisibleCards([]);
+
+        const routeFilters = {
+          location: cityData.name,
+        };
+
+        if (selectedTypeFromRoute !== "all") {
+          routeFilters.type = selectedTypeFromRoute;
+        }
+
+        await Promise.all([
+          fetchListings(1, routeFilters, false),
+          fetchPropertyTypes(),
+        ]);
+      } finally {
+        isRouteSyncingRef.current = false;
+      }
+    };
+
+    loadRouteData();
+  }, [cityData?.name, selectedTypeFromRoute, citySlug]);
 
   // Scroll to top
   useEffect(() => {
@@ -582,6 +607,8 @@ const CityListings = () => {
 
   // Handle filters
   useEffect(() => {
+    if (isRouteSyncingRef.current) return;
+
     const debounceTimer = setTimeout(() => {
       fetchListings(1, getActiveFilters(), true);
       setVisibleCards([]);
@@ -654,31 +681,45 @@ const CityListings = () => {
   const breadcrumbs = [
     { name: "Home", url: "/" },
     { name: "Listings", url: "/listings" },
-    { name: cityData.name, url: `/locations/${city}` },
+    { name: cityData.name, url: listingPath },
   ];
+
+  const pageTitle =
+    selectedTypeFromRoute === "all"
+      ? cityData.seoTitle
+      : `${selectedTypeFromRoute} Space for Rent in ${cityData.name} | Commercial Real Estate`;
+  const pageDescription =
+    selectedTypeFromRoute === "all"
+      ? cityData.seoDescription
+      : `Find premium ${selectedTypeFromRoute.toLowerCase()} spaces for rent in ${cityData.name}. Flexible commercial leasing solutions for businesses of all sizes.`;
+  const pageKeywords =
+    selectedTypeFromRoute === "all"
+      ? cityData.keywords
+      : `${selectedTypeFromRoute.toLowerCase()} space for rent in ${cityData.name.toLowerCase()}, ${selectedTypeFromRoute.toLowerCase()} spaces ${cityData.name.toLowerCase()}, commercial real estate ${cityData.name.toLowerCase()}`;
 
   return (
     <>
       <Helmet>
-        <title>{cityData.seoTitle}</title>
-        <meta name="description" content={cityData.seoDescription} />
-        <meta name="keywords" content={cityData.keywords} />
-        <meta property="og:title" content={cityData.seoTitle} />
-        <meta property="og:description" content={cityData.seoDescription} />
+        <title>{pageTitle}</title>
+        <meta name="description" content={pageDescription} />
+        <meta name="keywords" content={pageKeywords} />
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={pageDescription} />
         <meta property="og:type" content="website" />
         <meta
           property="og:url"
-          content={`https://abacuspaces.com/locations/${city}`}
+          content={`https://abacuspaces.com${listingPath}`}
         />
-        <link
-          rel="canonical"
-          href={`https://abacuspaces.com/locations/${city}`}
-        />
+        <link rel="canonical" href={`https://abacuspaces.com${listingPath}`} />
 
         {/* Schema Markup */}
         <script type="application/ld+json">
           {JSON.stringify(
-            generateLocalBusinessSchema(cityData.name, cityData.state),
+            generateLocalBusinessSchema(
+              cityData.name,
+              cityData.state,
+              listingPath,
+            ),
           )}
         </script>
         <script type="application/ld+json">
@@ -740,10 +781,15 @@ const CityListings = () => {
           <div className="listings-header-overlay"></div>
           <div className="listings-container">
             <div className="header-content">
-              <h1>Premium Spaces in {cityData.name}</h1>
+              <h1>
+                {selectedTypeFromRoute === "all"
+                  ? `Premium Spaces in ${cityData.name}`
+                  : `${selectedTypeFromRoute} Space for Rent in ${cityData.name}`}
+              </h1>
               <p>
-                Discover flexible commercial spaces tailored to your business
-                needs
+                {selectedTypeFromRoute === "all"
+                  ? "Discover flexible commercial spaces tailored to your business needs"
+                  : `Discover flexible ${selectedTypeFromRoute.toLowerCase()} leasing options tailored to your business needs`}
               </p>
             </div>
           </div>

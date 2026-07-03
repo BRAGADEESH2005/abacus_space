@@ -15,7 +15,7 @@ const LatestInRealEstate = () => {
   const navigate = useNavigate();
   const [isAutoScrolling, setIsAutoScrolling] = useState(true);
   const autoScrollInterval = useRef(null);
-  const [contentData, setContentData] = useState([]);
+  const [allContentData, setAllContentData] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const API_BASE_URL =
@@ -26,48 +26,48 @@ const LatestInRealEstate = () => {
     timeout: 10000,
   });
 
-  // Fetch content from backend based on active tab
+  // Fetch all content on initial load only
   useEffect(() => {
-    fetchContent();
-  }, [activeTab]);
+    fetchAllContent();
+  }, []);
 
-  const fetchContent = async () => {
+  const fetchAllContent = async () => {
     setLoading(true);
     try {
-      let contentType = "";
-      switch (activeTab) {
-        case "research":
-          contentType = "Research Report";
-          break;
-        case "blog":
-          contentType = "Blog";
-          break;
-        case "updates":
-          contentType = "Industrial Update";
-          break;
-        default:
-          contentType = "Research Report";
-      }
-
       const response = await api.get("/content", {
         params: {
-          type: contentType,
           status: "Published",
-          limit: 10,
+          limit: 100, // Fetch more content to cover all tabs
           sort: "-date",
         },
       });
 
       if (response.data.success) {
-        setContentData(response.data.data);
+        setAllContentData(response.data.data);
       }
     } catch (error) {
       console.error("Error fetching content:", error);
-      setContentData([]);
+      setAllContentData([]);
     } finally {
       setLoading(false);
     }
   };
+
+  // Filter content based on active tab
+  const getFilteredContent = () => {
+    if (!allContentData) return [];
+
+    const contentTypeMap = {
+      updates: "Industrial Update",
+      research: "Research Report",
+      blog: "Blog",
+    };
+
+    const selectedType = contentTypeMap[activeTab];
+    return allContentData.filter((item) => item.type === selectedType);
+  };
+
+  const contentData = getFilteredContent();
 
   // Auto scroll effect
   useEffect(() => {
@@ -91,7 +91,7 @@ const LatestInRealEstate = () => {
         clearInterval(autoScrollInterval.current);
       }
     };
-  }, [isAutoScrolling, activeTab, contentData]);
+  }, [isAutoScrolling, activeTab, contentData.length]);
 
   const handleMouseEnter = () => {
     setIsAutoScrolling(false);
@@ -210,7 +210,19 @@ const LatestInRealEstate = () => {
           </button>
 
           {loading ? (
-            <div className="estate-loading">Loading content...</div>
+            <div className="estate-loading">
+              <div className="estate-loader">
+                <div className="estate-spinner"></div>
+                <div className="estate-loading-text">
+                  Loading content
+                  <span className="estate-loading-dots">
+                    <span className="estate-dot"></span>
+                    <span className="estate-dot"></span>
+                    <span className="estate-dot"></span>
+                  </span>
+                </div>
+              </div>
+            </div>
           ) : contentData.length === 0 ? (
             <div className="estate-no-content">No content available</div>
           ) : (

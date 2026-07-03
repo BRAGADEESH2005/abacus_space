@@ -34,6 +34,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/space-calculator" element={<SpaceCalculator />} />
             <Route path="/listings" element={<Listings />} />
+            <Route path="/:listingSlug" element={<CityListings />} />
             <Route path="/locations/:city" element={<CityListings />} />
             <Route path="/aboutus" element={<AboutUs />} />
             <Route path="/contact" element={<Contact />} />

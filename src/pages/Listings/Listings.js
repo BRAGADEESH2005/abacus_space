@@ -32,6 +32,7 @@ import { generateBreadcrumbSchema } from "../../utils/seoConfig";
 import "./Listings.css";
 
 const Listings = () => {
+  const [allListings, setAllListings] = useState([]); // Store all listings from first load
   const [listings, setListings] = useState([]);
   const [filteredListings, setFilteredListings] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -106,7 +107,42 @@ const Listings = () => {
     return filters;
   };
 
-  // Fetch listings from backend
+  // Apply filters client-side on stored listings
+  const applyFiltersLocally = (listingsToFilter, filters) => {
+    let filtered = [...listingsToFilter];
+
+    // Apply type filter
+    if (filters.type && filters.type !== "all") {
+      filtered = filtered.filter((listing) => listing.type === filters.type);
+    }
+
+    // Apply location filter
+    if (filters.location && filters.location !== "all") {
+      filtered = filtered.filter(
+        (listing) =>
+          listing.location &&
+          listing.location
+            .toLowerCase()
+            .includes(filters.location.toLowerCase()),
+      );
+    }
+
+    // Apply search filter
+    if (filters.search) {
+      const searchLower = filters.search.toLowerCase();
+      filtered = filtered.filter(
+        (listing) =>
+          listing.title.toLowerCase().includes(searchLower) ||
+          listing.location.toLowerCase().includes(searchLower) ||
+          listing.propertyCode.toLowerCase().includes(searchLower) ||
+          listing.area.toLowerCase().includes(searchLower),
+      );
+    }
+
+    return filtered;
+  };
+
+  // Fetch listings from backend (only on initial load)
   const fetchListings = async (
     page = 1,
     filters = {},
@@ -150,6 +186,8 @@ const Listings = () => {
         setCurrentImageIndexes((prev) => ({ ...prev, ...initialIndexes }));
         setListingViews((prev) => ({ ...prev, ...initialViews }));
 
+        // Store all listings for client-side filtering
+        setAllListings(listingsData);
         setListings(listingsData);
         setFilteredListings(listingsData);
         setPagination(response.data.pagination);
@@ -198,18 +236,41 @@ const Listings = () => {
 
   // Handle pagination - go to specific page
   const handlePageChange = (newPage) => {
-    if (newPage < 1 || newPage > pagination.pages) return;
+    // Check if filters are active
+    const activeFilters = getActiveFilters();
+    const hasActiveFilters = Object.keys(activeFilters).length > 0;
 
-    // Scroll to top of listings grid smoothly
-    if (listingsGridRef.current) {
-      listingsGridRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
+    if (hasActiveFilters) {
+      // Client-side pagination with filters
+      const itemsPerPage = 50;
+      const totalFiltered = filteredListings.length;
+      const totalPages = Math.ceil(totalFiltered / itemsPerPage);
+
+      if (newPage < 1 || newPage > totalPages) return;
+
+      // For client-side pagination, we just need to scroll and update visible cards
+      if (listingsGridRef.current) {
+        listingsGridRef.current.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+      setCurrentPage(newPage);
+      setVisibleCards([]);
+    } else {
+      // Server-side pagination (original behavior)
+      if (newPage < 1 || newPage > pagination.pages) return;
+
+      if (listingsGridRef.current) {
+        listingsGridRef.current.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }
+
+      setVisibleCards([]);
+      fetchListings(newPage, {}, true);
     }
-
-    setVisibleCards([]);
-    fetchListings(newPage, getActiveFilters(), true);
   };
 
   // Handle Get Report button click
@@ -529,15 +590,25 @@ const Listings = () => {
     return () => observer.disconnect();
   }, [filteredListings]);
 
-  // Handle filters - refetch from backend
+  // Handle filters - apply locally on stored listings
   useEffect(() => {
     const debounceTimer = setTimeout(() => {
-      fetchListings(1, getActiveFilters(), true);
+      setIsFiltering(true);
+      const activeFilters = {
+        type: selectedType,
+        location: selectedLocation,
+        search: searchTerm,
+      };
+
+      // Apply filters to all listings
+      const filtered = applyFiltersLocally(allListings, activeFilters);
+      setFilteredListings(filtered);
       setVisibleCards([]);
-    }, 500);
+      setIsFiltering(false);
+    }, 300);
 
     return () => clearTimeout(debounceTimer);
-  }, [searchTerm, selectedType, selectedLocation]);
+  }, [searchTerm, selectedType, selectedLocation, allListings]);
 
   // Handle view listing
   const handleViewListing = async (listingId) => {
@@ -554,15 +625,25 @@ const Listings = () => {
 
   // Generate page numbers for pagination
   const getPageNumbers = () => {
-    const pages = [];
-    const totalPages = pagination.pages || 1;
+    // Check if filters are active
+    const activeFilters = getActiveFilters();
+    const hasActiveFilters = Object.keys(activeFilters).length > 0;
+
+    const itemsPerPage = 50;
+    const totalItems = hasActiveFilters
+      ? filteredListings.length
+      : pagination.total || 0;
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
     const current = currentPage;
 
     if (totalPages <= 7) {
+      const pages = [];
       for (let i = 1; i <= totalPages; i++) {
         pages.push(i);
       }
+      return pages;
     } else {
+      const pages = [];
       if (current <= 4) {
         for (let i = 1; i <= 5; i++) pages.push(i);
         pages.push("...");
@@ -578,8 +659,40 @@ const Listings = () => {
         pages.push("...");
         pages.push(totalPages);
       }
+      return pages;
     }
-    return pages;
+  };
+
+  // Get pagination info (handles both filtered and server-side)
+  const getPaginationInfo = () => {
+    const activeFilters = getActiveFilters();
+    const hasActiveFilters = Object.keys(activeFilters).length > 0;
+
+    if (hasActiveFilters) {
+      const itemsPerPage = 50;
+      const totalItems = filteredListings.length;
+      const totalPages = Math.ceil(totalItems / itemsPerPage);
+      const startItem = (currentPage - 1) * itemsPerPage + 1;
+      const endItem = Math.min(currentPage * itemsPerPage, totalItems);
+
+      return {
+        pages: totalPages,
+        total: totalItems,
+        hasPrev: currentPage > 1,
+        hasNext: currentPage < totalPages,
+        startItem,
+        endItem,
+      };
+    } else {
+      return {
+        pages: pagination.pages || 1,
+        total: pagination.total || 0,
+        hasPrev: pagination.hasPrev || false,
+        hasNext: pagination.hasNext || false,
+        startItem: (currentPage - 1) * 50 + 1,
+        endItem: Math.min(currentPage * 50, pagination.total || 0),
+      };
+    }
   };
 
   const breadcrumbs = [
@@ -976,84 +1089,91 @@ const Listings = () => {
           </div>
 
           {/* Pagination Controls */}
-          {pagination.pages > 1 && !isLoading && !error && (
-            <div className="pagination-wrapper">
-              <div className="pagination-info">
-                <p>
-                  Page {currentPage} of {pagination.pages} • Total{" "}
-                  {pagination.total} properties
-                </p>
-              </div>
-              <div className="pagination-controls">
-                {/* First Page Button */}
-                <button
-                  className="pagination-btn pagination-btn-first"
-                  onClick={() => handlePageChange(1)}
-                  disabled={currentPage === 1 || isFiltering}
-                  title="First Page"
-                >
-                  <FaAngleDoubleLeft />
-                </button>
-
-                {/* Previous Button */}
-                <button
-                  className="pagination-btn pagination-btn-prev"
-                  onClick={() => handlePageChange(currentPage - 1)}
-                  disabled={!pagination.hasPrev || isFiltering}
-                  title="Previous Page"
-                >
-                  <FaChevronLeft />
-                  <span className="pagination-btn-text">Previous</span>
-                </button>
-
-                {/* Page Numbers */}
-                <div className="pagination-numbers">
-                  {getPageNumbers().map((page, index) =>
-                    page === "..." ? (
-                      <span
-                        key={`ellipsis-${index}`}
-                        className="pagination-ellipsis"
-                      >
-                        ...
-                      </span>
-                    ) : (
-                      <button
-                        key={page}
-                        className={`pagination-number ${
-                          currentPage === page ? "active" : ""
-                        }`}
-                        onClick={() => handlePageChange(page)}
-                        disabled={isFiltering}
-                      >
-                        {page}
-                      </button>
-                    ),
-                  )}
+          {(() => {
+            const paginationInfo = getPaginationInfo();
+            return paginationInfo.pages > 1 &&
+              !isLoading &&
+              !error ? (
+              <div className="pagination-wrapper">
+                <div className="pagination-info">
+                  <p>
+                    Page {currentPage} of {paginationInfo.pages} • Total{" "}
+                    {paginationInfo.total} properties
+                  </p>
                 </div>
+                <div className="pagination-controls">
+                  {/* First Page Button */}
+                  <button
+                    className="pagination-btn pagination-btn-first"
+                    onClick={() => handlePageChange(1)}
+                    disabled={currentPage === 1 || isFiltering}
+                    title="First Page"
+                  >
+                    <FaAngleDoubleLeft />
+                  </button>
 
-                {/* Next Button */}
-                <button
-                  className="pagination-btn pagination-btn-next"
-                  onClick={() => handlePageChange(currentPage + 1)}
-                  disabled={!pagination.hasNext || isFiltering}
-                  title="Next Page"
-                >
-                  <span className="pagination-btn-text">Next</span>
-                  <FaChevronRight />
-                </button>
+                  {/* Previous Button */}
+                  <button
+                    className="pagination-btn pagination-btn-prev"
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    disabled={!paginationInfo.hasPrev || isFiltering}
+                    title="Previous Page"
+                  >
+                    <FaChevronLeft />
+                    <span className="pagination-btn-text">Previous</span>
+                  </button>
 
-                {/* Last Page Button */}
-                <button
-                  className="pagination-btn pagination-btn-last"
-                  onClick={() => handlePageChange(pagination.pages)}
-                  disabled={currentPage === pagination.pages || isFiltering}
-                  title="Last Page"
-                >
-                  <FaAngleDoubleRight />
-                </button>
+                  {/* Page Numbers */}
+                  <div className="pagination-numbers">
+                    {getPageNumbers().map((page, index) =>
+                      page === "..." ? (
+                        <span
+                          key={`ellipsis-${index}`}
+                          className="pagination-ellipsis"
+                        >
+                          ...
+                        </span>
+                      ) : (
+                        <button
+                          key={page}
+                          className={`pagination-number ${
+                            currentPage === page ? "active" : ""
+                          }`}
+                          onClick={() => handlePageChange(page)}
+                          disabled={isFiltering}
+                        >
+                          {page}
+                        </button>
+                      ),
+                    )}
+                  </div>
+
+                  {/* Next Button */}
+                  <button
+                    className="pagination-btn pagination-btn-next"
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    disabled={!paginationInfo.hasNext || isFiltering}
+                    title="Next Page"
+                  >
+                    <span className="pagination-btn-text">Next</span>
+                    <FaChevronRight />
+                  </button>
+
+                  {/* Last Page Button */}
+                  <button
+                    className="pagination-btn pagination-btn-last"
+                    onClick={() => handlePageChange(paginationInfo.pages)}
+                    disabled={
+                      currentPage === paginationInfo.pages || isFiltering
+                    }
+                    title="Last Page"
+                  >
+                    <FaAngleDoubleRight />
+                  </button>
+                </div>
               </div>
-            </div>
-          )}
+            ) : null;
+          })()}
 
           {/* No Results */}
           {filteredListings.length === 0 &&

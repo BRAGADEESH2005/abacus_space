@@ -1,7 +1,7 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import "./RERARegistration.css";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const RERARegistration = () => {
   // Scroll to top when component mounts
@@ -16,13 +16,6 @@ const RERARegistration = () => {
     <div className="rera-container">
       <div className="rera-content">
         <div className="rera-heading-with-logo">
-          <Link to="/">
-            <img
-              src="/logo_abacus.png"
-              alt="Abacus Spaces Logo"
-              className="rera-logo"
-            />
-          </Link>
           <h1>Legal Note on RERA Applicability</h1>
         </div>
 

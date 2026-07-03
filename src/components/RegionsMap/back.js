@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
-import "leaflet.heat";
 import {
   FaBuilding,
   FaCity,
@@ -154,114 +153,6 @@ const RegionsMap = () => {
       iconSize: [40, 40],
       iconAnchor: [20, 35],
     });
-  };
-
-  // Get heat intensity (0.1 to 1.0) based on value
-  const getHeatmapIntensity = (place) => {
-    let value = 0;
-
-    if (dataType === "rental") {
-      value = place.avgRent || 0;
-    } else if (dataType === "supply") {
-      value = place.supply || 0;
-    } else if (dataType === "demand") {
-      value = place.demand || 0;
-    }
-
-    if (value === 0 || value === null) {
-      return 0.5; // Default to average
-    }
-
-    // Find min and max values in dataset for normalization
-    let values = [];
-    if (dataType === "rental") {
-      values = heatmapData.map((p) => p.avgRent || 0).filter((v) => v > 0);
-    } else {
-      values = heatmapData
-        .map((p) => (dataType === "supply" ? p.supply : p.demand) || 0)
-        .filter((v) => v > 0);
-    }
-
-    if (values.length === 0) {
-      return 0.5;
-    }
-
-    const minValue = Math.min(...values);
-    const maxValue = Math.max(...values);
-    const range = maxValue - minValue || 1;
-
-    // Normalize value to 0.1-1.0 range
-    const normalizedValue = ((value - minValue) / range) * 0.9 + 0.1;
-    return Math.min(1.0, Math.max(0.1, normalizedValue));
-  };
-
-  // Base Layer Component - Colors entire India with light color
-  const BaseLayer = () => {
-    const map = useMap();
-
-    useEffect(() => {
-      // Create a light blue rectangle covering entire India
-      const indiaBounds = [
-        [8.0, 68.0], // Southwest corner
-        [35.0, 97.0], // Northeast corner
-      ];
-
-      const baseLayer = L.rectangle(indiaBounds, {
-        color: "none",
-        fillColor: "#ADD8E6", // Light blue
-        fillOpacity: 0.15,
-        weight: 0,
-      }).addTo(map);
-
-      return () => {
-        map.removeLayer(baseLayer);
-      };
-    }, [map]);
-
-    return null;
-  };
-
-  // Heat Layer Component - Colors the map regions
-  const HeatLayer = () => {
-    const map = useMap();
-
-    useEffect(() => {
-      if (heatmapData.length === 0) return;
-
-      // Convert heatmap data to heat layer format [lat, lng, intensity]
-      const heatData = heatmapData.map((place) => {
-        const intensity = getHeatmapIntensity(place);
-        return [place.latitude, place.longitude, intensity];
-      });
-
-      if (heatData.length === 0) return;
-
-      // Create heat layer with custom gradient - subtle to keep map readable
-      const heat = L.heatLayer(heatData, {
-        radius: 50,
-        blur: 30,
-        maxZoom: 12,
-        minOpacity: 0.3,
-        gradient: {
-          0.1: "#0D4F2F", // Level 1 - Extreme low
-          0.2: "#1A7A4A", // Level 2 - Very low
-          0.3: "#27AE60", // Level 3 - Low
-          0.4: "#A8D440", // Level 4 - Moderate low
-          0.5: "#F1C40F", // Level 5 - Average
-          0.6: "#F39C12", // Level 6 - Moderate high
-          0.7: "#E67E22", // Level 7 - Above average
-          0.8: "#E74C3C", // Level 8 - High
-          0.9: "#C0392B", // Level 9 - Very high
-          1.0: "#7F0000", // Level 10 - Extreme high
-        },
-      }).addTo(map);
-
-      return () => {
-        map.removeLayer(heat);
-      };
-    }, [map, heatmapData, dataType]);
-
-    return null;
   };
 
   useEffect(() => {
@@ -440,8 +331,6 @@ const RegionsMap = () => {
                     url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
                     attribution=""
                   />
-                  <BaseLayer />
-                  <HeatLayer />
 
                   {heatmapData.map(
                     (place) =>

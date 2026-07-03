@@ -235,19 +235,17 @@
   width: 100%;
   height: 175px;
   overflow: hidden;
-  background: #f5f5f5;
 }
 
 .estate-card-image img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  /* object-position: center; */
+  object-fit: cover;
   transition: transform 0.4s ease;
 }
 
 .estate-card:hover .estate-card-image img {
-  transform: scale(1.05);
+  transform: scale(1.1);
 }
 
 .estate-card-overlay {
