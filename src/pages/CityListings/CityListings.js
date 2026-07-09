@@ -678,10 +678,14 @@ const CityListings = () => {
     );
   }
 
+  const breadcrumbLabel =
+    selectedTypeFromRoute === "all"
+      ? cityData.name
+      : `${selectedTypeFromRoute} Space for Rent in ${cityData.name}`;
+
   const breadcrumbs = [
     { name: "Home", url: "/" },
-    { name: "Listings", url: "/listings" },
-    { name: cityData.name, url: listingPath },
+    { name: breadcrumbLabel, url: listingPath },
   ];
 
   const pageTitle =
