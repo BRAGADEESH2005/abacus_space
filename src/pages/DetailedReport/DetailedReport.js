@@ -29,14 +29,14 @@ const DetailedReport = () => {
   useEffect(() => {
     fetchContentBySlug();
   }, [slug]);
-   // Scroll to top when component mounts
-    useEffect(() => {
-      window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: "instant",
-      });
-    }, []);
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "instant",
+    });
+  }, []);
 
   useEffect(() => {
     if (content) {
@@ -170,10 +170,8 @@ const DetailedReport = () => {
           {/* Text Content */}
           <div
             className="report-text-content"
-            style={{ whiteSpace: "pre-wrap", wordWrap: "break-word" }}
-          >
-            {content.text}
-          </div>
+            dangerouslySetInnerHTML={{ __html: content.text }}
+          />
           {/* Download Section
           <div className="report-download-section">
             <button className="download-report-btn">
